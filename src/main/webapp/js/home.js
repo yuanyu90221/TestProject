@@ -2,13 +2,13 @@
  * 
  */
 $(document).ready(function(){
-	console.log('test');
+	//console.log('test');
 	unbindNav();
 	bindNav();
 });
 
 function bindNav(){
-	console.log('bind');
+	//console.log('bind');
 	$("#first_page_nav").bind("click",function(){
 		$("#content").html('');
 		$("#content").html('This is  first_page');
@@ -33,7 +33,7 @@ function bindNav(){
 }
 
 function unbindNav(){
-	console.log('unbind before bind');
+	//console.log('unbind before bind');
 	$("#first_page_nav").unbind("click");
 	$("#import_file_nav").unbind("click");
 	$("#recovery_file_nav").unbind("click");

@@ -42,7 +42,7 @@
 						<li id="user_manage_nav"><a href="#">使用者管理</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#"><span class="glyphicon glyphicon-user"></span>admin</a></li>
+						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
 						<li id="logout_nav"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登出</a></li>
 					</ul>
 				</div>

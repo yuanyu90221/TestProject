@@ -22,38 +22,68 @@ public class LoginController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String Login(Locale locale, Model model) { 
-		logger.info("This is first login! The client locale is {}.", locale);
+	public String Login(HttpServletRequest request, HttpSession session, HttpServletResponse response) { 
 		
+		logger.info("This is first login! The client locale is {}.");
+		response.setDateHeader("Expires", 0);  
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");  
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
+		response.setHeader("Pragma", "no-cache");
 		return "login";
 	}
 	
 	@RequestMapping(value="/userlogin", method = RequestMethod.POST)
 	public String userCheckPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+		response.setDateHeader("Expires", 0);  
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");  
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
+		response.setHeader("Pragma", "no-cache");
 		String username = request.getParameter("username");
-		String pwd = request.getParameter("password");
+		String pwd = request.getParameter("passwd");
+		if(username == null||pwd==null){
+			return "login";
+		}
 		logger.info("username : "+ username + ", password : " + pwd);
+		session.setAttribute("username", username);
 		return "home";
 	}
 	
 	@RequestMapping(value="/userlogin", method = RequestMethod.GET)
 	public String userCheckGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+		response.setDateHeader("Expires", 0);  
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");  
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
+		response.setHeader("Pragma", "no-cache");
 		String username = request.getParameter("username");
-		String pwd = request.getParameter("password");
+		String pwd = request.getParameter("passwd");
+		if(username == null||pwd==null){
+			return "login";
+		}
 		logger.info("username : "+ username + ", password : " + pwd);
+		session.setAttribute("username", username);
 		return "home";
 	}
 	
 	@RequestMapping(value="/userlogout", method = RequestMethod.POST)
 	public String userLogoutPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
-		
+		response.setDateHeader("Expires", 0);  
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");  
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
+		response.setHeader("Pragma", "no-cache");
+		session.removeAttribute("username");
+		session.invalidate();
 		logger.info("username logout");
 		return "login";
 	}
 	
 	@RequestMapping(value="/userlogout", method = RequestMethod.GET)
 	public String userLogoutGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
-		
+		response.setDateHeader("Expires", 0);  
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");  
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
+		response.setHeader("Pragma", "no-cache");
+		session.removeAttribute("username");
+		session.invalidate();
 		logger.info("username logout");
 		return "login";
 	}
