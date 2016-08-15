@@ -1,0 +1,14 @@
+package com.my.constant;
+
+public final class SystemConstant {
+	
+	public static final String USER_INFO = "userInfo";
+	public static final String RA_USER_INFO = "raUserInfo";
+	public static final String USER_LIST = "userList";
+	public static final String USER_NAME = "username";
+	public static final String PASSWD = "passwd";
+	/**
+	 * 上載檔案的 狀態 0
+	 */
+	public static final String IMPORT_FILE_STATE = "0";	
+}

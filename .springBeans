@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/Spring-DataSource.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/applicationContext-dao.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/applicationContext-session.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

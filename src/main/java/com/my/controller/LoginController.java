@@ -1,5 +1,7 @@
 package com.my.controller;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,11 +14,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
 import com.my.model.User;
+import com.my.service.SessionService;
 
 @Controller
 public class LoginController {
+	@Autowired
+	SessionService sessionService;
 	
 	@Autowired
 	public UserDAO userDAO;
@@ -36,16 +42,25 @@ public class LoginController {
 	public String userCheckPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
 		SetNoCacheProperties(response);
 		// 取得前端傳來的參數
-		String username = request.getParameter("username");
-		String pwd = request.getParameter("passwd");
+		String username = request.getParameter(SystemConstant.USER_NAME);
+		String pwd = request.getParameter(SystemConstant.PASSWD);
 		User ur = userDAO.findByUser(username, pwd);
+		
 		String sessionId = request.getSession().getId();
 		if(ur==null){
+			
 			return "login";
+		}
+		if(sessionService.userList.containsKey(username)){
+			logger.info(username+ " has been logined!");
+			return "login";
+		}
+		else{
+			sessionService.addUserSession(username, ur);
 		}
 		logger.info("username : "+ username + ", password : " + pwd + ", sessionId: "+ sessionId);
 	
-		session.setAttribute("username", username);
+		session.setAttribute(SystemConstant.USER_NAME, username);
 		return "home";
 	}
 	
@@ -56,20 +71,20 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/userlogout", method = RequestMethod.POST)
-	public String userLogoutPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+	public String userLogoutPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException{
 
 		SetNoCacheProperties(response);
-		String usesrName = (String)session.getAttribute("username");
-		session.removeAttribute("username");
+		String usesrName = (String)session.getAttribute(SystemConstant.USER_NAME);
 		String sessionId = request.getSession().getId();
+		sessionService.logout();
 		logger.info("usesrName: "+usesrName+", sessionId: "+ sessionId);
-		session.invalidate();
+		
 		logger.info("username logout");
 		return "login";
 	}
 	
 	@RequestMapping(value="/userlogout", method = RequestMethod.GET)
-	public String userLogoutGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+	public String userLogoutGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException{
 		// dopost request
 		return userLogoutPost(model, request, session, response);
 	}
