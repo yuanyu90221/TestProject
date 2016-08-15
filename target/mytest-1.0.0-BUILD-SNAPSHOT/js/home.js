@@ -2,11 +2,13 @@
  * 
  */
 $(document).ready(function(){
+	//console.log('test');
 	unbindNav();
 	bindNav();
 });
 
 function bindNav(){
+	//console.log('bind');
 	$("#first_page_nav").bind("click",function(){
 		$("#content").html('');
 		$("#content").html('This is  first_page');
