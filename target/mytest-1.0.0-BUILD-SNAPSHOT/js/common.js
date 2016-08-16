@@ -12,7 +12,7 @@ function redirect(url, method, data){
 		//console.log(input);
 		form.append(data[input]);
 	}
-	form.appendTo("body").submit();
+	form.appendTo($('body')).submit();
 	//form.submit();
 }
 

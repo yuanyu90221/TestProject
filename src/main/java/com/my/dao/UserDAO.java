@@ -6,7 +6,9 @@ import com.my.model.User;
 
 public interface UserDAO {
 	
-	public User findByUser(String strAccout, String strPassword);
+	public User findByUser(String strAccount, String strPassword);
+	
+	public User getUser(String strAccount);
 	
 	public List<User> getUserList();
 	

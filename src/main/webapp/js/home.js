@@ -27,6 +27,25 @@ function bindNav(){
 		console.log('before login');
 		redirect('/mytest/userlogout','post',null);
 	});
+	$("#userEdit_nav").bind("click", function(){
+		console.log('doajax');
+		 var user = $("#userEdit_nav").find('a').text();
+		 console.log(user);
+		$.ajax({
+			url:'/mytest/modifyUser',
+			type:'post',
+			data: '&modifyUr='+user,
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
+	});
 	
 }
 
@@ -37,4 +56,5 @@ function unbindNav(){
 	$("#recovery_file_nav").unbind("click");
 	$("#user_manage_nav").unbind("click");
 	$("#logout_nav").unbind('click');
+	$("#userEdit_nav").unbind('click');
 }

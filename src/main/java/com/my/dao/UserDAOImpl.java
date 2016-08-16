@@ -27,8 +27,6 @@ public class UserDAOImpl implements UserDAO{
 		this.dataSource = dataSource;
 	}
 
-
-
 	/**
 	 * 利用帳號密碼搜尋該用戶
 	 * @param strAccout
@@ -275,6 +273,46 @@ public class UserDAOImpl implements UserDAO{
 	        }   
 	        
 	        return false;
+	}
+
+	@Override
+	public User getUser(String strAccount) {
+		String sql = "SELECT * FROM user WHERE account = ?";
+		Connection conn = null;
+		User user = null;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, strAccount);
+			
+			
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				user = new User(
+						rs.getString("user_id"),
+						rs.getString("account"), 
+						rs.getString("password"),
+						rs.getString("user_name"),
+						rs.getString("org"),
+						rs.getString("dec"),
+						rs.getString("extra")
+				);
+			}
+			rs.close();
+			ps.close();
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e.getMessage());
+			
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return user;
 	}
 
 }

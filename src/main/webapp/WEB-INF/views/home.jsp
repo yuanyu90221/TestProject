@@ -36,7 +36,8 @@
     		function onClose(){
     			var username = '${username}';
     			console.log(username+' is close');
-    			window.location.href = '/mytest/userlogin';
+    			alert(username+' 被其他電腦登入');
+    			window.location.href = '/mytest';
     		}
     	</script>
 	</head>
@@ -57,7 +58,8 @@
 						<li id="first_page_nav"><a href="#">首頁</a></li>
 						<li id="import_file_nav"><a href="#">匯入檔案</a></li>
 						<li id="recovery_file_nav"><a href="#">還原檔案</a></li>
-						<li id="user_manage_nav"><a href="#">使用者管理</a></li>
+						<c:set var ="currentUser" scope="session" value="${username}"/>
+						<c:if test="${currentUser}=='admin'"><li id="user_manage_nav"><a href="#">使用者管理</a></li></c:if>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
@@ -97,5 +99,28 @@
 		<footer class="container-fluid text-center">
 			<p>Copyright&copy; 2015 Gorilla Technology, All Rights Reserved.</p>
 		</footer>
+		<!-- Modal Start here-->
+		<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+		    role="dialog" aria-hidden="true" data-backdrop="static">
+		    <div class="modal-dialog modal-sm">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h4 class="modal-title">
+		                    <span class="glyphicon glyphicon-time">
+		                    </span>處理中
+		                 </h4>
+		            </div>
+		            <div class="modal-body">
+		                <div class="progress">
+		                    <div class="progress-bar progress-bar-info
+		                    progress-bar-striped active"
+		                    style="width: 100%">
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- Modal ends Here -->
 	</body>
 </html>

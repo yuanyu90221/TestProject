@@ -14,7 +14,9 @@
 	<logger name="com.my.controller">
 		<level value="info" />
 	</logger>
-	
+	<logger name="com.my.websocket">
+		<level value="info" />
+	</logger>
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
