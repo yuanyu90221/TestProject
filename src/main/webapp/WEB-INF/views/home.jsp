@@ -22,8 +22,26 @@
     	<script type="text/javascript" src="js/common.js"></script>
 		<script src="js/home.js"></script>
     	<link href="css/home.css" rel="stylesheet" />
+    	<script type="text/javascript">
+    		var websocketUri = 'ws://'+'<%=request.getServerName()+":"+request.getServerPort()+request.getContextPath()%>/'+"websocket/"+'${username}';
+    		$(document).ready(function(){
+    			var websocket = new WebSocket(websocketUri);
+    			websocket.onopen = onOpen;
+    			websocket.onclose = onClose;
+    		});
+    		function onOpen(){
+    			var username = "${username}";
+    			console.log(username+' is connected');
+    		}
+    		function onClose(){
+    			var username = '${username}';
+    			console.log(username+' is close');
+    			window.location.href = '/mytest/userlogin';
+    		}
+    	</script>
 	</head>
 	<body>
+		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">

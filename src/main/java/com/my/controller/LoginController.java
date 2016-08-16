@@ -1,10 +1,12 @@
 package com.my.controller;
 
-import javax.annotation.Resource;
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,11 @@ import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
 import com.my.model.User;
 import com.my.service.SessionService;
+import com.my.websocket.LoginEndPoint;
 
 @Controller
 public class LoginController {
+	
 	@Autowired
 	SessionService sessionService;
 	
@@ -39,7 +43,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/userlogin", method = RequestMethod.POST)
-	public String userCheckPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+	public String userCheckPost(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
 		SetNoCacheProperties(response);
 		// 取得前端傳來的參數
 		String username = request.getParameter(SystemConstant.USER_NAME);
@@ -53,19 +57,26 @@ public class LoginController {
 		}
 		if(sessionService.userList.containsKey(username)){
 			logger.info(username+ " has been logined!");
-			return "login";
+			// kit out origin
+			if(!sessionId.equals(sessionService.userSessions.get(username).getId())){
+				sessionService.logout(username);
+				Session userSession = LoginEndPoint.sessionMap.get(username);
+				userSession.close();
+				logger.info(username+ " has been kitout!");
+			}
 		}
-		else{
+		
+		if(sessionService.userSessions.get(username)==null){
 			sessionService.addUserSession(username, ur);
 		}
 		logger.info("username : "+ username + ", password : " + pwd + ", sessionId: "+ sessionId);
-	
+	   
 		session.setAttribute(SystemConstant.USER_NAME, username);
 		return "home";
 	}
 	
 	@RequestMapping(value="/userlogin", method = RequestMethod.GET)
-	public String userCheckGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response){
+	public String userCheckGet(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
 
 		return userCheckPost(model,request,session,response);
 	}

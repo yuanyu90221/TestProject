@@ -16,6 +16,7 @@ import com.my.model.User;
 public class SessionService {
 	
 	public static HashMap<String,User> userList = new HashMap<String, User>();
+	public static HashMap<String, HttpSession> userSessions = new HashMap<String, HttpSession>(); 
 	
 	protected HttpServletRequest request;
 	
@@ -30,6 +31,7 @@ public class SessionService {
 	    HttpServletRequest request = ((ServletRequestAttributes)ra).getRequest();   
 	    request.getSession().setAttribute(SystemConstant.USER_INFO, user);
 	    userList.put(name, (User)user);
+	    userSessions.put(name, request.getSession());
 	}
 	
 	public Object getUserSessionAttribute(String name){
@@ -45,10 +47,27 @@ public class SessionService {
 	public void logout() throws ServletException{
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();    
 	    HttpServletRequest request = ((ServletRequestAttributes)ra).getRequest();
-	    userList.remove(request.getSession().getAttribute(SystemConstant.USER_NAME));
-	    request.getSession().removeAttribute(SystemConstant.RA_USER_INFO);
-	    request.getSession().removeAttribute(SystemConstant.USER_INFO);
-	    request.getSession().removeAttribute(SystemConstant.USER_NAME);
-	    request.getSession().invalidate();
+	    String name =(String) request.getSession().getAttribute(SystemConstant.USER_NAME);
+	    logout(name);
+
+	}
+	
+	public static void logout(String name){
+		HttpSession session = userSessions.get(name);
+		userList.remove(name);
+	    userSessions.remove(name);
+	    if(session!=null){
+	    	session.removeAttribute(SystemConstant.RA_USER_INFO);
+	    	session.removeAttribute(SystemConstant.USER_INFO);
+	    	session.removeAttribute(SystemConstant.USER_NAME);
+	    
+		    try{
+		    	session.getCreationTime();
+		    	session.invalidate();
+		    }
+		    catch(IllegalStateException ise){
+		    	
+		    }
+	    }
 	}
 }
