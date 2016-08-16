@@ -28,5 +28,7 @@
 <!-- 	<context:component-scan base-package="com.my.mytest" /> -->
 	
 	<context:component-scan base-package="com.my" />
-	
+	<beans:import resource="Spring-DataSource.xml"/>
+	<beans:import resource="applicationContext-dao.xml"/>
+	<beans:import resource="applicationContext-session.xml"/>
 </beans:beans>

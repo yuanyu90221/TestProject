@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.my.constant.SystemConstant;
+
 /**
  * Handles requests for the application home page.
  */
@@ -26,18 +28,11 @@ public class HomeController {
 	public String home( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) {
 		logger.info("Welcome home! The client locale is");
 		if(!((String)session.getAttribute("username")).equals("")){
-			model.put("username", session.getAttribute("username"));
+			model.put(SystemConstant.USER_NAME, session.getAttribute(SystemConstant.USER_NAME));
 			return "home";
 		}
 		else
 			return "login";
-//		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		
-//		String formattedDate = dateFormat.format(date);
-//		model.addAttribute("serverTime", formattedDate );
-		
-		//return "home";
 	}
 	
 }

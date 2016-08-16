@@ -3,6 +3,8 @@
  */
 $(document).ready(function(){
 	$(":submit[id=btnSumbit]").click(function(check){
+		//console.log($("#loginform"));
+		//阻止form submit
 		if(checkValue()==true){
 			check.preventDefault();
 			if($("#loginform").find('input[name=username]').val()=='yuanyu'){
