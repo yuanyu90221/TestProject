@@ -9,6 +9,8 @@ public final class SystemConstant {
 	public static final String PASSWD = "passwd";
 	public static final String USER = "User";
 	public static final String MODIFY_USER = "modifyUr";
+	public static final String RESPONSE_MSG = "response";
+	public static final String RESULT = "Result";
 	/**
 	 * 上載檔案的 狀態 0
 	 */

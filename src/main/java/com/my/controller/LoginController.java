@@ -52,7 +52,10 @@ public class LoginController {
 		
 		String sessionId = request.getSession().getId();
 		if(ur==null){
-			
+			logger.info("使用者不存在或密碼錯誤");
+			model.put(SystemConstant.RESPONSE_MSG, "使用者不存在或密碼錯誤");
+			model.put(SystemConstant.USER_NAME, username);
+			model.put(SystemConstant.PASSWD, pwd);
 			return "login";
 		}
 		if(sessionService.userList.containsKey(username)){

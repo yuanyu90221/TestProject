@@ -20,8 +20,20 @@ function bindNav(){
 		$("#content").html('This is  recovery_page');
 	});
 	$("#user_manage_nav").bind("click", function(){
-		$("#content").html('');
-		$("#content").html('This is  user_manage_page');
+		console.log('doUserList');
+		$.ajax({
+			url:"/mytest/userList",
+			type: "post",
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	$("#logout_nav").bind('click', function(){
 		console.log('before login');

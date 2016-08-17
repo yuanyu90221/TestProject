@@ -19,6 +19,7 @@
         <script src="js/jquery.min.js"></script>
     	<!-- 依需要參考已編譯外掛版本（如下），或各自獨立的外掛版本 -->
     	<script src="js/bootstrap.min.js"></script>
+    	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
     	<script type="text/javascript" src="js/common.js"></script>
 		<script src="js/home.js"></script>
     	<link href="css/home.css" rel="stylesheet" />
@@ -58,8 +59,11 @@
 						<li id="first_page_nav"><a href="#">首頁</a></li>
 						<li id="import_file_nav"><a href="#">匯入檔案</a></li>
 						<li id="recovery_file_nav"><a href="#">還原檔案</a></li>
-						<c:set var ="currentUser" scope="session" value="${username}"/>
-						<c:if test="${currentUser}=='admin'"><li id="user_manage_nav"><a href="#">使用者管理</a></li></c:if>
+						
+						<c:if test="${username=='admin'}">
+							<li id="user_manage_nav"><a href="#">使用者管理</a></li>
+						</c:if>
+						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
