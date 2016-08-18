@@ -3,8 +3,6 @@
  */
 $(document).ready(function(){
 	$(":submit[id=btnSumbit]").click(function(check){
-		//console.log($("#loginform"));
-		//阻止form submit
 		if(checkValue()==true){
 			check.preventDefault();
 			if($("#loginform").find('input[name=username]').val()=='yuanyu'){
@@ -20,11 +18,11 @@ $(document).ready(function(){
 function formAjax(){
 	var data = [];
 	var username = $('#loginform').find('input[name=username]').val();
-	data.push($('<input>',{type:'text',name:'username',value:username}));
+	data.push($('<input>',{type:'hidden',name:'username',value:username}));
 	var password = $('#loginform').find('input[name=passwd]').val();
-	data.push($('<input>',{type:'password',name:'passwd',value:password}));
+	data.push($('<input>',{type:'hidden',name:'passwd',value:password}));
 	var lang = $('#loginform').find('input[name=radioGroup]').val();
-	data.push($('<input>',{type:'text',name:'lang',value:lang}));
+	data.push($('<input>',{type:'hidden',name:'lang',value:lang}));
 	redirect('/mytest/userlogin','post',data);
 }
 

@@ -28,9 +28,9 @@
 			<form class="form-signin" id="loginform">
 				       
 				<h2 class="form-signin-heading text-center"><img src="images/gorilla.ico"class="spec_logo"/>Webtactical</h2>
-				<input type="text" class="form-control" name="username" placeholder="username" required="" autofocus="" />
+				<input type="text" class="form-control" name="username" placeholder="username" required="" autofocus="" value='<c:if test="${username!=null}">${username}</c:if>'/>
 				<br/>
-				<input type="password" class="form-control" name="passwd" placeholder="Password" required=""/>      
+				<input type="password" class="form-control" name="passwd" placeholder="Password" required="" value='<c:if test="${passwd!=null}">${passwd}</c:if>'/>      
 				<label class="checkbox">
 				<input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
 				</label>
@@ -48,7 +48,14 @@
 					</div>
 				</div>
 				<button class="btn btn-lg btn-primary btn-block" type="submit" id="btnSumbit">Login</button>   
+				<c:if test="${response!=null}">
+				<div class="alert alert-danger fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>系統訊息</strong>${response}
+				</div>
+			</c:if>
 			</form>
+			
 		</div>
 		<footer class="container-fluid text-center">
 			<p>Copyright&copy; 2015 Gorilla Technology, All Rights Reserved.</p>

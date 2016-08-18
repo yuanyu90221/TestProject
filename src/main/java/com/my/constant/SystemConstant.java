@@ -11,6 +11,7 @@ public final class SystemConstant {
 	public static final String MODIFY_USER = "modifyUr";
 	public static final String RESPONSE_MSG = "response";
 	public static final String RESULT = "Result";
+	public static final String DELETE_USER = "deleteUr";
 	/**
 	 * 上載檔案的 狀態 0
 	 */

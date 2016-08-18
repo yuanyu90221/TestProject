@@ -6,25 +6,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script type="text/javascript" src="js/userList.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			//var result = '${Result}';
-			//console.log(userListArr);
-			//putData(userListArr);
-			console.log(JSON.stringify($("#result").html()));
-		});
-	</script>
 </head>
 <body>
-	<c:if test="${Result!=null}">
-		<div id="result" style="display:none;">${Result}</div>
-		<c:set var="temp" value="${requestScope.userList[0].user_name}"></c:set>
-	    <c:out value="${temp}"></c:out>
-	</c:if>
+	<button class="btn btn-sm btn-warning" style="float:left" id="btnAddLink">新增</button>
 	<table id="userList" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
-	<script type="text/javascript">
-	 
-		
-	</script>
 </body>
 </html>

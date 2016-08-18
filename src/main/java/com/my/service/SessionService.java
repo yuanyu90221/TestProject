@@ -57,12 +57,11 @@ public class SessionService {
 		userList.remove(name);
 	    userSessions.remove(name);
 	    if(session!=null){
-	    	session.removeAttribute(SystemConstant.RA_USER_INFO);
-	    	session.removeAttribute(SystemConstant.USER_INFO);
-	    	session.removeAttribute(SystemConstant.USER_NAME);
-	    
-		    try{
+	    	try{   	
 		    	session.getCreationTime();
+		    	session.removeAttribute(SystemConstant.RA_USER_INFO);
+		    	session.removeAttribute(SystemConstant.USER_INFO);
+		    	session.removeAttribute(SystemConstant.USER_NAME);
 		    	session.invalidate();
 		    }
 		    catch(IllegalStateException ise){
