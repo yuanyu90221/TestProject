@@ -149,11 +149,6 @@ function openConfirmDialog(confirmTitle, confirmContent, callback){
 	$("#confirmBtn").bind('click',callback);
 	$("#confirmDialog").modal('show');
 }
-//function appendAddBtn(){
-//	var top = $("#userList_filter").html();
-//	top +='<button class="btn btn-sm btn-warning" style="float:right;margin:right:10px;" id="btnAddLink">新增</button>';
-//	$("#userList_filter").html(top);
-//}
 
 function bindAddLink(){
 	$("#btnAddLink").click(function(){
@@ -172,3 +167,66 @@ function bindAddLink(){
 		});
 	});
 }
+
+//
+//function getDataTableOpt(i18nKeys){
+//	var opts = {
+//		"bPaginate" : false,	
+//		"bInfo" : false,
+//		"bFilter":false,
+//		"aoColumns" : [
+//           {
+//        	   "sTitle":i18nKeys.UserName,
+//        	   "mData":"user_name",
+//        	   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//           },
+//           {
+//        	   "sTitle":i18nKeys.Password,
+//        	   "mData":"password",
+//        	   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//    	   },
+//           {
+//    		   "sTitle":i18nKeys.Account,
+//    		   "mData":"account",
+//    		   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//		   },
+//           {
+//			   "sTitle":i18nKeys.Org,
+//			   "mData":"org",
+//			   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//           },
+//           {
+//        	   "sTitle":i18nKeys.Dec,
+//        	   "mData":"dec",
+//        	   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//    	   },
+//           {
+//    		   "sTitle":i18nKeys.Action,
+//    		   "sDefaultContent" : "",  
+//               "sClass" : "center",
+//               "bSortable": false
+//    	   }
+//		 ],
+//		 "oLanguage":{
+//			 "sZeroRecords" : "目前沒有資料", 
+//		 },
+//		 "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+//	      // Bold the grade for all 'A' grade browsers
+//	       
+//	      $('td:eq(5)', nRow).html( '<button class="btn btn-sm btn-info" style="display:inline;" onclick="btnModifyClick(\''+aData.user_name+'\')">修改</button>'+
+//	    		                    '<button class="btn btn-sm btn-danger" style="display:inline;" onclick="btnDeleteClick(\''+aData.user_name+'\')">刪除</button>');
+//	      
+//	    }
+//	};
+//	return opts;
+//}

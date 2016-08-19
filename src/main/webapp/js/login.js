@@ -21,7 +21,7 @@ function formAjax(){
 	data.push($('<input>',{type:'hidden',name:'username',value:username}));
 	var password = $('#loginform').find('input[name=passwd]').val();
 	data.push($('<input>',{type:'hidden',name:'passwd',value:password}));
-	var lang = $('#loginform').find('input[name=radioGroup]').val();
+	var lang = $('#loginform').find('input[name=lang]').val();
 	data.push($('<input>',{type:'hidden',name:'lang',value:lang}));
 	redirect('/mytest/userlogin','post',data);
 }

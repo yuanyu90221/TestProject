@@ -7,6 +7,7 @@ function redirect(url, method, data){
 		action: url
 	});
 	for(var input in data){
+		console.log(data[input]);
 		form.append(data[input]);
 	}
 	form.appendTo("body").submit();

@@ -49,4 +49,6 @@
             </beans:list>
         </beans:property>
     </beans:bean>
+    <beans:import resource="messageContext.xml"/>
+   
 </beans:beans>

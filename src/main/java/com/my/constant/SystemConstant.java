@@ -12,6 +12,10 @@ public final class SystemConstant {
 	public static final String RESPONSE_MSG = "response";
 	public static final String RESULT = "Result";
 	public static final String DELETE_USER = "deleteUr";
+	
+	/* i18n related */
+	public static String LANGUAGEE_OPTS = "lang";
+	public static String SystemLocale = "zh_TW";	//語系預設 zh_TW
 	/**
 	 * 上載檔案的 狀態 0
 	 */
