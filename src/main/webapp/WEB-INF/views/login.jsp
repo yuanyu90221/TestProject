@@ -24,7 +24,10 @@
     	<script type="text/javascript" src="js/common.js"></script>
         <script type="text/javascript" src="js/login.js"></script>
         <script type="text/javascript" src="js/radioCtrl.js"></script>
-        
+        <script type="text/javascript">
+        	var lang = '${pageContext.response.locale}';
+        	lang = lang.substr(0,2);
+        </script>
        
     	<link href="css/login.css" rel="stylesheet" />
     	<link class="spec_logo" rel ="shortcut icon" type="image/x-icon" href="images/gorilla.ico"/>
@@ -60,10 +63,10 @@
 							<label><spring:message code="login.English"></spring:message></label>
 							<c:choose>
 								<c:when test="${pageContext.response.locale==\"zh_TW\"}">
-									<input type="radio" class="radio-inline" name="lang" id="cb_en_US" value="en_US">
+									<input type="radio" class="radio-inline" name="lang" id="cb_en_US" value="en">
 								</c:when>
 								<c:otherwise>
-									<input type="radio" class="radio-inline" name="lang" id="cb_en_US" checked value="en_US">
+									<input type="radio" class="radio-inline" name="lang" id="cb_en_US" checked value="en">
 								</c:otherwise>
 							</c:choose>
 						</div>

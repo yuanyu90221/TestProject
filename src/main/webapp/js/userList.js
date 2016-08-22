@@ -17,55 +17,55 @@ function getDataTableOpt(){
 		"bFilter":false,
 		"aoColumns" : [
            {
-        	   "sTitle":"使用者名稱",
+        	   "sTitle":$.i18n.prop('ShowUserManagement.table.userName'),
         	   "mData":"user_name",
         	   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
            },
            {
-        	   "sTitle":"密碼",
+        	   "sTitle":$.i18n.prop('ShowUserManagement.table.Password'),
         	   "mData":"password",
         	   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
     	   },
            {
-    		   "sTitle":"帳戶",
+    		   "sTitle":$.i18n.prop('ShowUserManagement.table.Account'),
     		   "mData":"account",
     		   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
 		   },
            {
-			   "sTitle":"組織",
+			   "sTitle":$.i18n.prop('ShowUserManagement.table.Organization'),
 			   "mData":"org",
 			   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
            },
            {
-        	   "sTitle":"描素",
+        	   "sTitle":$.i18n.prop('ShowUserManagement.table.addUser.Description'),
         	   "mData":"dec",
         	   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
     	   },
            {
-    		   "sTitle":"動作",
+    		   "sTitle":$.i18n.prop('ShowUserManagement.table.Action'),
     		   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
     	   }
 		 ],
 		 "oLanguage":{
-			 "sZeroRecords" : "目前沒有資料", 
+			 "sZeroRecords" : $.i18n.prop('ShowUserManagement.table.NoData'), 
 		 },
 		 "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 	      // Bold the grade for all 'A' grade browsers
 	       
-	      $('td:eq(5)', nRow).html( '<button class="btn btn-sm btn-info" style="display:inline;" onclick="btnModifyClick(\''+aData.user_name+'\')">修改</button>'+
-	    		                    '<button class="btn btn-sm btn-danger" style="display:inline;" onclick="btnDeleteClick(\''+aData.user_name+'\')">刪除</button>');
+	      $('td:eq(5)', nRow).html( '<button class="btn btn-sm btn-info" style="display:inline;" onclick="btnModifyClick(\''+aData.user_name+'\')">'+$.i18n.prop('ShowUserManagement.table.Modify')+'</button>'+
+	    		                    '<button class="btn btn-sm btn-danger" style="display:inline;" onclick="btnDeleteClick(\''+aData.user_name+'\')">'+$.i18n.prop('ShowUserManagement.table.Delete')+'</button>');
 	      
 	    }
 	};
@@ -116,7 +116,8 @@ function btnModifyClick(username){
 }
 
 function btnDeleteClick(username){
-	openConfirmDialog("確認刪除","是否刪除"+username, function(){
+	setConfirmBtnText();
+	openConfirmDialog($.i18n.prop("ConfirmDialog.title",$.i18n.prop('ShowUserManagement.table.Delete')),$.i18n.prop('ConfirmDialog.message',$.i18n.prop('ShowUserManagement.table.Delete'),username), function(){
 		$('#myPleaseWait').modal('show');
 		//
 		$.ajax({
@@ -168,65 +169,4 @@ function bindAddLink(){
 	});
 }
 
-//
-//function getDataTableOpt(i18nKeys){
-//	var opts = {
-//		"bPaginate" : false,	
-//		"bInfo" : false,
-//		"bFilter":false,
-//		"aoColumns" : [
-//           {
-//        	   "sTitle":i18nKeys.UserName,
-//        	   "mData":"user_name",
-//        	   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//           },
-//           {
-//        	   "sTitle":i18nKeys.Password,
-//        	   "mData":"password",
-//        	   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//    	   },
-//           {
-//    		   "sTitle":i18nKeys.Account,
-//    		   "mData":"account",
-//    		   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//		   },
-//           {
-//			   "sTitle":i18nKeys.Org,
-//			   "mData":"org",
-//			   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//           },
-//           {
-//        	   "sTitle":i18nKeys.Dec,
-//        	   "mData":"dec",
-//        	   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//    	   },
-//           {
-//    		   "sTitle":i18nKeys.Action,
-//    		   "sDefaultContent" : "",  
-//               "sClass" : "center",
-//               "bSortable": false
-//    	   }
-//		 ],
-//		 "oLanguage":{
-//			 "sZeroRecords" : "目前沒有資料", 
-//		 },
-//		 "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-//	      // Bold the grade for all 'A' grade browsers
-//	       
-//	      $('td:eq(5)', nRow).html( '<button class="btn btn-sm btn-info" style="display:inline;" onclick="btnModifyClick(\''+aData.user_name+'\')">修改</button>'+
-//	    		                    '<button class="btn btn-sm btn-danger" style="display:inline;" onclick="btnDeleteClick(\''+aData.user_name+'\')">刪除</button>');
-//	      
-//	    }
-//	};
-//	return opts;
-//}
+

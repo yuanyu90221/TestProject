@@ -20,6 +20,10 @@
         <script src="js/jquery-3.1.0.min.js"></script>
     	<!-- 依需要參考已編譯外掛版本（如下），或各自獨立的外掛版本 -->
     	<script src="js/bootstrap.min.js"></script>
+    	 <script type="text/javascript">
+        	var lang = '${pageContext.response.locale}';
+        	lang = lang.substr(0,2);
+        </script>
     	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
     	<script type="text/javascript" src="js/jquery.i18n.properties-min-1.0.9.js"></script>
     	<script type="text/javascript" src="js/i18n.js"></script>
@@ -107,7 +111,7 @@
 		            <div class="modal-header">
 		                <h4 class="modal-title">
 		                    <span class="glyphicon glyphicon-time">
-		                    </span>處理中
+		                    </span><div id="proccess_message"></div>
 		                 </h4>
 		            </div>
 		            <div class="modal-body">
@@ -134,8 +138,8 @@
 						<p id="confirmContent" style="text-align:center;"></p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary" id="confirmBtn">確認</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancelBtn"></button>
+						<button type="button" class="btn btn-primary" id="confirmBtn"></button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->

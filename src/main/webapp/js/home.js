@@ -4,6 +4,7 @@
 $(document).ready(function(){
 	unbindNav();
 	bindNav();
+	//setConfirmBtnText();
 });
 
 function bindNav(){
@@ -69,4 +70,10 @@ function unbindNav(){
 	$("#user_manage_nav").unbind("click");
 	$("#logout_nav").unbind('click');
 	$("#userEdit_nav").unbind('click');
+}
+
+function setConfirmBtnText(){
+	$('#confirmBtn').text($.i18n.prop('ConfirmDialog.confirmBtnMsg'));
+	$('#cancelBtn').text($.i18n.prop('ConfirmDialog.cancelBtnMsg'));
+	$('#proccess_message').text($.i18n.prop('ProccessDialog.message'));
 }

@@ -26,31 +26,31 @@
 		<div class="form-group text-center">
 			<label class="col-sm-4 control-label" id="username_lbl" for="username"><spring:message code="ShowUserManagement.table.userName"></spring:message></label>
 			<div class="col-sm-4">
-				<input type="text" name="user_name" placeholder="username" value='<c:if test="${User!=null}">${User.user_name}</c:if>' required="" autofocus="" style="width:100%;"/>
+				<input type="text" name="user_name" placeholder="<spring:message code="ShowUserManagement.table.userName"></spring:message>" value='<c:if test="${User!=null}">${User.user_name}</c:if>' required="" autofocus="" style="width:100%;"/>
 			</div>
 		</div>
 		<div class="form-group text-center">
 			<label class="col-sm-4 control-label" id="passwd_lbl" for="passwd"><spring:message code="ShowUserManagement.table.Password"></spring:message></label>
 			<div class="col-sm-4">
-				<input type="text" name="passwd" placeholder="Password" value='<c:if test="${User!=null}">${User.password}</c:if>' required="" style="width:100%;"/>      
+				<input type="text" name="passwd" placeholder="<spring:message code="ShowUserManagement.table.Password"></spring:message>" value='<c:if test="${User!=null}">${User.password}</c:if>' required="" style="width:100%;"/>      
 			</div>
 		</div>
 		<div class="form-group text-center">
 			<label class="col-sm-4 control-label" id="account_lbl" for="account"><spring:message code="ShowUserManagement.table.Account"></spring:message></label>
 			<div class="col-sm-4">
-				<input type="text" name="account" placeholder="account" value='<c:if test="${User!=null}">${User.account}</c:if>' required="" style="width:100%;"/>
+				<input type="text" name="account" placeholder="<spring:message code="ShowUserManagement.table.Account"></spring:message>" value='<c:if test="${User!=null}">${User.account}</c:if>' required="" style="width:100%;"/>
 			</div>
 		</div>
 		<div class="form-group text-center">
 			<label class="col-sm-4 control-label" id="org_lbl" for="org"><spring:message code="ShowUserManagement.table.Organization"></spring:message></label>
 			<div class="col-sm-4">
-				<input type="text" name="org" placeholder="org" value='<c:if test="${User!=null}">${User.org}</c:if>' required="" style="width:100%;"/>
+				<input type="text" name="org" placeholder="<spring:message code="ShowUserManagement.table.Organization"></spring:message>" value='<c:if test="${User!=null}">${User.org}</c:if>' required="" style="width:100%;"/>
 			</div>
 		</div>
 		<div class="form-group text-center">
 			<label class="col-sm-4 control-label" id="dec_lbl" for="dec"><spring:message code="ShowUserManagement.table.Description"></spring:message></label>
 			<div class="col-sm-4">
-				<input type="text" name="dec" placeholder="dec" value='<c:if test="${User!=null}">${User.dec}</c:if>'required="" style="width:100%;"/>
+				<input type="text" name="dec" placeholder="<spring:message code="ShowUserManagement.table.Description"></spring:message>" value='<c:if test="${User!=null}">${User.dec}</c:if>'required="" style="width:100%;"/>
 			</div>
 		</div>
 		<div class="form-group">
