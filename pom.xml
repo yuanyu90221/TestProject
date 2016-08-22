@@ -113,7 +113,36 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
+		
+		<dependency>  
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.5.1</version>
+		</dependency>
+		          
+		<dependency>  
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>  
+		    <artifactId>jackson-dataformat-xml</artifactId>  
+		    <version>2.5.1</version>  
+		</dependency> 
+		<dependency>  
+		    <groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-core</artifactId>
+        	<version>2.5.1</version> 
+		</dependency>
+		
+		<!-- jackson start -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+  		<!-- jackson end -->
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -143,8 +172,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>

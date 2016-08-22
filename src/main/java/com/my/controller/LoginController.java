@@ -1,6 +1,7 @@
 package com.my.controller;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,15 @@ import javax.websocket.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.LocaleEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
@@ -24,6 +30,8 @@ import com.my.websocket.LoginEndPoint;
 
 @Controller
 public class LoginController {
+	@Autowired
+	MessageSource messageSource;
 	
 	@Autowired
 	SessionService sessionService;
@@ -36,10 +44,11 @@ public class LoginController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String Login(HttpServletRequest request, HttpSession session, HttpServletResponse response) { 		
-		logger.info("This is first login! The client locale is {}.");
+	public ModelAndView Login(HttpServletRequest request, HttpSession session, HttpServletResponse response,Locale locale) { 		
+		logger.info("This is first login! The client locale is {}."+locale.toString());
 		SetNoCacheProperties(response);
-		return "login";
+      
+		return new ModelAndView("login");
 	}
 	
 	@RequestMapping(value="/userlogin", method = RequestMethod.POST)
@@ -52,7 +61,10 @@ public class LoginController {
 		
 		String sessionId = request.getSession().getId();
 		if(ur==null){
-			
+			logger.info("使用者不存在或密碼錯誤");
+			model.put(SystemConstant.RESPONSE_MSG, "使用者不存在或密碼錯誤");
+			model.put(SystemConstant.USER_NAME, username);
+			model.put(SystemConstant.PASSWD, pwd);
 			return "login";
 		}
 		if(sessionService.userList.containsKey(username)){
@@ -111,4 +123,18 @@ public class LoginController {
 		response.addHeader("Cache-Control", "post-check=0, pre-check=0");  
 		response.setHeader("Pragma", "no-cache");
 	}
+	
+	
+	@RequestMapping(value = "/changeLanguange", method = RequestMethod.POST)
+	public ModelAndView changeLanguage(HttpServletRequest request, HttpSession session, HttpServletResponse response,Locale locale) { 		
+		logger.info("This is first login! The client locale is {}."+locale.toString());
+		SetNoCacheProperties(response);
+        String language = request.getParameter(SystemConstant.LANGUAGEE_OPTS); 
+		LocaleEditor localeEditor = new LocaleEditor();
+		localeEditor.setAsText(language); // your locale string
+		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+		localeResolver.setLocale(request, response, (Locale) localeEditor.getValue());
+		return new ModelAndView("login");
+	}
+	
 }

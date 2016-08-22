@@ -12,6 +12,10 @@ public class User {
 	private String dec ="";
 	private Extra extra = new Extra();
 	
+	public User(){
+		
+	}
+	
 	public User(String strID, String strAccount, String strPassword, String strUserName,
 			String strOrg, String strDec, String json)
 	{

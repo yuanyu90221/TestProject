@@ -29,3 +29,8 @@ footer {
   }
   .row.content {height:auto;}
 }
+
+.modal iframe {
+    width: 100%;
+    height: 100%;
+}

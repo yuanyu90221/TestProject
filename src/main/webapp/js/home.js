@@ -4,6 +4,7 @@
 $(document).ready(function(){
 	unbindNav();
 	bindNav();
+	//setConfirmBtnText();
 });
 
 function bindNav(){
@@ -20,12 +21,43 @@ function bindNav(){
 		$("#content").html('This is  recovery_page');
 	});
 	$("#user_manage_nav").bind("click", function(){
-		$("#content").html('');
-		$("#content").html('This is  user_manage_page');
+		console.log('doUserList');
+		$.ajax({
+			url:"/mytest/userList",
+			type: "post",
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	$("#logout_nav").bind('click', function(){
 		console.log('before login');
 		redirect('/mytest/userlogout','post',null);
+	});
+	$("#userEdit_nav").bind("click", function(){
+		console.log('doajax');
+		 var user = $("#userEdit_nav").find('a').text();
+		 console.log(user);
+		$.ajax({
+			url:'/mytest/modifyUser',
+			type:'post',
+			data: '&modifyUr='+user,
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	
 }
@@ -37,4 +69,11 @@ function unbindNav(){
 	$("#recovery_file_nav").unbind("click");
 	$("#user_manage_nav").unbind("click");
 	$("#logout_nav").unbind('click');
+	$("#userEdit_nav").unbind('click');
+}
+
+function setConfirmBtnText(){
+	$('#confirmBtn').text($.i18n.prop('ConfirmDialog.confirmBtnMsg'));
+	$('#cancelBtn').text($.i18n.prop('ConfirmDialog.cancelBtnMsg'));
+	$('#proccess_message').text($.i18n.prop('ProccessDialog.message'));
 }

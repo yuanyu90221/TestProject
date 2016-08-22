@@ -3,6 +3,7 @@ package com.my.websocket;
 import java.util.HashMap;
 
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
@@ -10,6 +11,8 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.my.service.SessionService;
 
 @ServerEndpoint(value="/websocket/{user}")
 public class LoginEndPoint {
@@ -28,11 +31,19 @@ public class LoginEndPoint {
 	@OnClose
 	public void close(final Session session){
 		String user = (String) session.getUserProperties().get("user");
-		
+		SessionService.userList.remove(user);
 		sessionMap.remove(user);
 		logger.info("user : " + user + " 已登出");
 		
 	}
 	
+	@OnError
+	public void onError(Throwable e, Session session){
+		String user = (String) session.getUserProperties().get("user");
+		SessionService.userList.remove(user);
+		sessionMap.remove(user);
+		logger.info("onEror");
+		logger.info("Unexpected user : " + user + " 已登出");
+	}
 	
 }
