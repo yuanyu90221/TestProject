@@ -6,10 +6,9 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script type="text/javascript" src="js/userList.js"></script>
+	<script type="text/javascript" src="js/showData.js"></script>
 </head>
 <body>
-	<button class="btn btn-sm btn-warning" style="float:left" id="btnAddLink"><spring:message code="ShowUserManagement.label.userAdd"></spring:message></button>
-	<table id="userList" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+	<table id="importLogList" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
 </body>
 </html>

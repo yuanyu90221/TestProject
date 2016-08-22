@@ -143,14 +143,6 @@ function btnDeleteClick(username){
 	});
 }
 
-function openConfirmDialog(confirmTitle, confirmContent, callback){
-	$("#confirmTitle").text(confirmTitle);
-	$("#confirmContent").text(confirmContent);
-	$("#confirmBtn").unbind('click');
-	$("#confirmBtn").bind('click',callback);
-	$("#confirmDialog").modal('show');
-}
-
 function bindAddLink(){
 	$("#btnAddLink").click(function(){
 		$.ajax({

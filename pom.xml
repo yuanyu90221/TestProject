@@ -44,7 +44,12 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
 		</dependency>	
-		
+		<!-- MySQL database driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.9</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -149,7 +154,19 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>  
+		<!-- xml dom4j -->	
+		<dependency>
+	       <groupId>dom4j</groupId>
+	       <artifactId>dom4j</artifactId>
+	       <version>1.6.1</version>
+		</dependency>
+		<!-- gson json -->	
+		<dependency>
+	       <groupId>com.google.code.gson</groupId>
+	       <artifactId>gson</artifactId>
+	       <version>2.2.4</version>
+		</dependency>	      
 	</dependencies>
     <build>
         <plugins>
