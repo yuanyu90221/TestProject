@@ -8,4 +8,12 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<bean id="importLogDAO" class="com.my.dao.ImportLogDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+    <bean id="RecoverFileDAO" class="com.my.dao.RecoverFileDAO">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
 </beans>

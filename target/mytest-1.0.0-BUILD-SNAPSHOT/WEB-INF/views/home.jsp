@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,12 +17,19 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script> 
         <![endif]-->	
-        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-3.1.0.min.js"></script>
     	<!-- 依需要參考已編譯外掛版本（如下），或各自獨立的外掛版本 -->
     	<script src="js/bootstrap.min.js"></script>
+    	 <script type="text/javascript">
+        	var lang = '${pageContext.response.locale}';
+        	lang = lang.substr(0,2);
+        </script>
     	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    	<script type="text/javascript" src="js/jquery.i18n.properties-min-1.0.9.js"></script>
+    	<script type="text/javascript" src="js/i18n.js"></script>
     	<script type="text/javascript" src="js/common.js"></script>
 		<script src="js/home.js"></script>
+		
     	<link href="css/home.css" rel="stylesheet" />
     	<script type="text/javascript">
     		var websocketUri = 'ws://'+'<%=request.getServerName()+":"+request.getServerPort()+request.getContextPath()%>/'+"websocket/"+'${username}';
@@ -56,18 +64,18 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li id="first_page_nav"><a href="#">首頁</a></li>
-						<li id="import_file_nav"><a href="#">匯入檔案</a></li>
-						<li id="recovery_file_nav"><a href="#">還原檔案</a></li>
+						<li id="first_page_nav"><a href="#"><spring:message code="tactical.label.home"></spring:message></a></li>
+						<li id="import_file_nav"><a href="#"><spring:message code="tactical.label.import"></spring:message></a></li>
+						<li id="recovery_file_nav"><a href="#"><spring:message code="tactical.label.recover"></spring:message></a></li>
 						
 						<c:if test="${username=='admin'}">
-							<li id="user_manage_nav"><a href="#">使用者管理</a></li>
+							<li id="user_manage_nav"><a href="#"><spring:message code="tactical.label.userManagement"></spring:message></a></li>
 						</c:if>
 						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
-						<li id="logout_nav"><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登出</a></li>
+						<li id="logout_nav"><a href="#"><span class="glyphicon glyphicon-log-in"></span><spring:message code="tactical.label.logout"></spring:message></a></li>
 					</ul>
 				</div>
 			</div>
@@ -89,14 +97,6 @@
 						<p>Lorem ipsum...</p>
 					</div>
 				</div>
-				<div class="col-sm-2 sidenav">
-					<div class="well">
-						<p>ADS</p>
-					</div>
-					<div class="well">
-						<p>ADS</p>
-					</div>
-				</div>
 			</div>
 		</div>
 		
@@ -111,7 +111,7 @@
 		            <div class="modal-header">
 		                <h4 class="modal-title">
 		                    <span class="glyphicon glyphicon-time">
-		                    </span>處理中
+		                    </span><div id="proccess_message"></div>
 		                 </h4>
 		            </div>
 		            <div class="modal-body">
@@ -125,6 +125,25 @@
 		        </div>
 		    </div>
 		</div>
+		<!-- Modal ends Here -->
+		<!-- Modal Start here-->
+		<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="confirmTitle"></h4>
+					</div>
+					<div class="modal-body">
+						<p id="confirmContent" style="text-align:center;"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancelBtn"></button>
+						<button type="button" class="btn btn-primary" id="confirmBtn"></button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		<!-- Modal ends Here -->
 	</body>
 </html>

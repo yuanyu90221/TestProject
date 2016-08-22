@@ -4,13 +4,37 @@
 $(document).ready(function(){
 	unbindNav();
 	bindNav();
-	//setConfirmBtnText();
+	$.ajax({
+		url:"/mytest/ShowData",
+		type: "post",
+		success: function(data){
+			console.log(data);
+			$('#content').html('');
+			$('#content').html(data);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(xhr.status);
+			console.log(thrownError);
+		}
+	});
 });
 
 function bindNav(){
 	$("#first_page_nav").bind("click",function(){
-		$("#content").html('');
-		$("#content").html('This is  first_page');
+		console.log('doUserList');
+		$.ajax({
+			url:"/mytest/ShowData",
+			type: "post",
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	$("#import_file_nav").bind("click",function(){
 		$("#content").html('');
@@ -76,4 +100,12 @@ function setConfirmBtnText(){
 	$('#confirmBtn').text($.i18n.prop('ConfirmDialog.confirmBtnMsg'));
 	$('#cancelBtn').text($.i18n.prop('ConfirmDialog.cancelBtnMsg'));
 	$('#proccess_message').text($.i18n.prop('ProccessDialog.message'));
+}
+
+function openConfirmDialog(confirmTitle, confirmContent, callback){
+	$("#confirmTitle").text(confirmTitle);
+	$("#confirmContent").text(confirmContent);
+	$("#confirmBtn").unbind('click');
+	$("#confirmBtn").bind('click',callback);
+	$("#confirmDialog").modal('show');
 }

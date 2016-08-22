@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
+import com.my.fileutil.Common;
 import com.my.model.User;
 import com.my.service.SessionService;
 import com.my.websocket.LoginEndPoint;
@@ -130,6 +131,7 @@ public class LoginController {
 		logger.info("This is first login! The client locale is {}."+locale.toString());
 		SetNoCacheProperties(response);
         String language = request.getParameter(SystemConstant.LANGUAGEE_OPTS); 
+        Common.SystemLocale = language;
 		LocaleEditor localeEditor = new LocaleEditor();
 		localeEditor.setAsText(language); // your locale string
 		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
