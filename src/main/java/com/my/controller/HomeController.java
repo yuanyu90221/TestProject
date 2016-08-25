@@ -72,7 +72,7 @@ public class HomeController {
 		}
 	}
 	
-	@RequestMapping(value="getImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<ImportLogModel> getImportLog(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -85,7 +85,7 @@ public class HomeController {
 		return importLogList;
 	}
 	
-	@RequestMapping(value="getStatistics", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getStatistics", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Statistics getStatistics(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -98,7 +98,7 @@ public class HomeController {
 		return statistics;
 	}
 	
-	@RequestMapping(value="getFinishedImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getFinishedImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<ImportLogModel> getFinishedImportLog(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -141,7 +141,7 @@ public class HomeController {
 	 * @param dec 此批檔案描述
 	 * @return
 	 */
-	@RequestMapping(value="multipleSave", method=RequestMethod.POST)
+	@RequestMapping(value="multipleSave", method=RequestMethod.POST, produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String multipleSave(@RequestParam("file") MultipartFile[] files,
 	        @RequestParam("description") String description, Model model, HttpSession session){
