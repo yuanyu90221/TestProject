@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean name="config" class ="com.my.fileutil.ConfigContent"> 
+		<property name="fileUploadPath" value="\\192.168.4.133\\pcapSource"/>
+		<property name="parserPath" value="\\192.168.4.133\\pcapOUtput" />
+		<property name="solrSrvLocate" value="http://192.168.4.133:8983/solr/"/>
+		<property name="solrCount" value="20"/>
+		
+		<property name="xslEnPath" value="http://192.168.4.133:8080/chewbacca/enUS/chewbacca.xsl"/>
+		<property name="xslTwPath" value="http://192.168.4.133:8080/chewbacca/zhTW/chewbacca.xsl"/>
+		<property name="summaryXslEnPath" value="http://192.168.4.133:8080/chewbacca/Summary/enUS/chewbacca.xsl"/>
+		<property name="summaryXslTwPath" value="http://192.168.4.133:8080/chewbacca/Summary/zhTW/chewbacca.xsl"/>
+		<property name="summaryFileName" value="statistics_zhTW.xml"/>
+		<!--
+		<property name="xslEnPath" value="C:/NetStream/enUS/chewbacca.xsl"/>
+		<property name="xslTwPath" value="C:/NetStream/zhTW/chewbacca.xsl"/>	
+		-->	
+		<property name="outFileServer" value="http://192.168.4.133:8084/"/>
+		<!-- setting maximum upload size : 105M =  -->
+		<property name="maxUploadSize" value="105"/>
+		
+		<!-- menu 顯示數量 -->
+		<property name="menuCount" value="5"/>
+		<property name="menuLoadNum" value="3"/>
+		<property name="naviCount" value="5"/>
+	</bean>
+</beans>

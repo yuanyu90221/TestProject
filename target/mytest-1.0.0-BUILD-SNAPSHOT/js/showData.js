@@ -145,10 +145,7 @@ function getImportDataTableOpt(){
 
 function putImportData(data){
 	console.log(data);
-	import_datatable.fnClearTable();
-	if(data.length > 0){
-		import_datatable.fnAddData(data);
-	}
+	import_datatable.fnAddData(data);
 }
 
 function getInitImportData(){

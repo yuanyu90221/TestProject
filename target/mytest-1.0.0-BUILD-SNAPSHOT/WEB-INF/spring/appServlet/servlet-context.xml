@@ -49,6 +49,12 @@
             </beans:list>
         </beans:property>
     </beans:bean>
+    
+    <beans:bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- setting maximum upload size : 105M*1024*1024 =  -->
+        <beans:property name="maxUploadSize" value="110100480" />
+    </beans:bean>
     <beans:import resource="messageContext.xml"/>
-   
+    <beans:import resource="applicationContext-config.xml"/>
 </beans:beans>
