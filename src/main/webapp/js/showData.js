@@ -2,24 +2,25 @@
  * 
  */
 var import_datatable;
+var statistics_datatable;
 $(document).ready(function(){
 	//初始化 dataTable
 	import_datatable = $("#importLogList").dataTable(getImportDataTableOpt());
+	statistics_datatable = $("#statisticsList").dataTable(getStatisticsTableOpt());
 	getInitImportData();
-	$(window).resize(function(){
-		console.log('window resize');
-		import_datatable.fnAdjustColumnSizing();
-	});
+	getInitStatisticData();
+	
 });
 
 function getImportDataTableOpt(){
 	var opts = {
-		"bAutoWidth":true,
+		"bAutoWidth":false,
 		"iDisplayLength":5,
 		"bLengthChange":false,
-		"sPaginationType":"simple",
+		"sPaginationType":"four_button",
 		"sScrollX": "100%",
 		"sScrollXInner": "110%",
+		"sScrollY": "100%",
 		"bScrollCollapse": true,
 		"sDom":'<"#ip_bar.pagebar" ip>',
 		"aoColumns" : [
@@ -31,13 +32,6 @@ function getImportDataTableOpt(){
                "bSortable": false
            },
            {
-        	   "sTitle":$.i18n.prop('ShowDataOverview.Table.importInfo.filename'),
-        	   "mData":"filename",
-        	   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-           {
     		   "sTitle":$.i18n.prop('ShowDataOverview.Table.importInfo.filename'),
     		   "mData":"org_filename",
     		   "sDefaultContent" : "",  
@@ -46,7 +40,7 @@ function getImportDataTableOpt(){
 		   },
            {
 			   "sTitle":$.i18n.prop('ShowDataOverview.Table.importInfo.state'),
-			   "mData":"state",
+			   "mData":"stateContent",
 			   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
@@ -57,62 +51,6 @@ function getImportDataTableOpt(){
         	   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": true
-    	   },
-    	   {
-    		   "sTitle": "state",
-    		   "mData" : "state",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-           {
-    		   "sTitle": "stateContent",
-    		   "mData" : "stateContent",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-    	   {
-    		   "sTitle": "email_sum",
-    		   "mData" : "email_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-           {
-    		   "sTitle": "www_sum",
-    		   "mData" : "www_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-    	   {
-    		   "sTitle": "im_sum",
-    		   "mData" : "im_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-           {
-    		   "sTitle": "sn_sum",
-    		   "mData" : "sn_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-    	   {
-    		   "sTitle": "other_sum",
-    		   "mData" : "other_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
-    	   },
-           {
-    		   "sTitle": "voip_sum",
-    		   "mData" : "voip_sum",
-    		   "sDefaultContent" : "",  
-               "sClass" : "center",
-               "bSortable": false
     	   },
            {
     		   "sTitle": $.i18n.prop('ShowDataOverview.Table.importInfo.dec'),
@@ -137,7 +75,7 @@ function getImportDataTableOpt(){
 	      // Bold the grade for all 'A' grade browsers
 	       
 	      var timeStr = new Date(aData.importtime).toLocaleString();
-		  $('td:eq(4)', nRow).html(timeStr);
+		  $('td:eq(3)', nRow).html(timeStr);
 	    }
 	};
 	return opts;
@@ -172,7 +110,89 @@ function getInitImportData(){
 	});
 }
 
+function getInitStatisticData(){
+	setConfirmBtnText();
+	$("#myPleaseWait").modal("show");
+	$.ajax({
+		url: '/mytest/getStatistics',
+		type: 'POST',
+		dataType: 'json',
+		contentType:'application/json;charset=UTF-8',
+		success: function(data){
+			console.log(data);
+			putStatisticData(data);
+			$("#myPleaseWait").modal("hide");
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			console.log(xhr.status);
+			console.log(thrownError);
+			console.log(ajaxOptions);
+		}
+	});
+}
+function getStatisticsTableOpt(){
+	var opts = {
+		"bLengthChange":false,	
+		"bAutoWidth":false,
+		"bPaginate" : false,	
+		"bInfo" : false,
+		"bFilter":false,
+		"aoColumns" : [
+           {
+        	   "sTitle":$.i18n.prop('ShowDataOverview.Table.statistic.Email'),
+        	   "mData":"emailCount",
+        	   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+           },
+           {
+    		   "sTitle":$.i18n.prop('ShowDataOverview.Table.statistic.HTML'),
+    		   "mData":"wwwCount",
+    		   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+		   },
+           {
+			   "sTitle":$.i18n.prop('ShowDataOverview.Table.statistic.IM'),
+			   "mData":"imCount",
+			   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+           },
+           {
+        	   "sTitle":$.i18n.prop('ShowDataOverview.Table.statistic.Network'),
+        	   "mData":"socialnetworkCount",
+        	   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+    	   },
+           {
+    		   "sTitle": $.i18n.prop('ShowDataOverview.Table.statistic.Voip'),
+    		   "mData" : "voipCount",
+    		   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+    	   },
+           {
+    		   "sTitle": $.i18n.prop('ShowDataOverview.Table.statistic.Other'),
+    		   "mData" : "otherCount",
+    		   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
+    	   }
+		 ],
+		 "oLanguage":{
+			 "sZeroRecords" : $.i18n.prop('ShowUserManagement.table.NoData'), 
+		 }
+	};
+	return opts;
+}
 
-
-
+function putStatisticData(data){
+	console.log(data);
+	statistics_datatable.fnClearTable();
+	if(data){
+		statistics_datatable.fnAddData(data);
+	}
+}
 
