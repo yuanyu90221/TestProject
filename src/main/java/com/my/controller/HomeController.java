@@ -4,8 +4,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.my.constant.SystemConstant;
 import com.my.dao.ImportLogDAO;
+import com.my.dao.RecoverFileDAO;
 import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
+import com.my.fileutil.FileCleaner;
+import com.my.fileutil.solr.SolrAccessor;
 import com.my.model.ImportLogModel;
 import com.my.model.Statistics;
 import com.my.model.User;
@@ -44,6 +50,12 @@ public class HomeController {
 	public UserDAO userDAO;
 	@Autowired
 	public ImportLogDAO importLogDAO;
+	@Autowired
+	public RecoverFileDAO recoverFileDAO; 
+	
+	private SolrAccessor solrAccssor;
+	
+	private Executor mFileCleanerThreadPoll = Executors.newFixedThreadPool(6);
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -239,5 +251,54 @@ public class HomeController {
 	    }
 	}
 	
-	
+	 /**
+     * Delete and backup import log
+     * @return
+     */
+    @RequestMapping(value="/MultipleDelete", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+    @ResponseBody
+    public List<ImportLogModel> multipleDelete(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
+    	List<ImportLogModel> importLogList = null;
+    	final String[] pcfileIds = request.getParameterValues("check_list");
+        if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+        	String strUserName = (String)session.getAttribute(SystemConstant.USER_NAME);
+        	final User m_loginUser = (User)sessionService.userList.get(strUserName);
+        	final List<Long> longIds = new ArrayList<Long>();
+        	//開一個Thread去處理Delete
+        	mFileCleanerThreadPoll.execute(new Runnable(){
+
+				@Override
+				public void run() {//處理thread
+					//Set state to 3 first
+                    importLogDAO.setDeletedState(pcfileIds);
+
+                    for(final String id : pcfileIds){
+                        longIds.add(Long.parseLong(id));
+                        final ImportLogModel importLog = importLogDAO.SearchBySN(id);
+        
+                        mFileCleanerThreadPoll.execute(new Runnable(){
+                            public void run(){
+                                recoverFileDAO.backup(importLog, m_loginUser.getUser_id());
+        
+                                importLogDAO.deleteUserImportLogLink(id);
+                                importLogDAO.deleteImportLog(id);
+        
+                                //delete data in Solr
+                                solrAccssor = new SolrAccessor(Common.solrRowCount);
+                                solrAccssor.CleanDataByImportLogSn(longIds);
+        
+                                mFileCleanerThreadPoll.execute(new FileCleaner(id, importLog.getFilename()));
+                            }
+                        });
+                        
+                    }
+				}
+        	
+        	});
+        	// query 最後結果
+        	importLogList = getImportLog(model, request, session,response);
+        }
+       
+        return importLogList;
+    }
 }

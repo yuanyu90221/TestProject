@@ -10,6 +10,6 @@
 </head>
 <body>
 	<button class="btn btn-sm btn-warning" style="float:left" id="btnAddLink"><spring:message code="ShowUserManagement.label.userAdd"></spring:message></button>
-	<table id="userList" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+	<table id="userList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
 </body>
 </html>
