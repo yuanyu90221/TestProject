@@ -37,8 +37,20 @@ function bindNav(){
 		});
 	});
 	$("#import_file_nav").bind("click",function(){
-		$("#content").html('');
-		$("#content").html('This is  import_page');
+		console.log('fileUpload');
+		$.ajax({
+			url:"/mytest/fileUpload",
+			type: "post",
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	$("#recovery_file_nav").bind("click", function(){
 		$("#content").html('');

@@ -17,7 +17,9 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script> 
         <![endif]-->	
-        <script src="js/jquery-3.1.0.min.js"></script>
+        <script src="js/jquery-3.1.0.js"></script>
+        <script type="text/javascript" src="js/jquery.form.min.js"></script>
+      
     	<!-- 依需要參考已編譯外掛版本（如下），或各自獨立的外掛版本 -->
     	<script src="js/bootstrap.min.js"></script>
     	 <script type="text/javascript">

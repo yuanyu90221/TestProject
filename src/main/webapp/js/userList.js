@@ -74,7 +74,10 @@ function getDataTableOpt(){
 
 function putData(data){
 	console.log(data);
-	datatable.fnAddData(data);
+	datatable.fnClearTable();
+	if(data.length > 0){
+		datatable.fnAddData(data);
+	}
 }
 
 function getInitData(){
