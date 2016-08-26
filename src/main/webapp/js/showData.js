@@ -3,6 +3,7 @@
  */
 var import_datatable;
 var statistics_datatable;
+var checkedList = [];
 $(document).ready(function(){
 	//初始化 dataTable
 	import_datatable = $("#importLogList").dataTable(getImportDataTableOpt());
@@ -58,7 +59,14 @@ function getImportDataTableOpt(){
     		   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
+    	   },
+           {
+    		   "sTitle": '<button type="button" class="btn btn-sm btn-danger" onclick="deleteFile()">'+$.i18n.prop('ShowDataOverview.Table.delete')+'</button>',
+    		   "sDefaultContent" : "",  
+               "sClass" : "center",
+               "bSortable": false
     	   }
+    	   
 		 ],
 		 "oLanguage":{
 			 "sZeroRecords" : $.i18n.prop('ShowUserManagement.table.NoData'), 
@@ -75,7 +83,18 @@ function getImportDataTableOpt(){
 	      // Bold the grade for all 'A' grade browsers
 	       
 	      var timeStr = new Date(aData.importtime).toLocaleString();
+	      var importlog_sn = aData.importlog_sn;
 		  $('td:eq(3)', nRow).html(timeStr);
+		  //console.log("importlog_sn:"+importlog_sn);
+		  var isChecked = (checkedList.indexOf(Number(importlog_sn))!=-1);
+		  var result_html = '';
+		  if(isChecked == true){
+			  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')" checked/></label></div>'
+		  }
+		  else{
+			  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')"/></label></div>';
+		  }
+		  $('td:eq(5)', nRow).html(result_html);
 	    }
 	};
 	return opts;
@@ -196,3 +215,64 @@ function putStatisticData(data){
 	}
 }
 
+function deleteFile(){
+	console.log('checkedList:');
+	console.log(checkedList);
+	var deleteArray = [];
+
+	checkedList.forEach(function(item){
+		deleteArray.push(item);
+	});
+	openConfirmDialog($.i18n.prop("ConfirmDialog.title",$.i18n.prop('ShowUserManagement.table.Delete')),$.i18n.prop('ConfirmDialog.message',$.i18n.prop('ShowUserManagement.table.Delete'), checkedList), function(){
+		setConfirmBtnText();
+		$("#myPleaseWait").modal("show");
+		$.ajax({
+			url: '/mytest/multipleDelete',
+			type: 'POST',
+			data: JSON.stringify({'deleteIds':deleteArray}),
+			dataType: 'json',
+			headers : {
+	             'Accept' : 'application/json',
+	             'Content-Type' : 'application/json'
+	        },
+			contentType:'application/json;charset=UTF-8',
+			success: function(data){
+				$("#confirmDialog").modal('hide');
+				console.log(data);
+				checkedList = [];
+				import_datatable.fnClearTable();
+				putImportData(data);
+				$("#myPleaseWait").modal("hide");
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				$("#confirmDialog").modal('hide');
+				console.log(xhr.status);
+				console.log(thrownError);
+				console.log(ajaxOptions);
+				$("#myPleaseWait").modal("hide");
+			}
+		});
+	});
+}
+
+function checkDelete(data){
+	console.log(data);
+	if(import_datatable.find('input[value="'+data+'"]').prop("checked")==true){
+		if(checkedList.indexOf(data)==-1){
+			checkedList.splice(checkedList.length,0,data);
+		}
+	}
+	else{
+		if(checkedList.indexOf(data)!=-1){
+			checkedList.splice(checkedList.indexOf(data),1);
+		}
+	}
+}
+
+function parseValue(key,array){
+	var resultStr = '';
+	array.forEach(function(item){
+		resultStr+='&'+key+"="+item;
+	});
+	return resultStr;
+}

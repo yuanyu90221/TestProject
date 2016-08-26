@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,7 @@ import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
 import com.my.fileutil.FileCleaner;
 import com.my.fileutil.solr.SolrAccessor;
+import com.my.model.DeleteArrary;
 import com.my.model.ImportLogModel;
 import com.my.model.Statistics;
 import com.my.model.User;
@@ -255,11 +257,17 @@ public class HomeController {
      * Delete and backup import log
      * @return
      */
-    @RequestMapping(value="/MultipleDelete", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+    @RequestMapping(value="/multipleDelete", method=RequestMethod.POST, produces="application/json;charset=utf-8")
     @ResponseBody
-    public List<ImportLogModel> multipleDelete(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
+    public List<ImportLogModel> multipleDelete(@RequestBody DeleteArrary deleteIds, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
     	List<ImportLogModel> importLogList = null;
-    	final String[] pcfileIds = request.getParameterValues("check_list");
+    	logger.info("multipleDelete");
+    	
+    	final String[] pcfileIds = deleteIds.getDeleteIds().toArray(new String[0]);
+    	if(pcfileIds != null){
+    		logger.info(pcfileIds[0]);
+    	}
+    	
         if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
         	String strUserName = (String)session.getAttribute(SystemConstant.USER_NAME);
         	final User m_loginUser = (User)sessionService.userList.get(strUserName);
