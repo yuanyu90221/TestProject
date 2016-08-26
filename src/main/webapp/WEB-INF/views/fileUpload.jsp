@@ -19,7 +19,7 @@
 				<spring:message code="tactical.label.file.dec" />
 				<br/>
 				<textarea name="description" id="description"></textarea><br/>
-				<input type="file" size="60" id="myfile" name="file" value="<spring:message code="tactical.label.file.fileUpload" />"> 
+				<input type="file" size="60" id="myfile" name="file" value="<spring:message code="tactical.label.file.fileUpload" />" multiple> 
 				<input type="submit" value="<spring:message code="tactical.label.file.upload" />" id="sendUpload">
 				<div id="respsonse"><label><spring:message code="tactical.label.file.totalFileSize" /></label><span id="filesize"></span></div>
 				<span id="append_input"></span>

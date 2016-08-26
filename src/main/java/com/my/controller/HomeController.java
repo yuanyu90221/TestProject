@@ -4,8 +4,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +29,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.my.constant.SystemConstant;
 import com.my.dao.ImportLogDAO;
+import com.my.dao.RecoverFileDAO;
 import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
+import com.my.fileutil.FileCleaner;
+import com.my.fileutil.solr.SolrAccessor;
+import com.my.model.DeleteArrary;
 import com.my.model.ImportLogModel;
 import com.my.model.Statistics;
 import com.my.model.User;
@@ -44,6 +52,12 @@ public class HomeController {
 	public UserDAO userDAO;
 	@Autowired
 	public ImportLogDAO importLogDAO;
+	@Autowired
+	public RecoverFileDAO recoverFileDAO; 
+	
+	private SolrAccessor solrAccssor;
+	
+	private Executor mFileCleanerThreadPoll = Executors.newFixedThreadPool(6);
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -72,7 +86,7 @@ public class HomeController {
 		}
 	}
 	
-	@RequestMapping(value="getImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<ImportLogModel> getImportLog(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -85,7 +99,7 @@ public class HomeController {
 		return importLogList;
 	}
 	
-	@RequestMapping(value="getStatistics", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getStatistics", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Statistics getStatistics(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -98,7 +112,7 @@ public class HomeController {
 		return statistics;
 	}
 	
-	@RequestMapping(value="getFinishedImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json")
+	@RequestMapping(value="getFinishedImportLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<ImportLogModel> getFinishedImportLog(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
 	{
@@ -141,7 +155,7 @@ public class HomeController {
 	 * @param dec 此批檔案描述
 	 * @return
 	 */
-	@RequestMapping(value="multipleSave", method=RequestMethod.POST)
+	@RequestMapping(value="multipleSave", method=RequestMethod.POST, produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String multipleSave(@RequestParam("file") MultipartFile[] files,
 	        @RequestParam("description") String description, Model model, HttpSession session){
@@ -161,7 +175,6 @@ public class HomeController {
 					model.addAttribute("errorMessage", errorMessage);
 				}
 		 	}
-		 	//TODO 修改為正確的上傳view
 			return errorMessage;
 		}
 		else{
@@ -240,5 +253,60 @@ public class HomeController {
 	    }
 	}
 	
-	
+	 /**
+     * Delete and backup import log
+     * @return
+     */
+    @RequestMapping(value="/multipleDelete", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+    @ResponseBody
+    public List<ImportLogModel> multipleDelete(@RequestBody DeleteArrary deleteIds, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
+    	List<ImportLogModel> importLogList = null;
+    	logger.info("multipleDelete");
+    	
+    	final String[] pcfileIds = deleteIds.getDeleteIds().toArray(new String[0]);
+    	if(pcfileIds != null){
+    		logger.info(pcfileIds[0]);
+    	}
+    	
+        if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+        	String strUserName = (String)session.getAttribute(SystemConstant.USER_NAME);
+        	final User m_loginUser = (User)sessionService.userList.get(strUserName);
+        	final List<Long> longIds = new ArrayList<Long>();
+        	//開一個Thread去處理Delete
+        	mFileCleanerThreadPoll.execute(new Runnable(){
+
+				@Override
+				public void run() {//處理thread
+					//Set state to 3 first
+                    importLogDAO.setDeletedState(pcfileIds);
+
+                    for(final String id : pcfileIds){
+                        longIds.add(Long.parseLong(id));
+                        final ImportLogModel importLog = importLogDAO.SearchBySN(id);
+        
+                        mFileCleanerThreadPoll.execute(new Runnable(){
+                            public void run(){
+                                recoverFileDAO.backup(importLog, m_loginUser.getUser_id());
+        
+                                importLogDAO.deleteUserImportLogLink(id);
+                                importLogDAO.deleteImportLog(id);
+        
+                                //delete data in Solr
+                                solrAccssor = new SolrAccessor(Common.solrRowCount);
+                                solrAccssor.CleanDataByImportLogSn(longIds);
+        
+                                mFileCleanerThreadPoll.execute(new FileCleaner(id, importLog.getFilename()));
+                            }
+                        });
+                        
+                    }
+				}
+        	
+        	});
+        	// query 最後結果
+        	importLogList = getImportLog(model, request, session,response);
+        }
+       
+        return importLogList;
+    }
 }

@@ -24,7 +24,12 @@ $(document).ready(function() {
 		},
 		complete : function(response) {
 			console.log(response.responseText);
-			$("#message").html("<font color='blue'>Your file has been uploaded!</font>");
+			if(response.responseText==''){
+				$("#message").html("<font color='blue'>Your file has been uploaded!</font>");
+			}
+			else {
+				$("#message").html("<font color='red'>"+response.responseText+"</font>");
+			}
 		},
 		error : function() {
 			$("#message").html("<font color='red'> ERROR: unable to upload files</font>");
@@ -38,9 +43,18 @@ $(document).ready(function() {
 		$("#progressbar").width('0%');
 		$("#message").empty();
 		$("#percent").html("0%");
+		var fileArray = this.files;
 		if(this.files[0]){
-			var fileSize = this.files[0].size /1000;
-			$("#filesize").html(fileSize +"KB");
+			var fileSize = 0;
+			console.log(fileArray);
+			console.log((typeof fileArray));
+			for(var i = 0; i < fileArray.length ; i++){
+				fileSize += fileArray[i].size/1000;
+			}
+//			fileArray.forEach(function(file){
+//			   fileSize += file.size/1000;
+//			});
+			$("#filesize").html(fileSize.toFixed(3) +"KB");
 			$("#sendUpload").css("display","inline");
 		}
 		else{
@@ -52,7 +66,7 @@ $(document).ready(function() {
 	$("#addfile").on('click',function(){
 		var result_btn_count = button_count;
 		var append_btn_html ='<div id="btn_'+button_count+'">'+
-							 '<input type="file" size="60" id="myfile'+button_count+'" name="myfile'+button_count+'">'+
+							 '<input type="file" size="60" id="myfile'+button_count+'" name="file" multiple>'+
 		     			     '<div id="respsonse"><label>'+$.i18n.prop('tactical.label.file.totalFileSize')+'</label><span id="filesize'+button_count+'"></span></div>'+
 		     			     '</div>';
 		$("#append_input").append(append_btn_html);
@@ -70,8 +84,11 @@ $(document).ready(function() {
 			console.log('file change');
 		
 			if(this.files[0]){
-				var fileSize = this.files[0].size /1000;
-				$("#filesize"+current_btn1).html(fileSize +"KB");
+				var fileSize = 0;
+				for(var i = 0 ; i < this.files.length; i ++){
+					fileSize += this.files[i].size/1000;
+				}
+				$("#filesize"+current_btn1).html(fileSize.toFixed(3) +"KB");
 			}
 			else{
 				$("#filesize"+current_btn1).html("0KB");

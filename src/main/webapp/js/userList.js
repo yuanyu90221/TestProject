@@ -8,13 +8,29 @@ $(document).ready(function(){
 	getInitData();
 	
 	bindAddLink();
+	$(window).resize(function(){
+		try{
+		 console.log('resize change');
+		 datatable.fnAdjustColumnSizing();
+		}
+		catch(e){
+			//TO DO
+			console.log(e);
+		}
+	});
 });
 
 function getDataTableOpt(){
 	var opts = {
+		"bLengthChange":false,
+		"bAutoWidth":false,	
 		"bPaginate" : false,	
 		"bInfo" : false,
 		"bFilter":false,
+		
+//		"sScrollX": "100%",
+//		"sScrollXInner": "110%",
+//		"bScrollCollapse": true,
 		"aoColumns" : [
            {
         	   "sTitle":$.i18n.prop('ShowUserManagement.table.userName'),
