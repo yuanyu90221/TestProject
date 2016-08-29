@@ -2,7 +2,7 @@ package com.my.model;
 
 import java.util.List;
 
-public class DeleteArrary {
+public class DeleteArray {
 	 private List<String> deleteIds;
 
 	/**

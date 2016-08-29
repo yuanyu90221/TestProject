@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -27,15 +29,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.my.constant.SystemConstant;
 import com.my.dao.ImportLogDAO;
 import com.my.dao.RecoverFileDAO;
 import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
 import com.my.fileutil.FileCleaner;
+import com.my.fileutil.FileRecover;
 import com.my.fileutil.solr.SolrAccessor;
-import com.my.model.DeleteArrary;
+import com.my.model.DeleteArray;
 import com.my.model.ImportLogModel;
+import com.my.model.RecoverArray;
 import com.my.model.Statistics;
 import com.my.model.User;
 import com.my.service.SessionService;
@@ -57,10 +62,13 @@ public class HomeController {
 	
 	private SolrAccessor solrAccssor;
 	
-	private Executor mFileCleanerThreadPoll = Executors.newFixedThreadPool(6);
+	private Executor mFileCleanerThreadPollForDelete = Executors.newFixedThreadPool(6);
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	private Queue<String[]> mRecoveredQueue = new LinkedList<String[]>();
+	
+    private Executor mFileCleanerThreadPollForRecover = Executors.newFixedThreadPool(3);
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -70,6 +78,17 @@ public class HomeController {
 		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
 			model.put(SystemConstant.USER_NAME, session.getAttribute(SystemConstant.USER_NAME));
 			return "home";
+		}
+		else
+			return "login";
+	}
+	
+	@RequestMapping(value = "recoverData", method = RequestMethod.POST)
+	public String recoverData( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+		logger.info("Welcome home! The client locale is");
+		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+			model.put(SystemConstant.USER_NAME, session.getAttribute(SystemConstant.USER_NAME));
+			return "recoverData";
 		}
 		else
 			return "login";
@@ -259,7 +278,7 @@ public class HomeController {
      */
     @RequestMapping(value="/multipleDelete", method=RequestMethod.POST, produces="application/json;charset=utf-8")
     @ResponseBody
-    public List<ImportLogModel> multipleDelete(@RequestBody DeleteArrary deleteIds, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
+    public List<ImportLogModel> multipleDelete(@RequestBody DeleteArray deleteIds, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
     	List<ImportLogModel> importLogList = null;
     	logger.info("multipleDelete");
     	
@@ -273,7 +292,7 @@ public class HomeController {
         	final User m_loginUser = (User)sessionService.userList.get(strUserName);
         	final List<Long> longIds = new ArrayList<Long>();
         	//開一個Thread去處理Delete
-        	mFileCleanerThreadPoll.execute(new Runnable(){
+        	mFileCleanerThreadPollForDelete.execute(new Runnable(){
 
 				@Override
 				public void run() {//處理thread
@@ -284,7 +303,7 @@ public class HomeController {
                         longIds.add(Long.parseLong(id));
                         final ImportLogModel importLog = importLogDAO.SearchBySN(id);
         
-                        mFileCleanerThreadPoll.execute(new Runnable(){
+                        mFileCleanerThreadPollForDelete.execute(new Runnable(){
                             public void run(){
                                 recoverFileDAO.backup(importLog, m_loginUser.getUser_id());
         
@@ -295,7 +314,7 @@ public class HomeController {
                                 solrAccssor = new SolrAccessor(Common.solrRowCount);
                                 solrAccssor.CleanDataByImportLogSn(longIds);
         
-                                mFileCleanerThreadPoll.execute(new FileCleaner(id, importLog.getFilename()));
+                                mFileCleanerThreadPollForDelete.execute(new FileCleaner(id, importLog.getFilename()));
                             }
                         });
                         
@@ -307,6 +326,117 @@ public class HomeController {
         	importLogList = getImportLog(model, request, session,response);
         }
        
+        return importLogList;
+    }
+    
+    /**
+     * 取得所有在Recover table的資料
+     * 
+     * @param model
+     * @param request
+     * @param session
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="getRecoverLog", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<ImportLogModel> getRecoverLog(HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
+	{
+		List<ImportLogModel> importLogList = null;
+		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+			String strAccount = (String)session.getAttribute(SystemConstant.USER_NAME);
+			String strUserID = userDAO.getUser(strAccount).getUser_id();
+			importLogList = importLogDAO.SelectImportLogByUserId(strUserID);
+			//不顯示已recover但還未完成的資料
+            if (mRecoveredQueue.size() == 0){
+                mRecoveredQueue.clear();
+                importLogList = recoverFileDAO.getUserBackupData(strUserID);
+                
+            } else {
+            	removeImportLogById(importLogList, mRecoveredQueue.poll());
+            }
+		}
+		return importLogList;
+	}
+    
+    /**
+     * 移除掉在recovery queue中未處理完的data
+     * 
+     * @param importLog
+     * @param ids
+     */
+    public void removeImportLogById(List<ImportLogModel> importLog,String[] ids){
+	    if(ids == null) return;
+
+	    for(String id : ids){
+	        if(id == null) continue;
+	        try{
+    	        for(int i = importLog.size() -1 ; i >= 0; i--){
+    	            if(id.equals(importLog.get(i).getImportlog_sn())){
+    	                importLog.remove(i);
+    	                break;
+    	            }
+    	        }
+	        } catch(NullPointerException e){}
+	    }
+    }
+    
+    /**
+     * Delete and backup import log
+     * @return
+     */
+    @RequestMapping(value="/multipleRecover", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+    @ResponseBody
+    public List<ImportLogModel> multipleRecover(@RequestBody RecoverArray recoverIds, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {      
+    	List<ImportLogModel> importLogList = null;
+    	logger.info("multipleRecover");
+    	
+    	final String[] pcfileIds = recoverIds.getRecoverIds().toArray(new String[0]);
+    	if(pcfileIds != null){
+    		logger.info(pcfileIds[0]);
+    	}
+    	mRecoveredQueue.add(pcfileIds);
+        if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+        	String strUserName = (String)session.getAttribute(SystemConstant.USER_NAME);
+        	final User m_loginUser = (User)sessionService.userList.get(strUserName);
+        	//開一個Thread去處理Delete
+        	mFileCleanerThreadPollForRecover.execute(new Runnable(){
+
+				@Override
+				public void run() {//處理thread
+					recoverFileDAO.setDeletedState(pcfileIds);
+
+                    for(final String id : pcfileIds){
+                        
+                        final ImportLogModel importLog = recoverFileDAO.SearchBySN(id);
+                        final String oldFileName = importLog.getFilename();
+                        importLog.setFilename(Common.GetNowDateTimeFileName() + ".pcap");
+        
+                        // insert to importLog DB
+                        mFileCleanerThreadPollForRecover.execute(new Runnable(){
+                            public void run(){
+                                importLogDAO.recover(importLog);
+                                importLogDAO.InsertUserImportLog(m_loginUser.getUser_id(), importLog.getImportlog_sn());
+                                importLogDAO.insertStatistics(importLog.getImportlog_sn());
+        
+                                // delete from backup DB
+                                recoverFileDAO.deleteBackup(id);
+        
+                                
+                            }
+                        });
+                        
+                      //move pcap file and create ok file
+                        mFileCleanerThreadPollForRecover.execute(new FileRecover(id, oldFileName, importLog.getFilename()));
+                    }
+				}
+        	
+        	});
+        }
+        // query 最後結果
+        importLogList = getRecoverLog(request, session,response);
+        
         return importLogList;
     }
 }
