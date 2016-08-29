@@ -61,7 +61,7 @@ function getImportDataTableOpt(){
                "bSortable": false
     	   },
            {
-    		   "sTitle": '<button type="button" class="btn btn-sm btn-danger" onclick="deleteFile()">'+$.i18n.prop('ShowDataOverview.Table.delete')+'</button>',
+    		   "sTitle": '<button id="delLogBtn" type="button" class="btn btn-sm btn-danger" onclick="deleteFile()" disabled>'+$.i18n.prop('ShowDataOverview.Table.delete')+'</button>',
     		   "sDefaultContent" : "",  
                "sClass" : "center",
                "bSortable": false
@@ -88,12 +88,18 @@ function getImportDataTableOpt(){
 		  //console.log("importlog_sn:"+importlog_sn);
 		  var isChecked = (checkedList.indexOf(Number(importlog_sn))!=-1);
 		  var result_html = '';
-		  if(isChecked == true){
-			  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')" checked/></label></div>'
+		  if(aData.state== "1"){
+			  if(isChecked == true){
+				  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')" checked/></label></div>'
+			  }
+			  else{
+				  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')"/></label></div>';
+			  }
 		  }
 		  else{
-			  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')"/></label></div>';
+			  result_html = '<div class="checkbox"><label><input type="checkbox" value="'+importlog_sn+'" onclick="checkDelete('+importlog_sn+')" disabled/></label></div>';
 		  }
+
 		  $('td:eq(5)', nRow).html(result_html);
 	    }
 	};
@@ -266,6 +272,12 @@ function checkDelete(data){
 		if(checkedList.indexOf(data)!=-1){
 			checkedList.splice(checkedList.indexOf(data),1);
 		}
+	}
+	if(checkedList.length==0){
+		$("#delLogBtn").prop("disabled",true);
+	}
+	else{
+		$("#delLogBtn").prop("disabled",false);
 	}
 }
 
