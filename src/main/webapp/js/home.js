@@ -21,7 +21,6 @@ $(document).ready(function(){
 
 function bindNav(){
 	$("#first_page_nav").bind("click",function(){
-		console.log('doUserList');
 		$.ajax({
 			url:"/mytest/ShowData",
 			type: "post",
@@ -53,8 +52,20 @@ function bindNav(){
 		});
 	});
 	$("#recovery_file_nav").bind("click", function(){
-		$("#content").html('');
-		$("#content").html('This is  recovery_page');
+		console.log('recoverData!');
+		$.ajax({
+			url:"/mytest/recoverData",
+			type: "post",
+			success: function(data){
+				console.log(data);
+				$('#content').html('');
+				$('#content').html(data);
+			},
+			error: function(xhr, ajaxOptions, thrownError){
+				console.log(xhr.status);
+				console.log(thrownError);
+			}
+		});
 	});
 	$("#user_manage_nav").bind("click", function(){
 		console.log('doUserList');

@@ -12,6 +12,16 @@ import java.util.Date;
  */
 public class ImportLogModel {
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ImportLogModel [importlog_sn=" + importlog_sn + ", filename=" + filename + ", org_filename="
+				+ org_filename + ", state=" + state + ", stateContent=" + stateContent + ", email_sum=" + email_sum
+				+ ", www_sum=" + www_sum + ", im_sum=" + im_sum + ", sn_sum=" + sn_sum + ", other_sum=" + other_sum
+				+ ", voip_sum=" + voip_sum + ", importtime=" + importtime + ", dec=" + dec + "]";
+	}
 	private String importlog_sn ;
 	private String filename;
 	private String org_filename;
