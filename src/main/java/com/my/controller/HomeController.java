@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import com.my.constant.SystemConstant;
 import com.my.dao.ImportLogDAO;
 import com.my.dao.RecoverFileDAO;
@@ -37,7 +36,6 @@ import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
 import com.my.fileutil.FileCleaner;
 import com.my.fileutil.FileRecover;
-import com.my.fileutil.solr.SolrAccessor;
 import com.my.model.DeleteArray;
 import com.my.model.ImportLogModel;
 import com.my.model.RecoverArray;
@@ -59,8 +57,6 @@ public class HomeController {
 	public ImportLogDAO importLogDAO;
 	@Autowired
 	public RecoverFileDAO recoverFileDAO; 
-	
-	private SolrAccessor solrAccssor;
 	
 	private Executor mFileCleanerThreadPollForDelete = Executors.newFixedThreadPool(6);
 	
@@ -311,8 +307,8 @@ public class HomeController {
                                 importLogDAO.deleteImportLog(id);
         
                                 //delete data in Solr
-                                solrAccssor = new SolrAccessor(Common.solrRowCount);
-                                solrAccssor.CleanDataByImportLogSn(longIds);
+                              
+                                SolrAccessController.CleanDataByImportLogSn(longIds);
         
                                 mFileCleanerThreadPollForDelete.execute(new FileCleaner(id, importLog.getFilename()));
                             }

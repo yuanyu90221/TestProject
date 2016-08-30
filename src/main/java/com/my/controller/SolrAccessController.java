@@ -1,5 +1,9 @@
 package com.my.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +18,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
@@ -215,7 +220,7 @@ public class SolrAccessController {
 	 * @param protocolSN
 	 * @return
 	 */
-	private String GetSolrQuerySrv(int protocolSN){
+	public static String GetSolrQuerySrv(int protocolSN){
 		 
 		 String rtn="";
 		 switch (protocolSN) {
@@ -330,7 +335,7 @@ public class SolrAccessController {
 		return rtn;
 	}
 	
-	private List<String> GetSolrAllCoreUrl(){
+	public static List<String> GetSolrAllCoreUrl(){
 		List<String> rtnList =null;
 		rtnList= new ArrayList<>();
 		rtnList.add(GetSolrQuerySrv(3));
@@ -340,5 +345,43 @@ public class SolrAccessController {
 		rtnList.add(GetSolrQuerySrv(8));
 		rtnList.add(GetSolrQuerySrv(9));
 		return rtnList;
+	}
+	
+	/**
+	 * 根據importlog sn 刪除資料
+	 * @param importlogSnList
+	 * @return
+	 */
+	public static int CleanDataByImportLogSn(List<Long> importlogSnList){
+		int rtn=-1;
+		SolrClient solr=null;
+		List<String>coreUrlList=null;
+		String queryString="";
+		try{
+			coreUrlList=GetSolrAllCoreUrl();
+			for (String strurl : coreUrlList) {
+				solr = new HttpSolrClient(strurl);
+				for (Long sn : importlogSnList) {
+					queryString="importlogsn:"+sn;
+					UpdateResponse response =solr.deleteByQuery(queryString);
+					solr.deleteByQuery(queryString);
+					solr.commit();
+				}
+				solr=null;
+			}
+			rtn =0;
+		}
+		catch (SolrServerException | IOException e) {
+
+			Writer writer = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(writer);
+			e.printStackTrace(printWriter);
+						String s = writer.toString();
+			
+			Common.WirteLog("SolrAccessor.CleanDataByImportLogSn", 
+					s,3);
+			rtn=-9;
+		} 
+		return rtn;
 	}
 }
