@@ -133,6 +133,7 @@ function recoverFile(){
 				$("#confirmDialog").modal('hide');
 				console.log(data);
 				recover_list = [];
+				$("#recoverLogBtn").prop("disabled",true);
 				recover_datatable.fnClearTable();
 				putRecoverData(data);
 				processDelete(recoverArray);

@@ -402,13 +402,13 @@ public class HomeController {
 				@Override
 				public void run() {//處理thread
 					recoverFileDAO.setDeletedState(pcfileIds);
-
+                    
                     for(final String id : pcfileIds){
-                        
+                        synchronized(this){
                         final ImportLogModel importLog = recoverFileDAO.SearchBySN(id);
                         final String oldFileName = importLog.getFilename();
                         importLog.setFilename(Common.GetNowDateTimeFileName() + ".pcap");
-        
+                        
                         // insert to importLog DB
                         mFileCleanerThreadPollForRecover.execute(new Runnable(){
                             public void run(){
@@ -425,6 +425,7 @@ public class HomeController {
                         
                       //move pcap file and create ok file
                         mFileCleanerThreadPollForRecover.execute(new FileRecover(id, oldFileName, importLog.getFilename()));
+                       }
                     }
 				}
         	

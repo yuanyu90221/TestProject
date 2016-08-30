@@ -246,6 +246,7 @@ function deleteFile(){
 				$("#confirmDialog").modal('hide');
 				console.log(data);
 				checkedList = [];
+				$("#delLogBtn").prop("disabled",true);
 				import_datatable.fnClearTable();
 				putImportData(data);
 				$("#myPleaseWait").modal("hide");
