@@ -38,6 +38,7 @@ import com.my.fileutil.FileCleaner;
 import com.my.fileutil.FileRecover;
 import com.my.model.DeleteArray;
 import com.my.model.ImportLogModel;
+import com.my.model.ImportLogSn;
 import com.my.model.RecoverArray;
 import com.my.model.Statistics;
 import com.my.model.User;
@@ -123,6 +124,18 @@ public class HomeController {
 			String strAccount = (String)session.getAttribute(SystemConstant.USER_NAME);
 			String strUserID = userDAO.getUser(strAccount).getUser_id();
 			statistics = importLogDAO.SelectStatisticsByUserId(strUserID);
+		}
+		return statistics;
+	}
+	
+	@RequestMapping(value="getStatisticsByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Statistics getStatisticsByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
+	{
+		Statistics statistics = null;
+		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+			String importLogSnIn = importlogsn.getImportlogsn();
+			statistics = importLogDAO.SelectStatistics(importLogSnIn);
 		}
 		return statistics;
 	}

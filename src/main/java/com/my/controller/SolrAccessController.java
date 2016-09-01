@@ -26,18 +26,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
 import com.my.fileutil.solr.SolrField;
 import com.my.model.EmailDetailModel;
 import com.my.model.HttpDetailModel;
+import com.my.model.ImportLogSn;
 import com.my.model.NetworkDetailModel;
 import com.my.model.OthersDetailModel;
+import com.my.model.PcapDetailModel;
 import com.my.model.VoipDetailModel;
 import com.my.service.SessionService;
 
@@ -49,6 +52,24 @@ public class SolrAccessController {
 	@Autowired
 	public UserDAO userDAO;
 	
+	@RequestMapping(value="getPcapDetail", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public PcapDetailModel getPcapDetail(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		PcapDetailModel pcapdetail = null;
+		
+		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+			pcapdetail = new PcapDetailModel();
+			String importLogSn = importlogsn.getImportlogsn();
+			logger.info("importlogsn : " + importLogSn);
+			pcapdetail.setImportlogsn(importLogSn);
+			pcapdetail.setEmailDetailList(proccessGetEmailDetail(3,"importlogsn:"+importLogSn));
+			pcapdetail.setHttpDetailList(proccessGetHttpDetail(4,"importlogsn:"+importLogSn));
+			pcapdetail.setNetworkDetailList(proccessGetNetworkDetail(5,"importlogsn:"+importLogSn));
+			pcapdetail.setOthersDetailList(proccessGetOthersDetail(8, "importlogsn:"+importLogSn));
+			pcapdetail.setVoipDetailList(proccessGetVoipDetail(9, "importlogsn:"+importLogSn));
+		}
+		return pcapdetail;
+	}
 	private static final Logger logger = LoggerFactory.getLogger(SolrAccessController.class);
 	@RequestMapping(value="getEmailDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
@@ -57,6 +78,24 @@ public class SolrAccessController {
 		List<EmailDetailModel> emailDetailList = null;
 		int protocolSn = 3;
 		String queryStr = "*:*";
+		emailDetailList = proccessGetEmailDetail(protocolSn,queryStr);
+		return emailDetailList;
+	}
+	
+	@RequestMapping(value="getEmailDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<EmailDetailModel> getEmailDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception
+	{
+		List<EmailDetailModel> emailDetailList = null;
+		int protocolSn = 3;
+		String importLogSnIn = importlogsn.getImportlogsn();
+		String queryStr = "importlogsn:"+importLogSnIn;
+		emailDetailList = proccessGetEmailDetail(protocolSn,queryStr);
+		return emailDetailList;
+	}
+	
+	private List<EmailDetailModel> proccessGetEmailDetail(int protocolSn, String queryStr) throws Exception{
+		List<EmailDetailModel> emailDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
 		if(docs!=null){
 			emailDetailList = new ArrayList<EmailDetailModel>();
@@ -91,6 +130,23 @@ public class SolrAccessController {
 		List<HttpDetailModel> httpDetailList = null;
 		int protocolSn = 4;
 		String queryStr = "*:*";
+		httpDetailList = proccessGetHttpDetail(protocolSn, queryStr);
+		return httpDetailList;
+	}
+	
+	@RequestMapping(value="getHttpDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<HttpDetailModel> getHttpDetailByImportLogSn(@RequestBody ImportLogSn importlogsn,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		List<HttpDetailModel> httpDetailList = null;
+		int protocolSn = 4;
+		String importLogSnIn = importlogsn.getImportlogsn();
+		String queryStr = "importlogsn:"+importLogSnIn;
+		httpDetailList = proccessGetHttpDetail(protocolSn, queryStr);
+		return httpDetailList;
+	}
+	
+	private List<HttpDetailModel> proccessGetHttpDetail(int protocolSn, String queryStr) throws Exception{
+		List<HttpDetailModel> httpDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
 		if(docs!=null){
 			httpDetailList = new ArrayList<HttpDetailModel>();
@@ -121,10 +177,27 @@ public class SolrAccessController {
 	
 	@RequestMapping(value="getNetWorkDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
-	public List<NetworkDetailModel> getNetWorkDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+	public List<NetworkDetailModel> getNetWorkDetailAll( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
 		List<NetworkDetailModel> networkDetailList = null;
 		int protocolSn = 5;
 		String queryStr = "*:*";
+		networkDetailList = proccessGetNetworkDetail(protocolSn, queryStr);
+		return networkDetailList;
+	}
+	
+	@RequestMapping(value="getNetWorkDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<NetworkDetailModel> getNetWorkDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		List<NetworkDetailModel> networkDetailList = null;
+		int protocolSn = 5;
+		String importLogSnIn = importlogsn.getImportlogsn();
+		String queryStr = "importlogsn:"+importLogSnIn;
+		networkDetailList = proccessGetNetworkDetail(protocolSn, queryStr);
+		return networkDetailList;
+	}
+	
+	private List<NetworkDetailModel> proccessGetNetworkDetail(int protocolSn, String queryStr) throws Exception{
+		List<NetworkDetailModel> networkDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
 		if(docs!=null){
 			networkDetailList = new ArrayList<NetworkDetailModel>();
@@ -153,10 +226,27 @@ public class SolrAccessController {
 	
 	@RequestMapping(value="getOthersDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
-	public List<OthersDetailModel> getOthersDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+	public List<OthersDetailModel> getOthersDetailAll( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
 		List<OthersDetailModel> othersDetailList = null;
 		int protocolSn = 8;
 		String queryStr = "*:*";	
+		othersDetailList = proccessGetOthersDetail(protocolSn, queryStr);
+		return othersDetailList;
+	}
+	
+	@RequestMapping(value="getOthersDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<OthersDetailModel> getOthersDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		List<OthersDetailModel> othersDetailList = null;
+		int protocolSn = 8;
+		String importLogSnIn = importlogsn.getImportlogsn();
+		String queryStr = "importlogsn:"+importLogSnIn;	
+		othersDetailList = proccessGetOthersDetail(protocolSn, queryStr);
+		return othersDetailList;
+	}
+	
+	private List<OthersDetailModel> proccessGetOthersDetail(int protocolSn, String queryStr) throws Exception{
+		List<OthersDetailModel> othersDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
 		if(docs!=null){
 			othersDetailList = new ArrayList<OthersDetailModel>();
@@ -180,13 +270,33 @@ public class SolrAccessController {
 		}
 		return othersDetailList;
 	}
-	
 	@RequestMapping(value="getVoipDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<VoipDetailModel> getVoipDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
 		List<VoipDetailModel> voipDetailList = null;
 		int protocolSn = 9;
 		String queryStr = "*:*";	
+		
+		voipDetailList = proccessGetVoipDetail(protocolSn, queryStr);
+
+		return voipDetailList;
+	}
+	
+	@RequestMapping(value="getVoipDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public List<VoipDetailModel> getVoipDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		List<VoipDetailModel> voipDetailList = null;
+		int protocolSn = 9;
+		String importLogSnIn = importlogsn.getImportlogsn();
+		String queryStr = "importlogsn:"+importLogSnIn;
+		
+		voipDetailList = proccessGetVoipDetail(protocolSn, queryStr);
+
+		return voipDetailList;
+	}
+	
+	private List<VoipDetailModel> proccessGetVoipDetail(int protocolSn, String queryStr) throws Exception{
+		List<VoipDetailModel> voipDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
 		if(docs!=null){
 			voipDetailList = new ArrayList<VoipDetailModel>();
@@ -215,6 +325,7 @@ public class SolrAccessController {
 		}
 		return voipDetailList;
 	}
+	
 	/**
 	 * 取得solr 個別core 的URL
 	 * @param protocolSN
