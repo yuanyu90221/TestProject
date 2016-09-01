@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import com.my.constant.SystemConstant;
 import com.my.dao.ImportLogDAO;
 import com.my.dao.RecoverFileDAO;
@@ -37,9 +36,9 @@ import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
 import com.my.fileutil.FileCleaner;
 import com.my.fileutil.FileRecover;
-import com.my.fileutil.solr.SolrAccessor;
 import com.my.model.DeleteArray;
 import com.my.model.ImportLogModel;
+import com.my.model.ImportLogSn;
 import com.my.model.RecoverArray;
 import com.my.model.Statistics;
 import com.my.model.User;
@@ -59,8 +58,6 @@ public class HomeController {
 	public ImportLogDAO importLogDAO;
 	@Autowired
 	public RecoverFileDAO recoverFileDAO; 
-	
-	private SolrAccessor solrAccssor;
 	
 	private Executor mFileCleanerThreadPollForDelete = Executors.newFixedThreadPool(6);
 	
@@ -127,6 +124,18 @@ public class HomeController {
 			String strAccount = (String)session.getAttribute(SystemConstant.USER_NAME);
 			String strUserID = userDAO.getUser(strAccount).getUser_id();
 			statistics = importLogDAO.SelectStatisticsByUserId(strUserID);
+		}
+		return statistics;
+	}
+	
+	@RequestMapping(value="getStatisticsByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public Statistics getStatisticsByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception 
+	{
+		Statistics statistics = null;
+		if(!((String)session.getAttribute(SystemConstant.USER_NAME)).equals("")){
+			String importLogSnIn = importlogsn.getImportlogsn();
+			statistics = importLogDAO.SelectStatistics(importLogSnIn);
 		}
 		return statistics;
 	}
@@ -311,8 +320,8 @@ public class HomeController {
                                 importLogDAO.deleteImportLog(id);
         
                                 //delete data in Solr
-                                solrAccssor = new SolrAccessor(Common.solrRowCount);
-                                solrAccssor.CleanDataByImportLogSn(longIds);
+                              
+                                SolrAccessController.CleanDataByImportLogSn(longIds);
         
                                 mFileCleanerThreadPollForDelete.execute(new FileCleaner(id, importLog.getFilename()));
                             }
@@ -406,13 +415,13 @@ public class HomeController {
 				@Override
 				public void run() {//處理thread
 					recoverFileDAO.setDeletedState(pcfileIds);
-
+                    
                     for(final String id : pcfileIds){
-                        
+                        synchronized(this){
                         final ImportLogModel importLog = recoverFileDAO.SearchBySN(id);
                         final String oldFileName = importLog.getFilename();
                         importLog.setFilename(Common.GetNowDateTimeFileName() + ".pcap");
-        
+                        
                         // insert to importLog DB
                         mFileCleanerThreadPollForRecover.execute(new Runnable(){
                             public void run(){
@@ -429,6 +438,7 @@ public class HomeController {
                         
                       //move pcap file and create ok file
                         mFileCleanerThreadPollForRecover.execute(new FileRecover(id, oldFileName, importLog.getFilename()));
+                       }
                     }
 				}
         	

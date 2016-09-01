@@ -451,7 +451,7 @@ public class ImportLogDAO
 		Connection conn = null;
 		try {
 		    conn = dataSource.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, strImportLogSN);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -786,11 +786,11 @@ public class ImportLogDAO
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(deleteImportlog);
+            PreparedStatement ps = conn.prepareStatement(deleteImportlog, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, id);
             ps.execute();
             
-            ps = conn.prepareStatement(deleteStatistics);
+            ps = conn.prepareStatement(deleteStatistics, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, id);
             ps.execute();
 

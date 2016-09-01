@@ -78,8 +78,8 @@
 						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
-						<li id="logout_nav"><a href="#"><span class="glyphicon glyphicon-log-in"></span><spring:message code="tactical.label.logout"></spring:message></a></li>
+						<li id="userEdit_nav"><a href="#"><span class="glyphicon glyphicon-user"></span>&#x20;${username}</a></li>
+						<li id="logout_nav"><a href="#"><span class="glyphicon glyphicon-log-in"></span>&#x20;<spring:message code="tactical.label.logout"></spring:message></a></li>
 					</ul>
 				</div>
 			</div>

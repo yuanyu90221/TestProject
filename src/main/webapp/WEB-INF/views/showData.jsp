@@ -30,5 +30,55 @@
 <body>
 	<table id="statisticsList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
 	<table id="importLogList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+	
+	<!-- Modal Contents -->
+	<div id="showPcapDetail" class="modal fade "> <!-- class modal and fade -->	
+		<div class="modal-dialog modal-lg" style="width:1000px;">
+			<div class="modal-content">
+			  
+				<div class="modal-header"> <!-- modal header -->
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					
+					<h4 class="modal-title" id="pcapTitle"></h4>
+				</div>
+				
+				<div class="modal-body"> <!-- modal body -->
+					<div>
+						<ul class="nav nav-tabs">
+							<li class="active" id="emailDetailbtn"><a data-toggle="tab" href="#emailDetail">emailDetail</a></li>
+							<li><a data-toggle="tab" href="#httpDetail">httpDetail</a></li>
+							<li><a data-toggle="tab" href="#netWorkDetail">netWorkDetail</a></li>
+							<li><a data-toggle="tab" href="#othersDetail">othersDetail</a></li>
+							<li><a data-toggle="tab" href="#voipDetail">othersDetail</a></li>
+						</ul>
+						
+						<div class="tab-content">
+							<div id="emailDetail" class="tab-pane fade in active">
+								<table id="emailDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+							</div>
+							<div id="httpDetail" class="tab-pane fade">
+								<table id="httpDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+							</div>
+							<div id="netWorkDetail" class="tab-pane fade">
+								<table id="netWorkDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+							</div>
+							<div id="othersDetail" class="tab-pane fade">
+								<table id="othersDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+							</div>
+							<div id="voipDetail" class="tab-pane fade">
+								<table id="voipDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+							</div>
+						</div>	
+					</div>
+				</div>
+				
+				<div class="modal-footer"> <!-- modal footer -->
+					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+				</div>
+		
+			</div> <!-- / .modal-content -->
+		</div> <!-- / .modal-dialog -->
+	</div><!-- / .modal -->
+
 </body>
 </html>

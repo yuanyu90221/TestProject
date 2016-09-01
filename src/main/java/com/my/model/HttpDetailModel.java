@@ -6,11 +6,37 @@ package com.my.model;
  *
  */
 public class HttpDetailModel {
+	private String id;
+	private String importlogsn;
 	private String requestURi;
 	private String title;
 	
 	private String type;
 	private String clientIP;
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+	/**
+	 * @return the importlogsn
+	 */
+	public String getImportlogsn() {
+		return importlogsn;
+	}
+	/**
+	 * @param importlogsn the importlogsn to set
+	 */
+	public void setImportlogsn(String importlogsn) {
+		this.importlogsn = importlogsn;
+	}
 	private String serverIP;
 	private String packetstartDT;
 	private String packetendDT;
