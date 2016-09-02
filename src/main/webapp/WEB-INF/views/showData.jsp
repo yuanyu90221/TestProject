@@ -6,18 +6,22 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+	<link href="css/jquery.dataTables.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/showData.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$(window).resize(function(){
 				console.log('window resize');
+				//$("#pcapDetailModal").css('width',$(window).width()-200);
 				try{
 					if(import_datatable!=null){
 						import_datatable.fnAdjustColumnSizing();
 					}
 					if(statistics_datatable!=null){
 						statistics_datatable.fnAdjustColumnSizing();
+					}
+					if(emailDetailList!=null){
+						emailDetailList.fnAdjustColumnSizing();
 					}
 				}
 				catch(e){
@@ -28,12 +32,12 @@
 	</script>
 </head>
 <body>
-	<table id="statisticsList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
-	<table id="importLogList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+	<table id="statisticsList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
+	<table id="importLogList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
 	
 	<!-- Modal Contents -->
 	<div id="showPcapDetail" class="modal fade "> <!-- class modal and fade -->	
-		<div class="modal-dialog modal-lg" style="width:1000px;">
+		<div class="modal-dialog modal-lg" id="pcapDetailModal">
 			<div class="modal-content">
 			  
 				<div class="modal-header"> <!-- modal header -->
@@ -54,7 +58,7 @@
 						
 						<div class="tab-content">
 							<div id="emailDetail" class="tab-pane fade in active">
-								<table id="emailDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+								<table id="emailDetailList" class="table table-striped table-bordered display nowrrap" style="cellspacing:0;width:100%;"></table>
 							</div>
 							<div id="httpDetail" class="tab-pane fade">
 								<table id="httpDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>

@@ -36,6 +36,18 @@ footer {
 }
 
 .pagebar {
+	display: inline;
+}
+.pagebar1 {
 	display: -webkit-inline-box;
 }
-
+.pagebar-left{
+	display: flex;
+	justify-content: flex-start;
+	padding-top: 9px;
+}
+.pagebar-right{
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 0px;
+}

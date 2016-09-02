@@ -90,7 +90,7 @@ function bindNav(){
 	});
 	$("#userEdit_nav").bind("click", function(){
 		console.log('doajax');
-		 var user = $("#userEdit_nav").find('a').text();
+		 var user = $("#userEdit_nav").find('a').text().trim();
 		 console.log(user);
 		$.ajax({
 			url:'/mytest/modifyUser',
