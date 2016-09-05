@@ -19,12 +19,15 @@ function getImportRecoverDataTableOpt(){
 		"bAutoWidth":false,
 		"iDisplayLength":5,
 		"bLengthChange":false,
-		"sPaginationType":"four_button",
+		"bInfo": true,
+		//"sPaginationType":"four_button",
+		"sPaginationType" : "full",  
 		"sScrollX": "100%",
 		"sScrollXInner": "110%",
 		"sScrollY": "100%",
 		"bScrollCollapse": true,
-		"sDom":'<"#ip_bar1.pagebar" ip>',
+		"aaSorting": [[3,'desc']],
+		"sDom":'<"#ip_bar1.pagebar1" ip>',
 		"aoColumns" : [
            {
         	   "sTitle":$.i18n.prop('ShowDataOverview.Table.importInfo.sn'),

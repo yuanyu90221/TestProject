@@ -23,6 +23,6 @@
 	</script>
 </head>
 <body>
-	<table id="importRecoverLogList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+	<table id="importRecoverLogList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
 </body>
 </html>

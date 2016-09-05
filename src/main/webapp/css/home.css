@@ -36,6 +36,42 @@ footer {
 }
 
 .pagebar {
+	display: inline;
+}
+.pagebar1 {
 	display: -webkit-inline-box;
 }
+.pagebar-left{
+	display: flex;
+	justify-content: flex-start;
+	padding-top: 9px;
+}
+.pagebar-right{
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 0px;
+}
+a:hover , a:focus, a:active {
+	text-decoration:none;
+	cursor: pointer;
+}
 
+.pagination ul li{
+	display:inline-block;
+	margin-left:10px;
+	padding:5px;
+}
+
+.addWell {
+	margin: 1px;
+	padding: 0px;
+	font-size:12pt;
+	font-size: 12pt;
+    font-style: normal;
+    font-stretch: semi-condensed;
+}
+.mail-content{
+	margin-left: 30px;
+    margin-right: 30px;
+    font-size: 16pt;
+}
