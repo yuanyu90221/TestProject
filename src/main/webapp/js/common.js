@@ -13,3 +13,12 @@ function redirect(url, method, data){
 	form.appendTo("body").submit();
 }
 
+/**
+* 自定義的console.log 透過log_flag來決定是否印console.log
+*/
+
+function myConsoleLog(log_flag, msg){
+	if(console.log && log_flag==true){
+		console.log(msg);
+	}
+}

@@ -36,9 +36,9 @@
 	<table id="importLogList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
 	
 	<!-- Modal Contents -->
-	<div id="showPcapDetail" class="modal fade "> <!-- class modal and fade -->	
+	<div id="showPcapDetail" class="modal fade"> <!-- class modal and fade -->	
 		<div class="modal-dialog modal-lg" id="pcapDetailModal">
-			<div class="modal-content">
+			<div class="modal-content containter-fluid">
 			  
 				<div class="modal-header"> <!-- modal header -->
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -83,6 +83,60 @@
 			</div> <!-- / .modal-content -->
 		</div> <!-- / .modal-dialog -->
 	</div><!-- / .modal -->
-
+	<!-- Modal Contents -->
+	<div id="showEmailDetail" class="modal fade"> <!-- class modal and fade -->	
+		<div class="modal-dialog modal-lg" id="emailDetailModal">
+			<div class="modal-content containter-fluid">
+			  
+				<div class="modal-header"> <!-- modal header -->
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<div class="row">
+						<div class="pagination">
+							<ul></ul>
+						</div>
+					</div>
+					<div class="row">
+					  <div class="col-sm-3"><label>subject:</label></div>
+					  <div class="col-sm-8 well">
+					  	<h4 class="modal-title" id="subject"></h4>
+					 </div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>from:</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="from"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>to:</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="to"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>cc:</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="cc"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2"><label>packetstartDT</label></div>
+						<div class="col-sm-3 well"><div id="packetstartDT"></div></div>
+						<div class="col-sm-2 "><label>packetendDT</label></div>
+						<div class="col-sm-3 well"><div id="packetendDT"></div></div>
+					</div>
+				</div>
+				
+				<div class="modal-body well col-sm-11 mail-content" id="emailcontent" style="min-height:400px;"> <!-- modal body -->
+					
+				</div>
+				
+				<div class="modal-footer"> <!-- modal footer -->
+					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+				</div>
+		
+			</div> <!-- / .modal-content -->
+		</div> <!-- / .modal-dialog -->
+	</div><!-- / .modal -->
 </body>
 </html>

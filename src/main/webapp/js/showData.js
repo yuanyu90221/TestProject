@@ -9,6 +9,8 @@ var current_importLogSN = 0;
 // default 4;
 var search_Column_index = 4;
 var pre_index = 4;
+var currentNodeIdx = -1;
+var log_flag = false;
 $(document).ready(function(){
 	//初始化 dataTable
 	import_datatable = $("#importLogList").dataTable(getImportDataTableOpt());
@@ -32,10 +34,7 @@ $(document).ready(function(){
 		pre_index = search_Column_index;
 		search_Column_index = $("#searchTarget").val();
 		console.log("search_Column_index : "+search_Column_index);
-//		var inputValue = (($("#emailDetailList_filter").find('input[type="search"]').val())=='')?"":$("#emailDetailList_filter").find('input[type="search"]').val();
-//		console.log(inputValue);
-//		
-//		search_Content(search_Column_index, inputValue);
+
 	});
 	$("#emailDetailList_filter").find('input[type="search"]').off('keyup click');
 	$("#emailDetailList_filter").find('input[type="search"]').on('keyup click', function(){
@@ -43,6 +42,20 @@ $(document).ready(function(){
 		console.log(inputValue);
 		search_Content(search_Column_index, inputValue);
 	});
+	//設定分頁
+	$(".pagination").pagy({
+		totalPages: emailDetailList.fnGetNodes().length,
+		currentPage: currentNodeIdx,
+		page: function(page){
+			createPageNatePage(page);
+		    return true;
+		}
+	});
+	$("#showEmailDetail").off("hidden.bs.modal");
+	$("#showEmailDetail").on('hidden.bs.modal', function(){
+		console.log("donothing1");
+	});
+	$(".well").addClass("addWell");
 });
 
 function getImportDataTableOpt(){
@@ -597,10 +610,13 @@ function getEmailDetailDataTableOpt(){
 			 "sInfoEmpty": $.i18n.prop('ShowUserManagement.table.NoData')
 		 },
 		 "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-	      // Bold the grade for all 'A' grade browsers
-	       
-		
-	    }
+	    
+			 var indexOfArr =0;
+			 indexOfArr= this.fnGetNodes().indexOf(nRow);
+			 var result_subject = (aData.subject!=null)? aData.subject:'';
+			 var result_subject_html = '<label><a href="#" onclick="showContent('+indexOfArr+')">'+ result_subject+'</a></label>';
+			 $('td:eq(4)', nRow).html(result_subject_html);
+		 }
 	};
 	return opts;
 }
@@ -610,4 +626,46 @@ function search_Content(columnNo,myValue){
 	console.log(columnNo+":" + myValue);
 	emailDetailList.api().columns(pre_index).search("").draw();
 	emailDetailList.api().columns(columnNo).search(myValue).draw();
+}
+
+function showContent(num){
+	currentNodeIdx = num+1;
+    if(console.log && log_flag){
+    	console.log("currentNodeIdx: "+ currentNodeIdx);
+    }
+	createPageNate(currentNodeIdx);
+}
+
+function createPageNate(num){
+	var totalNumber = emailDetailList.fnGetNodes().length;
+	console.log("currentnum "+num);
+	$(".pagination").pagy("page", num, totalNumber);
+	$(".li").addClass("btn btn-sm");
+	createPageNatePage(num);
+
+	$("#showEmailDetail").modal("show");
+	$("#showEmailDetail").off("hidden.bs.modal");
+	$("#showEmailDetail").on('hidden.bs.modal', function(){
+		console.log("donothing");
+	})
+	
+}
+
+
+function createPageNatePage(page){
+	console.log("page: "+page);
+    var nodes = emailDetailList.fnGetNodes();
+    var curNode = nodes[page-1];
+    var position = emailDetailList.fnGetPosition(curNode);
+    var resultTemp = emailDetailList.fnGetData(position);
+    if(resultTemp!=null){
+		$("#emailcontent").html(resultTemp.content.trim());
+		$("#subject").text(resultTemp.subject.trim());
+		$("#from").text(resultTemp.from.trim());
+		$("#to").text(resultTemp.to.trim());
+		$("#cc").text(resultTemp.cc.trim());
+		$("#packetstartDT").text(resultTemp.packetstartDT);
+		$("#packetendDT").text(resultTemp.packetendDT);
+    }
+  
 }

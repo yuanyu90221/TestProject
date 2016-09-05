@@ -12,7 +12,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link rel ="shortcut icon" type="image/x-icon" href="images/gorilla.ico"/>
     	<link href="css/home.css" rel="stylesheet" />
-<!--     	<link href="css/jquery.dataTables.css" rel="stylesheet" /> -->
+    	<link href="css/jquery.dataTables.css" rel="stylesheet" />
 		 <!-- HTML5 shim and Respond.js 讓 IE8 支援 HTML5 元素與媒體查詢 -->
     	<!-- 警告：Respond.js 無法在 file:// 協定下運作 -->
     	<!--[if lt IE 9]>
@@ -31,7 +31,8 @@
         </script>
     	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
 <!--         <script type="text/javascript" src="js/four_button.js"></script> -->
-    	
+    	<script type="text/javascript" src="js/bootstrap-pagy.js"></script>
+<!--     	<script type="text/javascript" src="js/run_prettify.js"></script> -->
     	<script type="text/javascript" src="js/jquery.i18n.properties-min-1.0.9.js"></script>
     	<script type="text/javascript" src="js/i18n.js"></script>
     	<script type="text/javascript" src="js/common.js"></script>
