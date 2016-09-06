@@ -207,7 +207,7 @@ public class SolrAccessController {
 				NetworkDetailModel networkDetail = new NetworkDetailModel();
 				networkDetail.setClientIP(Common.TrimSolrResult(doc.get(SolrField.clientip.name())));
 				networkDetail.setServerIP(Common.TrimSolrResult(doc.get(SolrField.serverip.name())));
-				networkDetail.setType(Common.TrimSolrResult(doc.get(SolrField.category.name())));
+				networkDetail.setCategory(Common.TrimSolrResult(doc.get(SolrField.category.name())));
 				networkDetail.setPacketstartDT(GetUtcDateTimeString(doc.get(SolrField.packetstartdt.name())));
 				networkDetail.setPacketendDT(GetUtcDateTimeString(doc.get(SolrField.packetenddt.name())));
 				networkDetail.setFilePath(doc.get(SolrField.filepath.name()).toString());

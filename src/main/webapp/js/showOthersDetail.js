@@ -1,9 +1,11 @@
 /**
  * showOthersDetail.js
  */
-var log_showOthersDetail_flag = true;
+var log_showOthersDetail_flag = false;
 var othersDetailList;
 var otherCurrentNodeIdx = 1;
+var pre_Others_index = 0;
+var search_Other_Column_index = 0;
 $(document).ready(function(){
 	othersDetailList = $("#othersDetailList").dataTable(getOthersDetailDataTableOpt());
 	var innerhtml = $("#othersDetailList_filter").html();
@@ -14,16 +16,16 @@ $(document).ready(function(){
 	            '</select>' + innerhtml;
 	$("#othersDetailList_filter").html(innerhtml);
 	$("#searchOthersTarget").on('change',function(){
-		pre_index = search_Column_index;
-		search_Column_index = $("#searchOthersTarget").val();
-		myConsoleLog(log_showOthersDetail_flag,"search_Column_index : "+search_Column_index);
+		pre_Others_index = search_Other_Column_index;
+		search_Other_Column_index = $("#searchOthersTarget").val();
+		myConsoleLog(log_showOthersDetail_flag,"search_Other_Column_index : "+search_Other_Column_index);
 
 	});
 	$("#othersDetailList_filter").find('input[type="search"]').off('keyup click');
 	$("#othersDetailList_filter").find('input[type="search"]').on('keyup click', function(){
 		var inputValue = (($("#othersDetailList_filter").find('input[type="search"]').val())=='')?"":$("#othersDetailList_filter").find('input[type="search"]').val();
 		myConsoleLog(log_showOthersDetail_flag,inputValue);
-		search_Other_Content(search_Column_index, inputValue);
+		search_Other_Content(search_Other_Column_index, inputValue);
 	});
 	//設定分頁
 	$(".othersPagination").pagy({
@@ -123,7 +125,6 @@ function getOthersDetailDataTableOpt(){
 	    
 			 var indexOfArr =0;
 			 indexOfArr= this.fnGetNodes().indexOf(nRow);
-			 var result_subject = (aData.subject!=null)? aData.subject:'';
 			 var result_subject_html = '<label><a href="#" onclick="showOthersDetail('+indexOfArr+')">'+ $.i18n.prop("DateTable.showDetail")+'</a></label>';
 			 $('td:eq(4)', nRow).html(result_subject_html);
 		 }
@@ -168,6 +169,6 @@ function createOthersPageNatePage(page){
 function search_Other_Content(columnNo,myValue){
 	//var regExSearch = '^\\s' + myValue +'\\s*$';
 	myConsoleLog(log_showData_flag,columnNo+":" + myValue);
-	othersDetailList.api().columns(pre_index).search("").draw();
+	othersDetailList.api().columns(pre_Others_index).search("").draw();
 	othersDetailList.api().columns(columnNo).search(myValue).draw();
 }

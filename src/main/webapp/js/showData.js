@@ -24,6 +24,15 @@ $(document).ready(function(){
 	$("#othersDetailbtn").on('click', function(){
 		getOthersDetailByImportLogSn(current_importLogSN);
 	});
+	$("#voipDetailbtn").on('click', function(){
+		getVoipDetailByImportLogSn(current_importLogSN)
+	});
+	$("#httpDetailbtn").on('click', function(){
+		getHttpDetailByImportLogSn(current_importLogSN);
+	});
+	$("#netWorkDetailbtn").on('click',function(){
+		getNetWorkDetailByImportLogSn(current_importLogSN);
+	});
 	$("#emailDetailList_wrapper").css("display","flex");
 	var innerhtml = $("#emailDetailList_filter").html();
 	innerhtml = '<label>搜尋項目:</label>'+
@@ -389,6 +398,7 @@ function getHttpDetailByImportLogSn(data){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			myConsoleLog(log_showData_flag,data);
+			putHttpDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			myConsoleLog(log_showData_flag,xhr.status);
@@ -412,6 +422,7 @@ function getNetWorkDetailByImportLogSn(data){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			myConsoleLog(log_showData_flag,data);
+//			putNetWorkDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			myConsoleLog(log_showData_flag,xhr.status);
@@ -459,6 +470,7 @@ function getVoipDetailByImportLogSn(data){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			myConsoleLog(log_showData_flag,data);
+			putVoipDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			myConsoleLog(log_showData_flag,xhr.status);
@@ -510,8 +522,14 @@ function getPcapDetail(data){
 			myConsoleLog(log_showData_flag,data);
 			$("#emailDetailbtn").text("emailDetail("+data.emailDetailList.length+")");
 			$("#othersDetailbtn").text("othersDetail("+ data.othersDetailList.length+")");
+			$("#voipDetailbtn").text("voipDetail("+data.voipDetailList.length+")");
+			$("#httpDetailbtn").text("httpDetail("+data.httpDetailList.length+")");
+//			$("#netWorkDetailbtn").text("netWorkDetail("+data.networkDetailList.length+")");
 			putEmailList(data.emailDetailList);
 			putOthersDetailData(data.othersDetailList);
+			putVoipDetailData(data.voipDetailList);
+			putHttpDetailData(data.httpDetailList);
+//			putNetWorkDetailData(data.networkDetailList);
 			$(".nav nav-tabs:nth-child(1)").addClass("active");
 			$("#pcapTitle").text(current_importLogSN);
 			$("#showPcapDetail").modal('show');
