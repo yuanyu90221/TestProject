@@ -14,7 +14,7 @@ $(document).ready(function(){
 	            	'<option value="5">endTime</option>'+
 	            	'<option value="6">startTime</option>'+
 	            '</select>' + innerhtml;
-	$("#searchNetWorkTarget").html(innerhtml);
+	$("#netWorkDetailList_filter").html(innerhtml);
 	$("#searchNetWorkTarget").on('change',function(){
 		pre_Http_index = search_Http_Column_index;
 		search_Http_Column_index = $("#searchNetWorkTarget").val();

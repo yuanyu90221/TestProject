@@ -422,7 +422,7 @@ function getNetWorkDetailByImportLogSn(data){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			myConsoleLog(log_showData_flag,data);
-//			putNetWorkDetailData(data);
+			putNetWorkDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			myConsoleLog(log_showData_flag,xhr.status);
@@ -524,12 +524,13 @@ function getPcapDetail(data){
 			$("#othersDetailbtn").text("othersDetail("+ data.othersDetailList.length+")");
 			$("#voipDetailbtn").text("voipDetail("+data.voipDetailList.length+")");
 			$("#httpDetailbtn").text("httpDetail("+data.httpDetailList.length+")");
-//			$("#netWorkDetailbtn").text("netWorkDetail("+data.networkDetailList.length+")");
+			$("#netWorkDetailbtn").text("netWorkDetail("+data.networkDetailList.length+")");
+			
 			putEmailList(data.emailDetailList);
 			putOthersDetailData(data.othersDetailList);
 			putVoipDetailData(data.voipDetailList);
 			putHttpDetailData(data.httpDetailList);
-//			putNetWorkDetailData(data.networkDetailList);
+			putNetWorkDetailData(data.networkDetailList);
 			$(".nav nav-tabs:nth-child(1)").addClass("active");
 			$("#pcapTitle").text(current_importLogSN);
 			$("#showPcapDetail").modal('show');
