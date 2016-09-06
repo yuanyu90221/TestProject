@@ -7,6 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="css/jquery.dataTables.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/showOthersDetail.js"></script>
 	<script type="text/javascript" src="js/showData.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -32,8 +33,8 @@
 	</script>
 </head>
 <body>
-	<table id="statisticsList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
-	<table id="importLogList" class="display table table-striped table-bordered nowrrap" style="cellspacing:0;width:100%"></table>
+	<table id="statisticsList" class="display table table-striped table-bordered nowrap" style="cellspacing:0;width:100%"></table>
+	<table id="importLogList" class="display table table-striped table-bordered nowrap" style="cellspacing:0;width:100%"></table>
 	
 	<!-- Modal Contents -->
 	<div id="showPcapDetail" class="modal fade"> <!-- class modal and fade -->	
@@ -49,25 +50,25 @@
 				<div class="modal-body"> <!-- modal body -->
 					<div>
 						<ul class="nav nav-tabs">
-							<li class="active" id="emailDetailbtn"><a data-toggle="tab" href="#emailDetail">emailDetail</a></li>
-							<li><a data-toggle="tab" href="#httpDetail">httpDetail</a></li>
-							<li><a data-toggle="tab" href="#netWorkDetail">netWorkDetail</a></li>
-							<li><a data-toggle="tab" href="#othersDetail">othersDetail</a></li>
-							<li><a data-toggle="tab" href="#voipDetail">othersDetail</a></li>
+							<li ><a data-toggle="tab" href="#emailDetail" id="emailDetailbtn">emailDetail</a></li>
+							<li><a data-toggle="tab" href="#httpDetail" id="httpDetailbtn">httpDetail</a></li>
+							<li><a data-toggle="tab" href="#netWorkDetail" id="netWorkDetailbtn">netWorkDetail</a></li>
+							<li><a data-toggle="tab" href="#othersDetail" id="othersDetailbtn">othersDetail</a></li>
+							<li><a data-toggle="tab" href="#voipDetail" id="voipDetailbtn">othersDetail</a></li>
 						</ul>
 						
 						<div class="tab-content">
 							<div id="emailDetail" class="tab-pane fade in active">
-								<table id="emailDetailList" class="table table-striped table-bordered display nowrrap" style="cellspacing:0;width:100%;"></table>
+								<table id="emailDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;"></table>
 							</div>
 							<div id="httpDetail" class="tab-pane fade">
-								<table id="httpDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+								<table id="httpDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
 							</div>
 							<div id="netWorkDetail" class="tab-pane fade">
-								<table id="netWorkDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+								<table id="netWorkDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
 							</div>
 							<div id="othersDetail" class="tab-pane fade">
-								<table id="othersDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
+								<table id="othersDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
 							</div>
 							<div id="voipDetail" class="tab-pane fade">
 								<table id="voipDetailList" class="table table-striped table-bordered" style="cellspacing:0;width:100%"></table>
@@ -129,6 +130,61 @@
 				
 				<div class="modal-body well col-sm-11 mail-content" id="emailcontent" style="min-height:400px;"> <!-- modal body -->
 					
+				</div>
+				
+				<div class="modal-footer"> <!-- modal footer -->
+					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+				</div>
+		
+			</div> <!-- / .modal-content -->
+		</div> <!-- / .modal-dialog -->
+	</div><!-- / .modal -->
+	<!-- Modal Contents -->
+	<div id="showOthersDetail" class="modal fade"> <!-- class modal and fade -->	
+		<div class="modal-dialog modal-lg" id="othersDetailModal">
+			<div class="modal-content containter-fluid">
+			  
+				<div class="modal-header"> <!-- modal header -->
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<div class="row">
+						<div class="othersPagination">
+							<ul></ul>
+						</div>
+					</div>
+					<div class="row">
+					  <div class="col-sm-3"><label>category:</label></div>
+					  <div class="col-sm-8 well">
+					  	<h4 class="modal-title" id="category"></h4>
+					 </div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>clientIP:</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="clientIP"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>hostIP:</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="hostIP"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3"><label>serverIP</label></div>
+						<div class="col-sm-8 well">
+							<h4 class="modal-title" id="serverIP"></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2"><label>packetstartDT</label></div>
+						<div class="col-sm-3 well"><div id="othersPacketstartDT"></div></div>
+						<div class="col-sm-2 "><label>packetendDT</label></div>
+						<div class="col-sm-3 well"><div id="othersPacketendDT"></div></div>
+					</div>
+				</div>
+				
+				<div class="modal-body well col-sm-11 mail-content" style="min-height:400px;"> <!-- modal body -->
+					<pre id="otherContent"></pre>
 				</div>
 				
 				<div class="modal-footer"> <!-- modal footer -->

@@ -1,6 +1,8 @@
 /**
- * 
+ *  userEdit.js
  */
+var log_userEdit_flag = false;
+
 $(document).ready(function(){
 	$(":submit[id=btnModify]").click(function(check){
 		if(checkAccountEqUrName()==false){
@@ -42,15 +44,15 @@ function doAjaxUpdate(){
 		data: $("#modifyform").serialize(),
 		success: function(data){
 			 $('#myPleaseWait').modal('hide');
-			console.log("modify success");
+			myConsoleLog(log_userEdit_flag,"modify success");
 			alert('modify success');
 			$('#content').html('');
 			$('#content').html(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			 $('#myPleaseWait').modal('hide');
-			console.log(xhr.status);
-			console.log(thrownError);
+			myConsoleLog(log_userEdit_flag,xhr.status);
+			myConsoleLog(log_userEdit_flag,thrownError);
 		}
 	});
 		
@@ -63,7 +65,7 @@ function doAjaxAdd(){
 		data: $("#modifyform").serialize(),
 		success: function(data){
 			 $('#myPleaseWait').modal('hide');
-			console.log("add success");
+			myConsoleLog(log_userEdit_flag,"add success");
 			alert('add success');
 			$('#content').html('');
 			$('#content').html(data);
@@ -71,8 +73,8 @@ function doAjaxAdd(){
 		error: function(xhr, ajaxOptions, thrownError){
 			 $('#myPleaseWait').modal('hide');
 			 alert("新增錯誤");
-			console.log(xhr.status);
-			console.log(thrownError);
+			myConsoleLog(log_userEdit_flag,xhr.status);
+			myConsoleLog(log_userEdit_flag,thrownError);
 		}
 	});
 		

@@ -15,7 +15,7 @@ function getCheckeid(id){
 	     url : "/mytest/changeLanguange",
 	     data: "&lang="+$('#'+id).val(),
 	     success : function(data) {
-	    	 console.log(data);
+	    	 //console.log(data);
 	    	 var input = $("#loginform").find('input[name=lang]:checked');
 	    	 console.log("lang"+input.val());
 	    	 var inputs = [];
