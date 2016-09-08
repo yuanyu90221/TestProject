@@ -245,6 +245,10 @@
 						<div class="col-sm-2 "><label>endTime</label></div>
 						<div class="col-sm-3 well"><div id="endTime"></div></div>
 					</div>
+					<div class="row">
+						<audio controls><source id="fromFileName" src="" type="audio/wav"></audio>
+						<audio controls><source id="toFileNaem" src="" type="audio/wav"></audio>
+					</div>
 				</div>				
 				<div class="modal-footer"> <!-- modal footer -->
 					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>

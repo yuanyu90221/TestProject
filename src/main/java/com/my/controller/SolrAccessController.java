@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
 import com.my.fileutil.Common;
+import com.my.fileutil.ReadXmlFileUsingDom;
 import com.my.fileutil.solr.SolrField;
 import com.my.model.EmailDetailModel;
 import com.my.model.HttpDetailModel;
@@ -42,6 +43,8 @@ import com.my.model.NetworkDetailModel;
 import com.my.model.OthersDetailModel;
 import com.my.model.PcapDetailModel;
 import com.my.model.VoipDetailModel;
+import com.my.model.VoipFileKeys;
+import com.my.model.VoipMediaModel;
 import com.my.service.SessionService;
 
 @Controller
@@ -326,6 +329,17 @@ public class SolrAccessController {
 		return voipDetailList;
 	}
 	
+	@RequestMapping(value="getVoipDetailFile", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public VoipMediaModel getVoipDetailFile(@RequestBody VoipFileKeys voipkeys,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		VoipMediaModel voipFile = new VoipMediaModel();
+		logger.info(Common.PARSER_PATH+"\\\\"+voipkeys.getFilepath().replace("/", "\\").replace("\\", "\\\\"));
+	    Object  obj = ReadXmlFileUsingDom.parseXMLFile(Common.PARSER_PATH+"\\\\"+voipkeys.getFilepath().replace("/", "\\").replace("\\", "\\\\"), voipkeys.getProtocol());
+	    if(obj!=null && obj instanceof VoipMediaModel){
+	    	voipFile = (VoipMediaModel) obj;
+	    }
+		return voipFile;
+	}
 	/**
 	 * 取得solr 個別core 的URL
 	 * @param protocolSN

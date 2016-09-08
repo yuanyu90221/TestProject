@@ -152,7 +152,12 @@ function createVoipPages(num){
 	
 	$(".voipPagination").pagy("page", num, totalNumber);
 	createVoipPageNatePage(num);
-    $("#showVoipDetail").modal("show");
+	var nodes = voipDetailList.fnGetNodes();
+	var position = voipDetailList.fnGetPosition(nodes[num-1]);
+	var result = voipDetailList.fnGetData(position);
+	getVoipFile(result.filePath, function(){
+		 $("#showVoipDetail").modal("show");
+	});
 }
 function createVoipPageNatePage(page){
 	myConsoleLog(log_showVoipDetail_flag,"currentnum "+page)
@@ -168,6 +173,9 @@ function createVoipPageNatePage(page){
 	$("#toIP").text(result.toIP);
 	$("#startTime").text(result.startTime);
 	$("#endTime").text(result.endTime);
+//	getVoipFile(result.filePath, function(){
+//		 $("#showVoipDetail").modal("show");
+//	});
 }
 
 function putVoipDetailData(data){
@@ -179,7 +187,31 @@ function putVoipDetailData(data){
 
 function search_Voip_Content(columnNo,myValue){
 	//var regExSearch = '^\\s' + myValue +'\\s*$';
-	myConsoleLog(log_showData_flag,columnNo+":" + myValue);
+	myConsoleLog(log_showVoipDetail_flag,columnNo+":" + myValue);
 	voipDetailList.api().columns(pre_Voip_index).search("").draw();
 	voipDetailList.api().columns(columnNo).search(myValue).draw();
+}
+
+function getVoipFile(filepath , callback){
+	myConsoleLog(log_showVoipDetail_flag, filepath);
+	$.ajax({
+		url: '/mytest/getVoipDetailFile',
+		type: 'POST',
+		dataType: 'json',
+		data: JSON.stringify({'filepath':filepath,'protocol':9}),
+		contentType:'application/json;charset=UTF-8',
+		success: function(data){
+			myConsoleLog(log_showVoipDetail_flag,data);
+			$("#fromFileName").prop("src","file:"+data.fromFileName);
+			//$("#fromFileName").prop("data-info-att",data.fromSrcName);
+			$("#toFileNaem").prop("src","file:"+data.toFileNaem);
+			//$("#toFileNaem").prop("data-info-att",data.toSrcName);
+			callback();
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			myConsoleLog(log_showVoipDetail_flag,xhr.status);
+			myConsoleLog(log_showVoipDetail_flag,thrownError);
+			myConsoleLog(log_showVoipDetail_flag,ajaxOptions);
+		}
+	});
 }
