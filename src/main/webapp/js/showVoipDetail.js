@@ -155,7 +155,7 @@ function createVoipPages(num){
 	var nodes = voipDetailList.fnGetNodes();
 	var position = voipDetailList.fnGetPosition(nodes[num-1]);
 	var result = voipDetailList.fnGetData(position);
-	getVoipFile(result.filePath, function(){
+	getVoipFile(result.filePath, fillData ,function(){
 		 $("#showVoipDetail").modal("show");
 	});
 }
@@ -192,7 +192,7 @@ function search_Voip_Content(columnNo,myValue){
 	voipDetailList.api().columns(columnNo).search(myValue).draw();
 }
 
-function getVoipFile(filepath , callback){
+function getVoipFile(filepath , callback, callback1){
 	myConsoleLog(log_showVoipDetail_flag, filepath);
 	$.ajax({
 		url: '/mytest/getVoipDetailFile',
@@ -202,10 +202,67 @@ function getVoipFile(filepath , callback){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			myConsoleLog(log_showVoipDetail_flag,data);
-			$("#fromFileName").prop("src","file:"+data.fromFileName);
-			//$("#fromFileName").prop("data-info-att",data.fromSrcName);
-			$("#toFileNaem").prop("src","file:"+data.toFileNaem);
-			//$("#toFileNaem").prop("data-info-att",data.toSrcName);
+			var fromFileName ="" + data.fromFileName;
+			var temp = fromFileName.replace('\\\\','//');
+			console.log(temp.replace("\\",'/'));
+			console.log("file:"+fromFileName.replace('\\\\','//'));
+			var toFileName ="" + data.toFileName;
+			console.log(toFileName.replace('\\\\','//'));
+			console.log("file:"+toFileName.replace('\\\\','//'));
+			console.log("codec: "+ data.codec);
+			var dataList = [fromFileName, toFileName];
+//			$("#fromFileName").attr("src","file:"+temp).detach().appendTo("#fromFileName1");
+//			$("#fromFileName").src = readMedia("file:"+temp);
+//			$("#fromFileName").src = readMedia(fromFileName);
+//			$("#fromFileName").prop("data-info-att",data.fromSrcName);
+//			$("#toFileName").attr("src","file:"+toFileName.replace('\\\\','//')).detach().appendTo("#toFileName1");
+			//$("#toFileName").prop("data-info-att",data.toSrcName);
+			callback(dataList, callback1);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			myConsoleLog(log_showVoipDetail_flag,xhr.status);
+			myConsoleLog(log_showVoipDetail_flag,thrownError);
+			myConsoleLog(log_showVoipDetail_flag,ajaxOptions);
+		}
+	});
+}
+
+function fillData(voipDataKeyList, callback){
+	myConsoleLog(log_showVoipDetail_flag, voipDataKeyList);
+	$.ajax({
+		url: '/mytest/getVoipDetailFileData',
+		type: 'POST',
+		dataType: 'json',
+		data: JSON.stringify({'voipDataKeyList':voipDataKeyList}),
+		contentType:'application/json;charset=UTF-8',
+		success: function(data){
+			myConsoleLog(log_showVoipDetail_flag,data);
+			var fileList = [];
+			for(var i = 0 ; i < data.audioDataList.length; i++){
+				myConsoleLog(log_showVoipDetail_flag,data.audioDataList[i].data.length);
+				//var result = parseToBytes(data.audioDataList[i].data);
+				
+//				console.log(result);
+				//myConsoleLog(log_showVoipDetail_flag,data.audioDataList[i].data);
+//				console.log(file);
+//				fileList.push(file);
+				var result = parseToBytes(data.audioDataList[i].data);
+				console.log('file parse finished');
+				var file = new File(result,data.audioDataList[i].filename);
+				var fileReader = new FileReader();
+				fileReader.readAsArrayBuffer(file);
+				fileReader.onload = function(event){
+					//console.log(result);
+					processConcatenatedFile(event.target.result);
+				};
+				
+			}
+//			$("#fromFileName").attr("src","file:"+temp).detach().appendTo("#fromFileName1");
+//			$("#fromFileName").src = data.audioDataList[0].data;
+//			$("#fromFileName").src = readMedia(fromFileName);
+//			$("#fromFileName").prop("data-info-att",data.fromSrcName);
+//			$("#toFileName").attr("src","file:"+toFileName.replace('\\\\','//')).detach().appendTo("#toFileName1");
+			//$("#toFileName").prop("data-info-att",data.toSrcName);
 			callback();
 		},
 		error: function(xhr, ajaxOptions, thrownError){
@@ -214,4 +271,113 @@ function getVoipFile(filepath , callback){
 			myConsoleLog(log_showVoipDetail_flag,ajaxOptions);
 		}
 	});
+}
+
+function parseToBytes(str){
+	console.log('parse Start')
+	var bytes = new Int8Array(str.length);
+	for(var i =0; i < str.length; i++){
+		//console.log(str.charAt(i));
+		var code = str.charCodeAt(i);
+		//console.log(code);
+		bytes[i]= code&0xff;
+		//console.log(bytes);
+	}
+	return bytes;
+}
+
+function saveTextAsFile(data,writeOut)
+{
+   
+    var textToSaveAsBlob = new Blob([data], {type:"text/plain"});
+    var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+    var fileNameToSaveAs = writeOut+".txt";
+ 
+    var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    downloadLink.href = textToSaveAsURL;
+    downloadLink.onclick = destroyClickedElement;
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+ 
+    downloadLink.click();
+}
+ 
+function destroyClickedElement(event)
+{
+    document.body.removeChild(event.target);
+}
+
+function getArrayBuffer(data){
+	var arrBf = new ArrayBuffer(data);
+	return arrBf;
+}
+/*
+Runs through the loaded array buffer and 
+extract each individual chunk that contains
+each original sound file buffer.
+*/
+
+function processConcatenatedFile( data ) {
+    console.log("antest");
+    console.log("bb")
+	var bb = new DataView( data );
+	var offset = 0;
+	console.log(bb);
+	while( offset < bb.byteLength ) {
+	    console.log(bb);
+	    var length = bb.getUint32( offset, true );
+	    console.log(length);
+	    offset += 4;
+	    var sound = extractBuffer( data, offset, length );
+	    offset += length;
+	
+	    createSoundWithBuffer( sound.buffer );
+	
+	}
+
+}
+/*
+Create a new buffer to store the compressed sound
+buffer from the concatenated buffer.
+*/
+
+function extractBuffer( src, offset, length ) {
+    console.log('test');
+	var dstU8 = new Uint8Array( length );
+	var srcU8 = new Uint8Array( src, offset, length );
+	dstU8.set( srcU8 );
+	return dstU8;
+
+}
+
+/*
+Uses Web Audio API decodeAudioData() to decode
+the extracted buffer.
+*/
+
+function createSoundWithBuffer( buffer ) {
+
+	/*
+	    This audio context is unprefixed! 
+	*/
+	var context = new AudioContext();
+	
+	var audioSource = context.createBufferSource();
+	audioSource.connect( context.destination );
+	
+	context.decodeAudioData( buffer, function( res ) {
+		console.log("buffer");
+		console.log(res);
+	    console.log(buffer);
+	    audioSource.buffer = res;
+	
+	    /* 
+	       Do something with the sound, for instance, play it.
+	       Watch out: all the sounds will sound at the same time!
+	    */
+	    audioSource.noteOn( 0 );
+	
+	} );
 }

@@ -7,6 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="css/jquery.dataTables.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/buffer-loader.js"></script>
 	<script type="text/javascript" src="js/showNetWorkDetail.js"></script>
 	<script type="text/javascript" src="js/showHttpDetail.js"></script>
 	<script type="text/javascript" src="js/showVoipDetail.js"></script>
@@ -245,10 +246,9 @@
 						<div class="col-sm-2 "><label>endTime</label></div>
 						<div class="col-sm-3 well"><div id="endTime"></div></div>
 					</div>
-					<div class="row">
-						<audio controls><source id="fromFileName" src="" type="audio/wav"></audio>
-						<audio controls><source id="toFileNaem" src="" type="audio/wav"></audio>
-					</div>
+					
+					<audio controls id="fromFileName1" preload="auto"><source id="fromFileName" src="" type="audio/wav"></audio>
+					<audio controls id="toFileName1" preload="auto"><source id="toFileName" src="" type="audio/wav"></audio>
 				</div>				
 				<div class="modal-footer"> <!-- modal footer -->
 					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>

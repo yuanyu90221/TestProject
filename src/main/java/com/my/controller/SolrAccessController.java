@@ -33,15 +33,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.constant.SystemConstant;
 import com.my.dao.UserDAO;
+import com.my.fileutil.AudioResourceReader;
 import com.my.fileutil.Common;
 import com.my.fileutil.ReadXmlFileUsingDom;
 import com.my.fileutil.solr.SolrField;
+import com.my.model.AudioData;
+import com.my.model.AudioDataList;
 import com.my.model.EmailDetailModel;
 import com.my.model.HttpDetailModel;
 import com.my.model.ImportLogSn;
 import com.my.model.NetworkDetailModel;
 import com.my.model.OthersDetailModel;
 import com.my.model.PcapDetailModel;
+import com.my.model.VoidDataKeyList;
 import com.my.model.VoipDetailModel;
 import com.my.model.VoipFileKeys;
 import com.my.model.VoipMediaModel;
@@ -327,6 +331,23 @@ public class SolrAccessController {
 			}
 		}
 		return voipDetailList;
+	}
+	
+	@RequestMapping(value="getVoipDetailFileData", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
+	@ResponseBody
+	public AudioDataList getVoipDetailFileData(@RequestBody VoidDataKeyList voidDataKeyList,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
+		AudioDataList audioDataList = new AudioDataList();
+		List<String> filepaths = voidDataKeyList.getVoipDataKeyList();
+		for(String file: filepaths){
+			logger.info(file);
+			AudioData ad = new AudioData();
+			ad.setFilename(file);
+			byte[] data = AudioResourceReader.readByte(file);
+			ad.setData(data);
+			audioDataList.getAudioDataList().add(ad);
+		}
+		
+		return audioDataList;
 	}
 	
 	@RequestMapping(value="getVoipDetailFile", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")

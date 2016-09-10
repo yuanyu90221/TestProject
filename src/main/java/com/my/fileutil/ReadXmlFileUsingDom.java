@@ -68,7 +68,7 @@ public class ReadXmlFileUsingDom {
 		model.setCodec(doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.Codec.name()).item(0).getTextContent());
 		model.setFromFileName(pre +File.separator+ doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.FromFilePath.name()).item(0).getTextContent());
 		model.setFromSrcName( doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.FromSSRC.name()).item(0).getTextContent());
-		model.setToFileNaem(pre +File.separator+ doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.ToFilePath.name()).item(0).getTextContent());
+		model.setToFileName(pre +File.separator+ doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.ToFilePath.name()).item(0).getTextContent());
 		model.setToSrcName(doc.getDocumentElement().getElementsByTagName(VoipMediaKeys.ToSSRC.name()).item(0).getTextContent());
 		
 	}

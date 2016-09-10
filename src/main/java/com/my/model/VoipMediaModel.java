@@ -7,7 +7,7 @@ public class VoipMediaModel {
 	
 	private String fromFileName;
 	
-	private String toFileNaem;
+	private String toFileName;
 	
 	private String fromSrcName;
 	
@@ -55,18 +55,20 @@ public class VoipMediaModel {
 		this.fromFileName = fromFileName;
 	}
 
+	
+
 	/**
-	 * @return the toFileNaem
+	 * @return the toFileName
 	 */
-	public String getToFileNaem() {
-		return toFileNaem;
+	public String getToFileName() {
+		return toFileName;
 	}
 
 	/**
-	 * @param toFileNaem the toFileNaem to set
+	 * @param toFileName the toFileName to set
 	 */
-	public void setToFileNaem(String toFileNaem) {
-		this.toFileNaem = toFileNaem;
+	public void setToFileName(String toFileName) {
+		this.toFileName = toFileName;
 	}
 
 	/**
