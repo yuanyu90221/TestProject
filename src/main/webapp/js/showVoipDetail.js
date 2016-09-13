@@ -253,6 +253,8 @@ function fillData(voipDataKeyList, callback){
 				fileReader.readAsArrayBuffer(file);
 				fileReader.onload = function(event){
 					//console.log(result);
+					console.log(event.target.result);
+					console.log(event.target.result.byteLength);
 					processConcatenatedFile(event.target.result);
 				};
 				
@@ -325,15 +327,19 @@ function processConcatenatedFile( data ) {
 	var bb = new DataView( data );
 	var offset = 0;
 	console.log(bb);
+	/*
+    This audio context is unprefixed! 
+	 */
+	var context = new AudioContext();
 	while( offset < bb.byteLength ) {
-	    console.log(bb);
-	    var length = bb.getUint32( offset, true );
-	    console.log(length);
+	    //console.log(bb);
+	    var tempContent = bb.getUint32(offset,true);
+	   // console.log(4);
+	    //offset += 4;
+	    var sound = extractBuffer( data, offset, tempContent );
 	    offset += 4;
-	    var sound = extractBuffer( data, offset, length );
-	    offset += length;
 	
-	    createSoundWithBuffer( sound.buffer );
+	    createSoundWithBuffer( sound.buffer, context );
 	
 	}
 
@@ -343,10 +349,21 @@ Create a new buffer to store the compressed sound
 buffer from the concatenated buffer.
 */
 
-function extractBuffer( src, offset, length ) {
-    console.log('test');
-	var dstU8 = new Uint8Array( length );
-	var srcU8 = new Uint8Array( src, offset, length );
+function extractBuffer( src, offset, tempContent ) {
+    //console.log('test');
+	var dstU8 = new Uint8Array( 4 );
+//	console.log((tempContent&0xFF000000)>>24);
+//	console.log((tempContent&0x00FF0000)>>16);
+//	console.log((tempContent&0x0000FF00)>>8);
+//	console.log((tempContent&0xFF));
+	var arr = [];
+	arr.push((tempContent&0xFF000000)>>24);
+	arr.push((tempContent&0x00FF0000)>>16);
+	arr.push((tempContent&0x0000FF00)>>8);
+	arr.push(tempContent&0xFF);
+	dstU8 = new Uint8Array(arr);
+	//console.log(offset);
+	var srcU8 = new Uint8Array(src,offset,4);
 	dstU8.set( srcU8 );
 	return dstU8;
 
@@ -357,27 +374,24 @@ Uses Web Audio API decodeAudioData() to decode
 the extracted buffer.
 */
 
-function createSoundWithBuffer( buffer ) {
+function createSoundWithBuffer( buffer, context ) {
 
-	/*
-	    This audio context is unprefixed! 
-	*/
-	var context = new AudioContext();
+	
 	
 	var audioSource = context.createBufferSource();
-	audioSource.connect( context.destination );
-	
-	context.decodeAudioData( buffer, function( res ) {
-		console.log("buffer");
-		console.log(res);
-	    console.log(buffer);
-	    audioSource.buffer = res;
-	
-	    /* 
-	       Do something with the sound, for instance, play it.
-	       Watch out: all the sounds will sound at the same time!
-	    */
-	    audioSource.noteOn( 0 );
-	
-	} );
+//	audioSource.connect( context.destination );
+//	console.log(context.destination);
+//	context.decodeAudioData( buffer, function( res ) {
+////		console.log("buffer");
+//		console.log(res);
+////	    console.log(buffer);
+//	    audioSource.buffer = res;
+//	
+//	    /* 
+//	       Do something with the sound, for instance, play it.
+//	       Watch out: all the sounds will sound at the same time!
+//	    */
+//	    audioSource.noteOn( 0 );
+//	
+//	} );
 }

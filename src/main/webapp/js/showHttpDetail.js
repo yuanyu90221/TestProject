@@ -63,7 +63,7 @@ function getHttpDetailDataTableOpt(){
 	        	   "sTitle":"requestURi",
 	        	   "mData":"requestURi",
 	        	   "sDefaultContent" : "",  
-	               "sClass" : "center",
+	               "sClass" : "max-width:100px;",
 	               "bSortable": false
 	           },
 	           {

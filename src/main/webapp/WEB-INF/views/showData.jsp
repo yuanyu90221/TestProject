@@ -62,20 +62,20 @@
 						</ul>
 						
 						<div class="tab-content">
-							<div id="emailDetail" class="tab-pane fade in active">
-								<table id="emailDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;"></table>
+							<div id="emailDetail" class="tab-pane fade in active" style="overflow-x:auto;">
+								<table id="emailDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;overflow-x:auto;"></table>
 							</div>
-							<div id="httpDetail" class="tab-pane fade">
-								<table id="httpDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
+							<div id="httpDetail" class="tab-pane fade" style="overflow-x:auto;">
+								<table id="httpDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;overflow-x:auto;"></table>
 							</div>
-							<div id="netWorkDetail" class="tab-pane fade">
-								<table id="netWorkDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
+							<div id="netWorkDetail" class="tab-pane fade" style="overflow-x:auto;">
+								<table id="netWorkDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;overflow-x:auto;"></table>
 							</div>
-							<div id="othersDetail" class="tab-pane fade">
-								<table id="othersDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
+							<div id="othersDetail" class="tab-pane fade" style="overflow-x:auto;">
+								<table id="othersDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;"></table>
 							</div>
-							<div id="voipDetail" class="tab-pane fade">
-								<table id="voipDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%"></table>
+							<div id="voipDetail" class="tab-pane fade" style="overflow-x:auto;">
+								<table id="voipDetailList" class="table table-striped table-bordered display" style="cellspacing:0;width:100%;"></table>
 							</div>
 						</div>	
 					</div>
