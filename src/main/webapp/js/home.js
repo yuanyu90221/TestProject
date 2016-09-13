@@ -1,6 +1,8 @@
 /**
- * 
+ * home.js
  */
+var log_home_flag = false;
+
 $(document).ready(function(){
 	unbindNav();
 	bindNav();
@@ -8,13 +10,13 @@ $(document).ready(function(){
 		url:"/mytest/ShowData",
 		type: "post",
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_home_flag,data);
 			$('#content').html('');
 			$('#content').html(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
+			myConsoleLog(log_home_flag,xhr.status);
+			myConsoleLog(log_home_flag,thrownError);
 		}
 	});
 	
@@ -26,84 +28,84 @@ function bindNav(){
 			url:"/mytest/ShowData",
 			type: "post",
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_home_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_home_flag,xhr.status);
+				myConsoleLog(log_home_flag,thrownError);
 			}
 		});
 	});
 	$("#import_file_nav").bind("click",function(){
-		console.log('fileUpload');
+		myConsoleLog(log_home_flag,'fileUpload');
 		$.ajax({
 			url:"/mytest/fileUpload",
 			type: "post",
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_home_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_home_flag,xhr.status);
+				myConsoleLog(log_home_flag,thrownError);
 			}
 		});
 	});
 	$("#recovery_file_nav").bind("click", function(){
-		console.log('recoverData!');
+		myConsoleLog(log_home_flag,'recoverData!');
 		$.ajax({
 			url:"/mytest/recoverData",
 			type: "post",
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_home_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_home_flag,xhr.status);
+				myConsoleLog(log_home_flag,thrownError);
 			}
 		});
 	});
 	$("#user_manage_nav").bind("click", function(){
-		console.log('doUserList');
+		myConsoleLog(log_home_flag,'doUserList');
 		$.ajax({
 			url:"/mytest/userList",
 			type: "post",
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_home_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_home_flag,xhr.status);
+				myConsoleLog(log_home_flag,thrownError);
 			}
 		});
 	});
 	$("#logout_nav").bind('click', function(){
-		console.log('before login');
+		myConsoleLog(log_home_flag,'before login');
 		redirect('/mytest/userlogout','post',null);
 	});
 	$("#userEdit_nav").bind("click", function(){
-		console.log('doajax');
+		myConsoleLog(log_home_flag,'doajax');
 		 var user = $("#userEdit_nav").find('a').text().trim();
-		 console.log(user);
+		 myConsoleLog(log_home_flag,user);
 		$.ajax({
 			url:'/mytest/modifyUser',
 			type:'post',
 			data: '&modifyUr='+user,
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_home_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_home_flag,xhr.status);
+				myConsoleLog(log_home_flag,thrownError);
 			}
 		});
 	});
@@ -111,7 +113,7 @@ function bindNav(){
 }
 
 function unbindNav(){
-	//console.log('unbind before bind');
+	//myConsoleLog(log_home_flag,'unbind before bind');
 	$("#first_page_nav").unbind("click");
 	$("#import_file_nav").unbind("click");
 	$("#recovery_file_nav").unbind("click");

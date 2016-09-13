@@ -30,9 +30,7 @@
         	lang = lang.substr(0,2);
         </script>
     	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-<!--         <script type="text/javascript" src="js/four_button.js"></script> -->
     	<script type="text/javascript" src="js/bootstrap-pagy.js"></script>
-<!--     	<script type="text/javascript" src="js/run_prettify.js"></script> -->
     	<script type="text/javascript" src="js/jquery.i18n.properties-min-1.0.9.js"></script>
     	<script type="text/javascript" src="js/i18n.js"></script>
     	<script type="text/javascript" src="js/common.js"></script>

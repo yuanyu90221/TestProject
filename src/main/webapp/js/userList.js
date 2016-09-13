@@ -1,7 +1,9 @@
 /**
- * 
+ * userList.js
  */
+var log_userList_flag = false;
 var datatable;
+
 $(document).ready(function(){
 	//初始化 dataTable
 	datatable = $("#userList").dataTable(getDataTableOpt());
@@ -10,12 +12,12 @@ $(document).ready(function(){
 	bindAddLink();
 	$(window).resize(function(){
 		try{
-		 console.log('resize change');
+		 myConsoleLog(log_userList_flag,'resize change');
 		 datatable.fnAdjustColumnSizing();
 		}
 		catch(e){
 			//TO DO
-			console.log(e);
+			myConsoleLog(log_userList_flag,e);
 		}
 	});
 });
@@ -89,7 +91,7 @@ function getDataTableOpt(){
 }
 
 function putData(data){
-	console.log(data);
+	myConsoleLog(log_userList_flag,data);
 	datatable.fnClearTable();
 	if(data.length > 0){
 		datatable.fnAddData(data);
@@ -103,13 +105,13 @@ function getInitData(){
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_userList_flag,data);
 			putData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_userList_flag,xhr.status);
+			myConsoleLog(log_userList_flag,thrownError);
+			myConsoleLog(log_userList_flag,ajaxOptions);
 		}
 	});
 }
@@ -117,19 +119,19 @@ function getInitData(){
 function btnModifyClick(username){
 
 	//var user = datatable.fnGetData(data);
-	console.log(username);
+	myConsoleLog(log_userList_flag,username);
 	$.ajax({
 		url:'/mytest/modifyUser',
 		type:'post',
 		data: '&modifyUr='+username,
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_userList_flag,data);
 			$('#content').html('');
 			$('#content').html(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
+			myConsoleLog(log_userList_flag,xhr.status);
+			myConsoleLog(log_userList_flag,thrownError);
 		}
 	});
 }
@@ -146,7 +148,7 @@ function btnDeleteClick(username){
 			success: function(data){
 				$("#confirmDialog").modal('hide');
 				 $('#myPleaseWait').modal('hide');
-				console.log(data);
+				myConsoleLog(log_userList_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 				
@@ -154,8 +156,8 @@ function btnDeleteClick(username){
 			error: function(xhr, ajaxOptions, thrownError){
 				$("#confirmDialog").modal('hide');
 				 $('#myPleaseWait').modal('hide');
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_userList_flag,xhr.status);
+				myConsoleLog(log_userList_flag,thrownError);
 			}
 		});
 		
@@ -168,13 +170,13 @@ function bindAddLink(){
 			url: '/mytest/addUser',
 			type: 'post',
 			success: function(data){
-				console.log(data);
+				myConsoleLog(log_userList_flag,data);
 				$('#content').html('');
 				$('#content').html(data);
 			},
 			error: function(xhr, ajaxOptions, thrownError){
-				console.log(xhr.status);
-				console.log(thrownError);
+				myConsoleLog(log_userList_flag,xhr.status);
+				myConsoleLog(log_userList_flag,thrownError);
 			}
 		});
 	});

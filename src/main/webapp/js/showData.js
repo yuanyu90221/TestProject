@@ -10,7 +10,7 @@ var current_importLogSN = 0;
 var search_Column_index = 4;
 var pre_index = 4;
 var currentNodeIdx = -1;
-var log_flag = false;
+var log_showData_flag = true;
 $(document).ready(function(){
 	//初始化 dataTable
 	import_datatable = $("#importLogList").dataTable(getImportDataTableOpt());
@@ -20,6 +20,18 @@ $(document).ready(function(){
 	getInitStatisticData();
 	$("#emailDetailbtn").on('click', function(){
 		getEmailDetail(current_importLogSN);
+	});
+	$("#othersDetailbtn").on('click', function(){
+		getOthersDetailByImportLogSn(current_importLogSN);
+	});
+	$("#voipDetailbtn").on('click', function(){
+		getVoipDetailByImportLogSn(current_importLogSN)
+	});
+	$("#httpDetailbtn").on('click', function(){
+		getHttpDetailByImportLogSn(current_importLogSN);
+	});
+	$("#netWorkDetailbtn").on('click',function(){
+		getNetWorkDetailByImportLogSn(current_importLogSN);
 	});
 	$("#emailDetailList_wrapper").css("display","flex");
 	var innerhtml = $("#emailDetailList_filter").html();
@@ -33,13 +45,13 @@ $(document).ready(function(){
 	$("#searchTarget").on('change',function(){
 		pre_index = search_Column_index;
 		search_Column_index = $("#searchTarget").val();
-		console.log("search_Column_index : "+search_Column_index);
+		myConsoleLog(log_showData_flag,"search_Column_index : "+search_Column_index);
 
 	});
 	$("#emailDetailList_filter").find('input[type="search"]').off('keyup click');
 	$("#emailDetailList_filter").find('input[type="search"]').on('keyup click', function(){
 		var inputValue = (($("#emailDetailList_filter").find('input[type="search"]').val())=='')?"":$("#emailDetailList_filter").find('input[type="search"]').val();
-		console.log(inputValue);
+		myConsoleLog(log_showData_flag,inputValue);
 		search_Content(search_Column_index, inputValue);
 	});
 	//設定分頁
@@ -53,7 +65,7 @@ $(document).ready(function(){
 	});
 	$("#showEmailDetail").off("hidden.bs.modal");
 	$("#showEmailDetail").on('hidden.bs.modal', function(){
-		console.log("donothing1");
+		myConsoleLog(log_showData_flag,"donothing1");
 	});
 	$(".well").addClass("addWell");
 });
@@ -134,7 +146,7 @@ function getImportDataTableOpt(){
 	      var importlog_sn = aData.importlog_sn;
 	      var org_filename = aData.org_filename;
 		  $('td:eq(3)', nRow).html(timeStr);
-		  //console.log("importlog_sn:"+importlog_sn);
+		  //myConsoleLog(log_showData_flag,"importlog_sn:"+importlog_sn);
 		  var isChecked = (checkedList.indexOf(Number(importlog_sn))!=-1);
 		  var result_html = '';
 		  var result_email_html = '';
@@ -158,7 +170,7 @@ function getImportDataTableOpt(){
 }
 
 function putImportData(data){
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	import_datatable.fnClearTable();
 	if(data.length > 0){
 		import_datatable.fnAddData(data);
@@ -174,14 +186,14 @@ function getInitImportData(){
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
 			putImportData(data);
 			$("#myPleaseWait").modal("hide");
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 			$("#myPleaseWait").modal("hide");
 		}
 	});
@@ -196,14 +208,14 @@ function getInitStatisticData(){
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
 			putStatisticData(data);
 			$("#myPleaseWait").modal("hide");
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
@@ -268,7 +280,7 @@ function getStatisticsTableOpt(){
 }
 
 function putStatisticData(data){
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	statistics_datatable.fnClearTable();
 	if(data){
 		statistics_datatable.fnAddData(data);
@@ -276,8 +288,8 @@ function putStatisticData(data){
 }
 
 function deleteFile(){
-	console.log('checkedList:');
-	console.log(checkedList);
+	myConsoleLog(log_showData_flag,'checkedList:');
+	myConsoleLog(log_showData_flag,checkedList);
 	var deleteArray = [];
 
 	checkedList.forEach(function(item){
@@ -298,7 +310,7 @@ function deleteFile(){
 			contentType:'application/json;charset=UTF-8',
 			success: function(data){
 				$("#confirmDialog").modal('hide');
-				console.log(data);
+				myConsoleLog(log_showData_flag,data);
 				checkedList = [];
 				$("#delLogBtn").prop("disabled",true);
 				import_datatable.fnClearTable();
@@ -307,9 +319,9 @@ function deleteFile(){
 			},
 			error: function(xhr, ajaxOptions, thrownError){
 				$("#confirmDialog").modal('hide');
-				console.log(xhr.status);
-				console.log(thrownError);
-				console.log(ajaxOptions);
+				myConsoleLog(log_showData_flag,xhr.status);
+				myConsoleLog(log_showData_flag,thrownError);
+				myConsoleLog(log_showData_flag,ajaxOptions);
 				$("#myPleaseWait").modal("hide");
 			}
 		});
@@ -317,7 +329,7 @@ function deleteFile(){
 }
 
 function checkDelete(data){
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	if(import_datatable.find('input[value="'+data+'"]').prop("checked")==true){
 		if(checkedList.indexOf(data)==-1){
 			checkedList.splice(checkedList.length,0,data);
@@ -346,7 +358,7 @@ function parseValue(key,array){
 
 function getEmailDetail(data){
 	$("#myPleaseWait").modal("hide");
-	console.log('importlogsn: '+data);
+	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
 		url: '/mytest/getEmailDetailByImportLogSn',
 		type: 'POST',
@@ -358,14 +370,14 @@ function getEmailDetail(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
 			putEmailList(data);
 			$("#myPleaseWait").modal("hide");
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 			$("#myPleaseWait").modal("hide");
 		}
 	});
@@ -373,7 +385,7 @@ function getEmailDetail(data){
 
 function getHttpDetailByImportLogSn(data){
 	
-	console.log('importlogsn: '+data);
+	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
 		url: '/mytest/getHttpDetailByImportLogSn',
 		type: 'POST',
@@ -385,18 +397,19 @@ function getHttpDetailByImportLogSn(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
+			putHttpDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
 
 function getNetWorkDetailByImportLogSn(data){
-	console.log('importlogsn: '+data);
+	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
 		url: '/mytest/getNetWorkDetailByImportLogSn',
 		type: 'POST',
@@ -408,18 +421,19 @@ function getNetWorkDetailByImportLogSn(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
+			putNetWorkDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
 
 function getOthersDetailByImportLogSn(data){
-	console.log('importlogsn: '+data);
+	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
 		url: '/mytest/getOthersDetailByImportLogSn',
 		type: 'POST',
@@ -431,18 +445,19 @@ function getOthersDetailByImportLogSn(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
+			putOthersDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
 
 function getVoipDetailByImportLogSn(data){
-	console.log('importlogsn: '+data);
+	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
 		url: '/mytest/getVoipDetailByImportLogSn',
 		type: 'POST',
@@ -454,18 +469,19 @@ function getVoipDetailByImportLogSn(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
+			putVoipDetailData(data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
 
 function getStatisticsByImportLogSn(data){
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	$.ajax({
 		url: '/mytest/getStatisticsByImportLogSn',
 		type: 'POST',
@@ -477,12 +493,12 @@ function getStatisticsByImportLogSn(data){
         },
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 		}
 	});
 }
@@ -490,7 +506,7 @@ function getStatisticsByImportLogSn(data){
 function getPcapDetail(data){
 	$("#myPleaseWait").modal("show");
 	current_importLogSN = data;
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	$.ajax({
 		url: '/mytest/getPcapDetail',
 		type: 'POST',
@@ -503,21 +519,32 @@ function getPcapDetail(data){
 		contentType:'application/json;charset=UTF-8',
 		success: function(data){
 			$("#myPleaseWait").modal("hide");
-			console.log(data);
+			myConsoleLog(log_showData_flag,data);
+			$("#emailDetailbtn").text("emailDetail("+data.emailDetailList.length+")");
+			$("#othersDetailbtn").text("othersDetail("+ data.othersDetailList.length+")");
+			$("#voipDetailbtn").text("voipDetail("+data.voipDetailList.length+")");
+			$("#httpDetailbtn").text("httpDetail("+data.httpDetailList.length+")");
+			$("#netWorkDetailbtn").text("netWorkDetail("+data.networkDetailList.length+")");
+			
 			putEmailList(data.emailDetailList);
+			putOthersDetailData(data.othersDetailList);
+			putVoipDetailData(data.voipDetailList);
+			putHttpDetailData(data.httpDetailList);
+			putNetWorkDetailData(data.networkDetailList);
+			$(".nav nav-tabs:nth-child(1)").addClass("active");
 			$("#pcapTitle").text(current_importLogSN);
 			$("#showPcapDetail").modal('show');
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			console.log(xhr.status);
-			console.log(thrownError);
-			console.log(ajaxOptions);
+			myConsoleLog(log_showData_flag,xhr.status);
+			myConsoleLog(log_showData_flag,thrownError);
+			myConsoleLog(log_showData_flag,ajaxOptions);
 			$("#myPleaseWait").modal("hide");
 		}
 	});
 }
 function putEmailList(data){
-	console.log(data);
+	myConsoleLog(log_showData_flag,data);
 	emailDetailList.fnClearTable();
 	if(data.length > 0 ){
 		emailDetailList.fnAddData(data);
@@ -557,14 +584,16 @@ function getEmailDetailDataTableOpt(){
 			   "mData":"cc",
 			   "sDefaultContent" : "",  
                "sClass" : "center",
-               "bSortable": false
+               "bSortable": false,
+               "bVisible": false
            },
            {
         	   "sTitle":"type",
         	   "mData":"type",
         	   "sDefaultContent" : "",  
                "sClass" : "center",
-               "bSortable": false
+               "bSortable": false,
+               "bVisible": false
     	   },
     	   {
         	   "sTitle":"subject",
@@ -615,7 +644,7 @@ function getEmailDetailDataTableOpt(){
 			 indexOfArr= this.fnGetNodes().indexOf(nRow);
 			 var result_subject = (aData.subject!=null)? aData.subject:'';
 			 var result_subject_html = '<label><a href="#" onclick="showContent('+indexOfArr+')">'+ result_subject+'</a></label>';
-			 $('td:eq(4)', nRow).html(result_subject_html);
+			 $('td:eq(2)', nRow).html(result_subject_html);
 		 }
 	};
 	return opts;
@@ -623,22 +652,23 @@ function getEmailDetailDataTableOpt(){
 
 function search_Content(columnNo,myValue){
 	//var regExSearch = '^\\s' + myValue +'\\s*$';
-	console.log(columnNo+":" + myValue);
+	myConsoleLog(log_showData_flag,columnNo+":" + myValue);
 	emailDetailList.api().columns(pre_index).search("").draw();
 	emailDetailList.api().columns(columnNo).search(myValue).draw();
 }
 
 function showContent(num){
 	currentNodeIdx = num+1;
-    if(console.log && log_flag){
-    	console.log("currentNodeIdx: "+ currentNodeIdx);
-    }
+  
+    myConsoleLog(log_showData_flag,"currentNodeIdx: "+ currentNodeIdx);
+    
 	createPageNate(currentNodeIdx);
 }
 
 function createPageNate(num){
 	var totalNumber = emailDetailList.fnGetNodes().length;
-	console.log("currentnum "+num);
+	myConsoleLog(log_showData_flag,"currentnum "+num);
+	//修改目前頁面
 	$(".pagination").pagy("page", num, totalNumber);
 	$(".li").addClass("btn btn-sm");
 	createPageNatePage(num);
@@ -646,14 +676,14 @@ function createPageNate(num){
 	$("#showEmailDetail").modal("show");
 	$("#showEmailDetail").off("hidden.bs.modal");
 	$("#showEmailDetail").on('hidden.bs.modal', function(){
-		console.log("donothing");
+		myConsoleLog(log_showData_flag,"donothing");
 	})
 	
 }
 
 
 function createPageNatePage(page){
-	console.log("page: "+page);
+	myConsoleLog(log_showData_flag,"page: "+page);
     var nodes = emailDetailList.fnGetNodes();
     var curNode = nodes[page-1];
     var position = emailDetailList.fnGetPosition(curNode);
