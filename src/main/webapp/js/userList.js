@@ -100,7 +100,7 @@ function putData(data){
 
 function getInitData(){
 	$.ajax({
-		url: '/mytest/userListResult',
+		url: '/'+projectName+'/userListResult',
 		type: 'POST',
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
@@ -121,7 +121,7 @@ function btnModifyClick(username){
 	//var user = datatable.fnGetData(data);
 	myConsoleLog(log_userList_flag,username);
 	$.ajax({
-		url:'/mytest/modifyUser',
+		url:'/'+projectName+'/modifyUser',
 		type:'post',
 		data: '&modifyUr='+username,
 		success: function(data){
@@ -142,7 +142,7 @@ function btnDeleteClick(username){
 		$('#myPleaseWait').modal('show');
 		//
 		$.ajax({
-			url:"/mytest/doDeleteUser",
+			url:"/"+projectName+"/doDeleteUser",
 			data:"&deleteUr="+username,
 			type:'post',
 			success: function(data){
@@ -167,7 +167,7 @@ function btnDeleteClick(username){
 function bindAddLink(){
 	$("#btnAddLink").click(function(){
 		$.ajax({
-			url: '/mytest/addUser',
+			url: '/'+projectName+'/addUser',
 			type: 'post',
 			success: function(data){
 				myConsoleLog(log_userList_flag,data);

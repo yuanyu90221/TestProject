@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean name="config" class ="com.my.fileutil.ConfigContent"> 
 		<property name="fileUploadPath" value="\\192.168.4.133\\pcapSource"/>
-		<property name="parserPath" value="\\192.168.4.133\\pcapOUtput" />
+		<property name="parserPath" value="\\192.168.4.133\\pcapOutput" />
 		<property name="solrSrvLocate" value="http://192.168.4.133:8983/solr/"/>
 		<property name="solrCount" value="20"/>
 		

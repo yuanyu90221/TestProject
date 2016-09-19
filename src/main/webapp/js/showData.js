@@ -181,7 +181,7 @@ function getInitImportData(){
 	setConfirmBtnText();
 	$("#myPleaseWait").modal("show");
 	$.ajax({
-		url: '/mytest/getImportLog',
+		url: '/'+projectName+'/getImportLog',
 		type: 'POST',
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
@@ -203,7 +203,7 @@ function getInitStatisticData(){
 	setConfirmBtnText();
 	$("#myPleaseWait").modal("show");
 	$.ajax({
-		url: '/mytest/getStatistics',
+		url: '/'+projectName+'/getStatistics',
 		type: 'POST',
 		dataType: 'json',
 		contentType:'application/json;charset=UTF-8',
@@ -299,7 +299,7 @@ function deleteFile(){
 		setConfirmBtnText();
 		$("#myPleaseWait").modal("show");
 		$.ajax({
-			url: '/mytest/multipleDelete',
+			url: '/'+projectName+'/multipleDelete',
 			type: 'POST',
 			data: JSON.stringify({'deleteIds':deleteArray}),
 			dataType: 'json',
@@ -360,7 +360,7 @@ function getEmailDetail(data){
 	$("#myPleaseWait").modal("hide");
 	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
-		url: '/mytest/getEmailDetailByImportLogSn',
+		url: '/'+projectName+'/getEmailDetailByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -387,7 +387,7 @@ function getHttpDetailByImportLogSn(data){
 	
 	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
-		url: '/mytest/getHttpDetailByImportLogSn',
+		url: '/'+projectName+'/getHttpDetailByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -411,7 +411,7 @@ function getHttpDetailByImportLogSn(data){
 function getNetWorkDetailByImportLogSn(data){
 	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
-		url: '/mytest/getNetWorkDetailByImportLogSn',
+		url: '/'+projectName+'/getNetWorkDetailByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -435,7 +435,7 @@ function getNetWorkDetailByImportLogSn(data){
 function getOthersDetailByImportLogSn(data){
 	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
-		url: '/mytest/getOthersDetailByImportLogSn',
+		url: '/'+projectName+'/getOthersDetailByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -459,7 +459,7 @@ function getOthersDetailByImportLogSn(data){
 function getVoipDetailByImportLogSn(data){
 	myConsoleLog(log_showData_flag,'importlogsn: '+data);
 	$.ajax({
-		url: '/mytest/getVoipDetailByImportLogSn',
+		url: '/'+projectName+'/getVoipDetailByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -483,7 +483,7 @@ function getVoipDetailByImportLogSn(data){
 function getStatisticsByImportLogSn(data){
 	myConsoleLog(log_showData_flag,data);
 	$.ajax({
-		url: '/mytest/getStatisticsByImportLogSn',
+		url: '/'+projectName+'/getStatisticsByImportLogSn',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',
@@ -508,7 +508,7 @@ function getPcapDetail(data){
 	current_importLogSN = data;
 	myConsoleLog(log_showData_flag,data);
 	$.ajax({
-		url: '/mytest/getPcapDetail',
+		url: '/'+projectName+'/getPcapDetail',
 		type: 'POST',
 		data: JSON.stringify({'importlogsn':data}),
 		dataType: 'json',

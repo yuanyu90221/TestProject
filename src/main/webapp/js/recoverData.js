@@ -123,7 +123,7 @@ function recoverFile(){
 		console.log(recoverArray);
 		$("#myPleaseWait").modal("show");
 		$.ajax({
-			url: '/mytest/multipleRecover',
+			url: '/'+projectName+'/multipleRecover',
 			type: 'POST',
 			data: JSON.stringify({"recoverIds":recoverArray}),
 			dataType: 'json',
@@ -157,7 +157,7 @@ function getInitRecoverData(){
 	setConfirmBtnText();
 	$("#myPleaseWait").modal("show");
 	$.ajax({
-		url: '/mytest/getRecoverLog',
+		url: '/'+projectName+'/getRecoverLog',
 		type: 'POST',
 		dataType: 'json',
 		contentType:'application/json;charset=utf-8',

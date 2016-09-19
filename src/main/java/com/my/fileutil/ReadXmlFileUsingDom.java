@@ -58,8 +58,8 @@ public class ReadXmlFileUsingDom {
 		
 		String pre = "";
 		if(tokens.length > 7){
-			for(int i = 0 ; i <= tokens.length-3; i+=2){
-			    pre +=(i==0)? "\\":File.separator;
+			for(int i = 4 ; i <= tokens.length-3; i+=2){
+			    pre +=(i==4)? "\\":File.separator;
 				pre += tokens[i];
 			}
 		}

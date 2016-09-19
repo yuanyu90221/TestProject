@@ -246,9 +246,20 @@
 						<div class="col-sm-2 "><label>endTime</label></div>
 						<div class="col-sm-3 well"><div id="endTime"></div></div>
 					</div>
-					
-					<audio controls id="fromFileName1" preload="auto"><source id="fromFileName" src="" type="audio/wav"></audio>
-					<audio controls id="toFileName1" preload="auto"><source id="toFileName" src="" type="audio/wav"></audio>
+					<div class="row">
+						<div class="col-sm-2"><label>fromFile</label></div>
+						<div class="col-sm-3 well"><div id="fromFile"></div></div>
+						<div class="col-sm-2 "><label>toFile</label></div>
+						<div class="col-sm-3 well"><div id="toFile"></div></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-5" style="padding:0px;">
+							<audio controls id="fromFileName1" style="width:100%;" preload="auto"><source id="fromFileName" src="" type="audio/wav"></audio>
+						</div>
+						<div class="col-sm-5" style="padding:0px;">
+							<audio controls id="toFileName1" style="width:100%;" preload="auto"><source id="toFileName" src="" type="audio/wav"></audio>
+						</div>
+					</div>
 				</div>				
 				<div class="modal-footer"> <!-- modal footer -->
 					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
