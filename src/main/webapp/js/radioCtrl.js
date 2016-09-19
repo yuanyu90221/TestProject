@@ -12,7 +12,7 @@ function getCheckeid(id){
 	console.log('change lang to '+ $('#'+id).val());
 	$.ajax({
 		 type: 'POST',
-	     url : "/mytest/changeLanguange",
+	     url : "/"+projectName+"/changeLanguange",
 	     data: "&lang="+$('#'+id).val(),
 	     success : function(data) {
 	    	 //console.log(data);
@@ -20,7 +20,7 @@ function getCheckeid(id){
 	    	 console.log("lang"+input.val());
 	    	 var inputs = [];
 	    	 //inputs.push($('<input>',{type:'hidden',name:'lang',value:input.val()}));
-	    	 redirect("/mytest/","get", null);
+	    	 redirect("/"+projectName+"/","get", null);
 	     }
 	});
 }

@@ -22,3 +22,7 @@ function myConsoleLog(log_flag, msg){
 		console.log(msg);
 	}
 }
+/**
+* 自定義的project Constant用來決定project url
+*/
+var projectName = 'WebTactical';

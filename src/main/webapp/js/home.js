@@ -7,7 +7,7 @@ $(document).ready(function(){
 	unbindNav();
 	bindNav();
 	$.ajax({
-		url:"/mytest/ShowData",
+		url:"/"+projectName+"/ShowData",
 		type: "post",
 		success: function(data){
 			myConsoleLog(log_home_flag,data);
@@ -25,7 +25,7 @@ $(document).ready(function(){
 function bindNav(){
 	$("#first_page_nav").bind("click",function(){
 		$.ajax({
-			url:"/mytest/ShowData",
+			url:"/"+projectName+"/ShowData",
 			type: "post",
 			success: function(data){
 				myConsoleLog(log_home_flag,data);
@@ -41,7 +41,7 @@ function bindNav(){
 	$("#import_file_nav").bind("click",function(){
 		myConsoleLog(log_home_flag,'fileUpload');
 		$.ajax({
-			url:"/mytest/fileUpload",
+			url:"/"+projectName+"/fileUpload",
 			type: "post",
 			success: function(data){
 				myConsoleLog(log_home_flag,data);
@@ -57,7 +57,7 @@ function bindNav(){
 	$("#recovery_file_nav").bind("click", function(){
 		myConsoleLog(log_home_flag,'recoverData!');
 		$.ajax({
-			url:"/mytest/recoverData",
+			url:"/"+projectName+"/recoverData",
 			type: "post",
 			success: function(data){
 				myConsoleLog(log_home_flag,data);
@@ -73,7 +73,7 @@ function bindNav(){
 	$("#user_manage_nav").bind("click", function(){
 		myConsoleLog(log_home_flag,'doUserList');
 		$.ajax({
-			url:"/mytest/userList",
+			url:"/"+projectName+"/userList",
 			type: "post",
 			success: function(data){
 				myConsoleLog(log_home_flag,data);
@@ -88,14 +88,14 @@ function bindNav(){
 	});
 	$("#logout_nav").bind('click', function(){
 		myConsoleLog(log_home_flag,'before login');
-		redirect('/mytest/userlogout','post',null);
+		redirect('/'+projectName+'/userlogout','post',null);
 	});
 	$("#userEdit_nav").bind("click", function(){
 		myConsoleLog(log_home_flag,'doajax');
 		 var user = $("#userEdit_nav").find('a').text().trim();
 		 myConsoleLog(log_home_flag,user);
 		$.ajax({
-			url:'/mytest/modifyUser',
+			url:'/'+projectName+'/modifyUser',
 			type:'post',
 			data: '&modifyUr='+user,
 			success: function(data){

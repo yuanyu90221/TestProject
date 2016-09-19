@@ -23,7 +23,7 @@ function formAjax(){
 	data.push($('<input>',{type:'hidden',name:'passwd',value:password}));
 	var lang = $('#loginform').find('input[name=lang]').val();
 	data.push($('<input>',{type:'hidden',name:'lang',value:lang}));
-	redirect('/mytest/userlogin','post',data);
+	redirect('/'+projectName+'/userlogin','post',data);
 }
 
 function checkValue(){

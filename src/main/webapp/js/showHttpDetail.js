@@ -58,7 +58,7 @@ function getHttpDetailDataTableOpt(){
 			"bScrollCollapse": true,
 			"aaSorting": [[4,'desc'],[5,'desc']],
 			"sDom":'<"#ip_bar_left.pagebar-left col-sm-7"f><"#ip_bar_right.pagebar-right col-sm-5" ip>',
-			 "aoColumnDefs": [{ "sWidth": "16%", "aTargets": [0,1,2,3,4,5]}],
+			 "aoColumnDefs": [{ "sWidth": "100px", "aTargets": [0,1,2,3,4,5]}],
 			"aoColumns" : [
 	           {
 	        	   "sTitle":"requestURi",

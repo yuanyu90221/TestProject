@@ -39,7 +39,7 @@ $(document).ready(function(){
 function doAjaxUpdate(){
 	// $('#myPleaseWait').modal('show');
 	$.ajax({
-		url:'/mytest/doModify',
+		url:'/'+projectName+'/doModify',
 		type:'post',
 		data: $("#modifyform").serialize(),
 		success: function(data){
@@ -60,7 +60,7 @@ function doAjaxUpdate(){
 function doAjaxAdd(){
 	// $('#myPleaseWait').modal('show');
 	$.ajax({
-		url:'/mytest/doAddUser',
+		url:'/'+projectName+'/doAddUser',
 		type:'post',
 		data: $("#modifyform").serialize(),
 		success: function(data){
