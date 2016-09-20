@@ -212,22 +212,24 @@ function getVoipFile(filepath , callback, callback1){
 			if(fromFileLast[fromFileLast.length-1].includes(".wav")){
 				$("#fromFileName1").css('display','inline');
 				$("#fromFileName").attr("src",fromFileName).detach().appendTo("#fromFileName1");
+				$("#fromFile").css('display','inline');
 	            $("#fromFile").text(fromFileLast[fromFileLast.length-1]);
 			}
 			else{
 				$("#fromFileName1").css('display','none');
 				$("#fromFileName").attr("src","").detach().appendTo("#fromFileName1");
-	            $("#fromFile").text("");
+	            $("#fromFile").css('display','none');
 			}
 			if(toFileLast[toFileLast.length-1].includes(".wav")){
 				$("#toFileName1").css('display','inline');
 				$("#toFileName").attr("src",toFileName).detach().appendTo("#toFileName1");
+				$("#toFile").css('display','inline');
 				$("#toFile").text(toFileLast[toFileLast.length-1]);
 			}
 			else{
 				$("#toFileName1").css('display','none');
 				$("#toFileName").attr("src","").detach().appendTo("#toFileName1");
-				$("#toFile").text("");
+				$("#toFile").css('display','none');
 			}
 			callback();
 		},
