@@ -141,6 +141,7 @@ function getVoipDetailDataTableOpt(){
 }
 
 function showVoipDetail(num){
+	$("#myPleaseWait").modal("show");
 	voipCurrentIdx = num+1;
 	myConsoleLog(log_showVoipDetail_flag, voipCurrentIdx);
 	createVoipPages(voipCurrentIdx);
@@ -160,6 +161,7 @@ function createVoipPages(num){
 //	});
 }
 function createVoipPageNatePage(page){
+	
 	myConsoleLog(log_showVoipDetail_flag,"currentnum "+page)
 	var nodes = voipDetailList.fnGetNodes();
 	var position = voipDetailList.fnGetPosition(nodes[page-1]);
@@ -174,6 +176,7 @@ function createVoipPageNatePage(page){
 	$("#startTime").text(result.startTime);
 	$("#endTime").text(result.endTime);
 	getVoipFile(result.filePath, function(){
+		 $("#myPleaseWait").modal("hide");
 		 $("#showVoipDetail").modal("show");
 	});
 }
