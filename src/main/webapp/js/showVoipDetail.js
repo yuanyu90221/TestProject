@@ -156,9 +156,7 @@ function createVoipPages(num){
 	var nodes = voipDetailList.fnGetNodes();
 	var position = voipDetailList.fnGetPosition(nodes[num-1]);
 	var result = voipDetailList.fnGetData(position);
-//	getVoipFile(result.filePath, fillData ,function(){
-//		 $("#showVoipDetail").modal("show");
-//	});
+
 }
 function createVoipPageNatePage(page){
 	
