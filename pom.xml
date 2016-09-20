@@ -37,13 +37,13 @@
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>3.0.3.RELEASE</version>
 		</dependency>
-				
+
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
+		</dependency>
 		<!-- MySQL database driver -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -92,14 +92,14 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-        
+
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-				
+
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -118,24 +118,24 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
-		<dependency>  
+
+		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.5.1</version>
 		</dependency>
-		          
-		<dependency>  
-		    <groupId>com.fasterxml.jackson.dataformat</groupId>  
-		    <artifactId>jackson-dataformat-xml</artifactId>  
-		    <version>2.5.1</version>  
-		</dependency> 
-		<dependency>  
+
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>2.5.1</version>
+		</dependency>
+		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
         	<artifactId>jackson-core</artifactId>
-        	<version>2.5.1</version> 
+        	<version>2.5.1</version>
 		</dependency>
-		
+
 		<!-- jackson start -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -154,8 +154,8 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>  
-		<!-- xml dom4j -->	
+		</dependency>
+		<!-- xml dom4j -->
 		<dependency>
 	       <groupId>dom4j</groupId>
 	       <artifactId>dom4j</artifactId>
@@ -167,7 +167,7 @@
 	       	</exclusion>
 	       </exclusions>
 		</dependency>
-		<!-- gson json -->	
+		<!-- gson json -->
 		<dependency>
 	       <groupId>com.google.code.gson</groupId>
 	       <artifactId>gson</artifactId>
@@ -189,7 +189,7 @@
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
 			<version>5.0.0</version>
-		</dependency>	      
+		</dependency>
 	</dependencies>
     <build>
         <plugins>
