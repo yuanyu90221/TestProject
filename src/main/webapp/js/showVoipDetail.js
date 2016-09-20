@@ -218,7 +218,7 @@ function getVoipFile(filepath , callback, callback1){
 			else{
 				$("#fromFileName1").css('display','none');
 				$("#fromFileName").attr("src","").detach().appendTo("#fromFileName1");
-	            $("#fromFile").css('display','none');
+	            $("#fromFile").text('no file');
 			}
 			if(toFileLast[toFileLast.length-1].includes(".wav")){
 				$("#toFileName1").css('display','inline');
@@ -229,7 +229,7 @@ function getVoipFile(filepath , callback, callback1){
 			else{
 				$("#toFileName1").css('display','none');
 				$("#toFileName").attr("src","").detach().appendTo("#toFileName1");
-				$("#toFile").css('display','none');
+				$("#toFile").text('no file');
 			}
 			callback();
 		},
