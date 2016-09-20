@@ -329,22 +329,6 @@ public class SolrAccessController {
 		return voipDetailList;
 	}
 	
-//	@RequestMapping(value="getVoipDetailFileData", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
-//	@ResponseBody
-//	public AudioDataList getVoipDetailFileData(@RequestBody VoidDataKeyList voidDataKeyList,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
-//		AudioDataList audioDataList = new AudioDataList();
-//		List<String> filepaths = voidDataKeyList.getVoipDataKeyList();
-//		for(String file: filepaths){
-//			logger.info(file);
-//			AudioData ad = new AudioData();
-//			ad.setFilename(file);
-//			byte[] data = AudioResourceReader.readByte(file);
-//			ad.setData(data);
-//			audioDataList.getAudioDataList().add(ad);
-//		}
-//		
-//		return audioDataList;
-//	}
 	
 	@RequestMapping(value="getVoipDetailFile", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
@@ -395,7 +379,7 @@ public class SolrAccessController {
 	private SolrDocumentList getSolrQueryResult(int protocolSn, String queryStr) throws Exception{
 		
 		SolrDocumentList docs = null;
-		String urlString = this.GetSolrQuerySrv(protocolSn);
+		String urlString = GetSolrQuerySrv(protocolSn);
 		SolrClient solr = new HttpSolrClient(urlString);
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "/select");
