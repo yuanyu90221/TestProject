@@ -51,7 +51,7 @@
     			var username = '${username}';
     			console.log(username+' is close');
     			alert(username+' 被其他電腦登入');
-    			window.location.href = '/mytest';
+    			window.location.href = "/"+projectName;
     		}
     	</script>
 	</head>

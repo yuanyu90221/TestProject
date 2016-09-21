@@ -68,18 +68,24 @@ public class LoginController {
 			model.put(SystemConstant.PASSWD, pwd);
 			return "login";
 		}
-		if(sessionService.userList.containsKey(username)){
+		if(SessionService.userList.containsKey(username)){
 			logger.info(username+ " has been logined!");
 			// kit out origin
-			if(!sessionId.equals(sessionService.userSessions.get(username).getId())){
-				sessionService.logout(username);
+			if(!sessionId.equals(SessionService.userSessions.get(username).getId())){
+				SessionService.logout(username);
 				Session userSession = LoginEndPoint.sessionMap.get(username);
+				userSession.close();
+				logger.info(username+ " has been kitout!");
+			}
+			else{
+				Session userSession = LoginEndPoint.sessionMap.get(username);
+				SessionService.userSessions.remove(username);
 				userSession.close();
 				logger.info(username+ " has been kitout!");
 			}
 		}
 		
-		if(sessionService.userSessions.get(username)==null){
+		if(SessionService.userSessions.get(username)==null){
 			sessionService.addUserSession(username, ur);
 		}
 		logger.info("username : "+ username + ", password : " + pwd + ", sessionId: "+ sessionId);

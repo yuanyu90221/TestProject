@@ -141,6 +141,7 @@ function getVoipDetailDataTableOpt(){
 }
 
 function showVoipDetail(num){
+	$("#myPleaseWait").modal("show");
 	voipCurrentIdx = num+1;
 	myConsoleLog(log_showVoipDetail_flag, voipCurrentIdx);
 	createVoipPages(voipCurrentIdx);
@@ -155,11 +156,10 @@ function createVoipPages(num){
 	var nodes = voipDetailList.fnGetNodes();
 	var position = voipDetailList.fnGetPosition(nodes[num-1]);
 	var result = voipDetailList.fnGetData(position);
-//	getVoipFile(result.filePath, fillData ,function(){
-//		 $("#showVoipDetail").modal("show");
-//	});
+
 }
 function createVoipPageNatePage(page){
+	
 	myConsoleLog(log_showVoipDetail_flag,"currentnum "+page)
 	var nodes = voipDetailList.fnGetNodes();
 	var position = voipDetailList.fnGetPosition(nodes[page-1]);
@@ -174,6 +174,7 @@ function createVoipPageNatePage(page){
 	$("#startTime").text(result.startTime);
 	$("#endTime").text(result.endTime);
 	getVoipFile(result.filePath, function(){
+		 $("#myPleaseWait").modal("hide");
 		 $("#showVoipDetail").modal("show");
 	});
 }
@@ -207,11 +208,30 @@ function getVoipFile(filepath , callback, callback1){
 			var toFileName ="" + data.toFileName;
 			var toFileLast = toFileName.split('\\');
 			console.log("codec: "+ data.codec);
-			$("#fromFileName").attr("src",fromFileName).detach().appendTo("#fromFileName1");
-	        		
-            $("#fromFile").text(fromFileLast[fromFileLast.length-1]);
-			$("#toFileName").attr("src",toFileName).detach().appendTo("#toFileName1");
-			$("#toFile").text(toFileLast[toFileLast.length-1]);
+			console.log(fromFileLast.length);
+			console.log(toFileLast.length);
+			if(fromFileLast[fromFileLast.length-1].includes(".wav")){
+				$("#fromFileName1").css('display','inline');
+				$("#fromFileName").attr("src",fromFileName).detach().appendTo("#fromFileName1");
+				$("#fromFile").css('display','inline');
+	            $("#fromFile").text(fromFileLast[fromFileLast.length-1]);
+			}
+			else{
+				$("#fromFileName1").css('display','none');
+				$("#fromFileName").attr("src","").detach().appendTo("#fromFileName1");
+	            $("#fromFile").text('no file');
+			}
+			if(toFileLast[toFileLast.length-1].includes(".wav")){
+				$("#toFileName1").css('display','inline');
+				$("#toFileName").attr("src",toFileName).detach().appendTo("#toFileName1");
+				$("#toFile").css('display','inline');
+				$("#toFile").text(toFileLast[toFileLast.length-1]);
+			}
+			else{
+				$("#toFileName1").css('display','none');
+				$("#toFileName").attr("src","").detach().appendTo("#toFileName1");
+				$("#toFile").text('no file');
+			}
 			callback();
 		},
 		error: function(xhr, ajaxOptions, thrownError){
