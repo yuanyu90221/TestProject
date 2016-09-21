@@ -1,5 +1,10 @@
 package com.my.constant;
 
+/**
+ * @author YuanyuLiang
+ *
+ * @description 系統常數
+ */
 public final class SystemConstant {
 	
 	public static final String USER_INFO = "userInfo";
