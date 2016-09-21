@@ -132,6 +132,14 @@ public class LoginController {
 	}
 	
 	
+	/**
+	 * 改變語系
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @param locale
+	 * @return
+	 */
 	@RequestMapping(value = "/changeLanguange", method = RequestMethod.POST)
 	public ModelAndView changeLanguage(HttpServletRequest request, HttpSession session, HttpServletResponse response,Locale locale) { 		
 		logger.info("This is first login! The client locale is {}."+locale.toString());
