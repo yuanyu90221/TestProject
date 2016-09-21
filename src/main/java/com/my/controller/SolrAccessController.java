@@ -55,6 +55,19 @@ public class SolrAccessController {
 	@Autowired
 	public UserDAO userDAO;
 	
+	private static final Logger logger = LoggerFactory.getLogger(SolrAccessController.class);
+	
+	/**
+	 * 根據importLogsn取得Pcap內容
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getPcapDetail", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public PcapDetailModel getPcapDetail(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -73,7 +86,17 @@ public class SolrAccessController {
 		}
 		return pcapdetail;
 	}
-	private static final Logger logger = LoggerFactory.getLogger(SolrAccessController.class);
+	
+	/**
+	 * 取得所有的email資料
+	 * 
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getEmailDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<EmailDetailModel> getEmailDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception
@@ -85,6 +108,17 @@ public class SolrAccessController {
 		return emailDetailList;
 	}
 	
+	/**
+	 * 根據importLogsn取得email資料
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getEmailDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<EmailDetailModel> getEmailDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception
@@ -97,6 +131,14 @@ public class SolrAccessController {
 		return emailDetailList;
 	}
 	
+	/**
+	 * 把solr資料放入emailDetailModel
+	 * 
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private List<EmailDetailModel> proccessGetEmailDetail(int protocolSn, String queryStr) throws Exception{
 		List<EmailDetailModel> emailDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
@@ -127,6 +169,16 @@ public class SolrAccessController {
 		return emailDetailList;
 	}
 	
+	/**
+	 * 取得所有的http內容
+	 * 
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getHttpDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<HttpDetailModel> getHttpDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -137,6 +189,17 @@ public class SolrAccessController {
 		return httpDetailList;
 	}
 	
+	/**
+	 * 跟據importlogsn取得http內容
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getHttpDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<HttpDetailModel> getHttpDetailByImportLogSn(@RequestBody ImportLogSn importlogsn,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -148,6 +211,14 @@ public class SolrAccessController {
 		return httpDetailList;
 	}
 	
+	/**
+	 * 把solr資料放入HttpDetailModel
+	 * 
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private List<HttpDetailModel> proccessGetHttpDetail(int protocolSn, String queryStr) throws Exception{
 		List<HttpDetailModel> httpDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
@@ -178,6 +249,16 @@ public class SolrAccessController {
 		return httpDetailList;
 	}
 	
+	/**
+	 * 取得所有的network內容
+	 * 
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getNetWorkDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<NetworkDetailModel> getNetWorkDetailAll( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -188,6 +269,17 @@ public class SolrAccessController {
 		return networkDetailList;
 	}
 	
+	/**
+	 * 根據importlogsn取得network內容
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getNetWorkDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<NetworkDetailModel> getNetWorkDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -199,6 +291,14 @@ public class SolrAccessController {
 		return networkDetailList;
 	}
 	
+	/**
+	 * 把solr資料放入NetworkDetailModel
+	 * 
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private List<NetworkDetailModel> proccessGetNetworkDetail(int protocolSn, String queryStr) throws Exception{
 		List<NetworkDetailModel> networkDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
@@ -227,6 +327,16 @@ public class SolrAccessController {
 		return networkDetailList;
 	}
 	
+	/**
+	 * 取得所有Other資料
+	 * 
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getOthersDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<OthersDetailModel> getOthersDetailAll( ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -237,6 +347,17 @@ public class SolrAccessController {
 		return othersDetailList;
 	}
 	
+	/**
+	 * 根據importlogsn取得others資料
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getOthersDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<OthersDetailModel> getOthersDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -248,6 +369,14 @@ public class SolrAccessController {
 		return othersDetailList;
 	}
 	
+	/**
+	 *  把solr資料放入OthersDetailModel
+	 *
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private List<OthersDetailModel> proccessGetOthersDetail(int protocolSn, String queryStr) throws Exception{
 		List<OthersDetailModel> othersDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
@@ -273,6 +402,16 @@ public class SolrAccessController {
 		}
 		return othersDetailList;
 	}
+	/**
+	 * 取得所有的voip資料
+	 * 
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getVoipDetailAll", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<VoipDetailModel> getVoipDetailAll(ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -285,6 +424,17 @@ public class SolrAccessController {
 		return voipDetailList;
 	}
 	
+	/**
+	 * 根據importlogsn取得voip資料
+	 * 
+	 * @param importlogsn
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getVoipDetailByImportLogSn", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<VoipDetailModel> getVoipDetailByImportLogSn(@RequestBody ImportLogSn importlogsn, ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -298,6 +448,14 @@ public class SolrAccessController {
 		return voipDetailList;
 	}
 	
+	/**
+	 * 把solr資料放入VoipDetailModel
+	 * 
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private List<VoipDetailModel> proccessGetVoipDetail(int protocolSn, String queryStr) throws Exception{
 		List<VoipDetailModel> voipDetailList = null;
 		SolrDocumentList docs = getSolrQueryResult(protocolSn, queryStr);
@@ -330,6 +488,17 @@ public class SolrAccessController {
 	}
 	
 	
+	/**
+	 * 取得chewbacca.xml內部的voip資料檔名
+	 * 
+	 * @param voipkeys
+	 * @param model
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="getVoipDetailFile", method = {RequestMethod.GET, RequestMethod.POST}, produces="application/json;charset=utf-8")
 	@ResponseBody
 	public VoipMediaModel getVoipDetailFile(@RequestBody VoipFileKeys voipkeys,ModelMap model, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception{
@@ -376,6 +545,14 @@ public class SolrAccessController {
 		 return rtn;
 	 }
 	
+	/**
+	 * 根據protocolsn向solr要資料
+	 * 
+	 * @param protocolSn
+	 * @param queryStr
+	 * @return
+	 * @throws Exception
+	 */
 	private SolrDocumentList getSolrQueryResult(int protocolSn, String queryStr) throws Exception{
 		
 		SolrDocumentList docs = null;
