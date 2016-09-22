@@ -14,6 +14,11 @@ import org.xml.sax.SAXException;
 import com.my.model.VoipMediaKeys;
 import com.my.model.VoipMediaModel;
 
+/**
+ * @author YuanyuLiang
+ *
+ * @description 讀取xml的物件
+ */
 public class ReadXmlFileUsingDom {
 
 	public static Object parseXMLFile(String filepath, int protocol){
